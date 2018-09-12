@@ -16,7 +16,7 @@ Nest is a framework for building efficient, scalable Node.js server-side applica
 
 ## Development
 
-* Clone this project (git clone https://github.com/ysantalla/gondor.git)
+* Clone this project (git clone https://github.com/ykdevep/gondor.git)
 * cd server && npm install
 * docker-compose up -d
 * npm run prisma deploy
