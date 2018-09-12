@@ -4,5 +4,5 @@ export const environment = {
   wsLinkServer: 'ws://10.42.0.1:4000/subscriptions',
   downloadLinkServer: 'http://10.42.0.1:4000/download',
   envName: 'Production',
-  appName: 'GONDOR'
+  appName: 'SEMEAT'
 };

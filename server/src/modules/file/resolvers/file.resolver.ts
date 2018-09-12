@@ -24,7 +24,7 @@ export class FileResolver {
   ) {}
 
   @Query('files')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async files(
     @Args() args: any,
@@ -34,7 +34,7 @@ export class FileResolver {
   }
 
   @Query('file')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async file(
     @Args() args: any,
@@ -44,7 +44,7 @@ export class FileResolver {
   }
 
   @Query('filesConnection')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async filesConnection(
     @Args() args: any,
@@ -54,7 +54,7 @@ export class FileResolver {
   }
 
   @Mutation('uploadFile')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async uploadFile(
     @Args('file') file: any,
@@ -70,7 +70,7 @@ export class FileResolver {
   }
 
   @Mutation('uploadFiles')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async uploadFiles(
     @Args('files') files: any,
@@ -88,7 +88,7 @@ export class FileResolver {
   }
 
   @Mutation('changeFile')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async changeFile(
     @Context() ctx: any,
@@ -123,7 +123,7 @@ export class FileResolver {
   }
 
   @Mutation('deleteFile')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async deleteFile(
     @Context() ctx: any,
@@ -154,7 +154,7 @@ export class FileResolver {
   }
 
   @Mutation('deleteManyFiles')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async deleteManyFiles(
     @Context() ctx: any,

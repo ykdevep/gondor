@@ -7,12 +7,12 @@ mutation {
       lastname: "Admin user"
       sex: MALE
       birthdate: "1988-09-19"
-      roles: { create: { name: "ADMIN", description: "ADMIN ROLE" } }
+      roles: { create: { name: "Administrador", description: "Administrador ROL" } }
     }
   ) {
     id
   }
-  user: createRole(data: { name: "USER", description: "USER ROLE" }) {
+  user: createRole(data: { name: "Visitante", description: "Visitante ROL" }) {
     id
   }
 }

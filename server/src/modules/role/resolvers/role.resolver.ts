@@ -20,7 +20,7 @@ export class RoleResolver {
   ) {}
 
   @Query('roles')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async roles(
     @Args() args: any,
@@ -30,7 +30,7 @@ export class RoleResolver {
   }
 
   @Query('role')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async role(
     @Args('id') id: string,
@@ -40,7 +40,7 @@ export class RoleResolver {
   }
 
   @Query('rolesConnection')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async rolesConnection(
     @Args() args: any,
@@ -50,7 +50,7 @@ export class RoleResolver {
   }
 
   @Mutation('createRole')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async createRole(
     @Args() args: any,
@@ -65,7 +65,7 @@ export class RoleResolver {
   }
 
   @Mutation('updateRole')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async updateRole(
     @Args() args: any,
@@ -87,7 +87,7 @@ export class RoleResolver {
   }
 
   @Mutation('deleteRole')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async deleteRole(
     @Args() args: any,
@@ -108,7 +108,7 @@ export class RoleResolver {
   }
 
   @Mutation('deleteManyRoles')
-  @Roles('ADMIN')
+  @Roles('Administrador')
   @UseGuards(RolesGuard)
   async deleteManyRoles(
     @Args() args: any,

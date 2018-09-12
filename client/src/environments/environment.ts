@@ -8,7 +8,7 @@ export const environment = {
   wsLinkServer: 'ws://localhost:5000/subscriptions',
   downloadLinkServer: 'http://localhost:5000/download',
   envName: 'Development',
-  appName: 'GONDOR'
+  appName: 'SEMEAT'
 };
 
 /*
