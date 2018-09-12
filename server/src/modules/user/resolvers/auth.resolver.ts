@@ -38,7 +38,7 @@ export class AuthResolver {
     @Info() info: GraphQLResolveInfo,
   ): Promise<any> {
 
-    const roleId = await this.prisma.query.role({ where: { name: 'USER' } }, `{id}`);
+    const roleId = await this.prisma.query.role({ where: { name: 'Visitante' } }, `{id}`);
     const password = await bcrypt.hash(args.data.password, 10);
 
     if (!roleId) {
@@ -49,8 +49,8 @@ export class AuthResolver {
             password,
             roles: {
               create: {
-                name: 'USER',
-                description: 'USER ROLE',
+                name: 'Visitante',
+                description: 'Visitante ROLE',
               },
             },
           },
