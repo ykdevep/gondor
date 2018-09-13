@@ -41,7 +41,7 @@ const rolesQuery = gql`
             <mat-card class="user-card">
               <mat-card-header>
                 <mat-card-title>
-                  <h1>Crear Usuario</h1>
+                  <h1>Adicionar usuario</h1>
                 </mat-card-title>
               </mat-card-header>
 
@@ -89,7 +89,7 @@ const rolesQuery = gql`
                   <input matInput required type="password" minlength="6" placeholder="Repetir Contraseña" formControlName="repeat_password">
                   <mat-hint *ngIf="(createUserForm.value.password != createUserForm.value.repeat_password)
                     || (createUserForm.value.password.length <= 6 && createUserForm.value.password.length > 1)">
-                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 carácteres</span>
+                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 caracteres</span>
                   </mat-hint>
                   <mat-hint *ngIf="(createUserForm.value.password == createUserForm.value.repeat_password)
                     && (createUserForm.value.password.length > 6)">
@@ -241,7 +241,7 @@ export class UserCreateComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      console.log('Form not valid');
+      console.log('Formulario con errores, por favor verifique');
     }
   }
 }

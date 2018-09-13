@@ -37,7 +37,7 @@ const userQuery = gql`
           <mat-card class="user-details-card">
             <mat-card-header>
               <mat-card-title>
-                <h1>Detalles Usuario</h1>
+                <h1>Detalles usuario</h1>
               </mat-card-title>
             </mat-card-header>
 

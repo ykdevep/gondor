@@ -43,7 +43,7 @@ const roleQuery = gql`
             <mat-card class="role-card">
               <mat-card-header>
                 <mat-card-title>
-                  <h1>Modificar Rol</h1>
+                  <h1>Modificar rol</h1>
                 </mat-card-title>
               </mat-card-header>
 
@@ -176,7 +176,7 @@ export class RoleUpdateComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      console.log('Form not valid');
+      console.log('Formulario con errores, por favor verifique');
     }
   }
 

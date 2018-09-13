@@ -111,7 +111,7 @@ export class RoleCreateComponent implements OnInit {
         this.createRoleForm.enable();
 
         if (data) {
-          this.snackBar.open(`Rol ${data.createRole.name} creado correctamente`, 'X', {duration: 3000});
+          this.snackBar.open(`Rol ${data.createRole.name} creado correctamente.`, 'X', {duration: 3000});
           this.router.navigate(['admin', 'role']);
         }
       }, (error) => {
@@ -121,7 +121,7 @@ export class RoleCreateComponent implements OnInit {
       });
 
     } else {
-      console.log('Form not valid');
+      console.log('Formulario con errores, por favor verifique.');
     }
   }
 }

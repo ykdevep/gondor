@@ -33,7 +33,7 @@ mutation uploadFiles($files: [Upload!]!) {
             <mat-card class="file-card">
               <mat-card-header>
                 <mat-card-title>
-                  <h3>Subir Archivo</h3>
+                  <h3>Subir archivo</h3>
                 </mat-card-title>
               </mat-card-header>
 
@@ -59,7 +59,7 @@ mutation uploadFiles($files: [Upload!]!) {
 
                 <button mat-raised-button color="accent" routerLink="/admin/file" routerLinkActive type="button" aria-label="filesList">
                   <mat-icon>list</mat-icon>
-                  <span>Listado de Archivos</span>
+                  <span>Listado de archivos</span>
                 </button>
               </mat-card-actions>
             </mat-card>
@@ -119,13 +119,13 @@ export class FileUploadComponent implements OnInit {
         if (data) {
           if (data.uploadFiles.length === 1) {
             this.snackBar.open(
-              `${data.uploadFiles.length} archivo  subido correctamente`,
+              `${data.uploadFiles.length} subido correctamente.`,
               'X',
               { duration: 3000 }
             );
           } else {
             this.snackBar.open(
-              `${data.uploadFiles.length} archivos  subidos correctamente`,
+              `${data.uploadFiles.length} subidos correctamente.`,
               'X',
               { duration: 3000 }
             );
@@ -139,7 +139,7 @@ export class FileUploadComponent implements OnInit {
         this.snackBar.open(error.message, 'X', {duration: 3000});
       });
     } else {
-      console.log('Form not valid');
+      console.log('Formulario incorrecto, por favor verifique.');
     }
   }
 

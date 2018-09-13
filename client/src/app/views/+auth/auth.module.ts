@@ -29,13 +29,13 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    data: {title: 'Pérfil'},
+    data: {title: 'Perfil'},
     canActivate: [AuthGuard]
   },
   {
     path: 'change_password',
     component: ChangePasswordComponent,
-    data: {title: 'Pérfil'},
+    data: {title: 'Perfil'},
     canActivate: [AuthGuard]
   }
 ];
