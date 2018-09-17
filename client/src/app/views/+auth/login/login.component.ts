@@ -38,7 +38,7 @@ const login = gql`
             <mat-card-header class="header-logo">
               <img mat-card-image class="logo" src="./assets/icono.svg" alt="icon">
             </mat-card-header>
-            <h1 class="mat-h1">Entrar al sistema</h1>
+            <h1 class="mat-h1">Iniciar Sesión</h1>
             <mat-card-content>
               <mat-form-field class="full-width">
                 <input matInput required type="text" placeholder="Correo" formControlName="email">
@@ -57,7 +57,7 @@ const login = gql`
 
               <button mat-raised-button color="primary" routerLink="/auth/signup" routerLinkActive type="button" aria-label="signup">
                 <mat-icon>account_circle</mat-icon>
-                <span>Registrarse</span>
+                <span>Regístrarse</span>
               </button>
             </mat-card-actions>
           </mat-card>
@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
 
     } else {
       this.loading = false;
-      console.log('Formulario con errores, por favor verifique');
+      console.log('Form not valid');
     }
 
   }

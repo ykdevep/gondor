@@ -12,7 +12,32 @@ mutation {
   ) {
     id
   }
-  user: createRole(data: { name: "Visitante", description: "Visitante ROL" }) {
+  r1: createRole(data: { name: "Visitante", description: "Visitante ROL" }) {
+    id
+  }
+  r2: createRole(data: { name: "Especialista", description: "Especialista ROL" }) {
+    id
+  }
+  r3: createRole(data: { name: "Estudiante", description: "Estudiante ROL" }) {
+    id
+  }
+  create_TI: createTest(data: {
+    type: INITIAL
+    description: "Cuestionario Inicial por defecto"
+    enable: true
+    sections: {
+      create: {
+        name: "Sección Datos Generales"
+        description: "En esta sección se ingresarán los datos generales."
+        exercises: {
+          create: {
+            code: "A1"
+            description: "Primer ejercicio"
+          }
+        }
+      }
+    }
+  }) {
     id
   }
 }

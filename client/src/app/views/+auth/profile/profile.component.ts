@@ -50,7 +50,7 @@ const meQuery = gql`
           <form [formGroup]="profileForm" #f="ngForm" (ngSubmit)="onProfile()" class="example-form">
             <mat-card class="card">
 
-              <h1 class="mat-h1">Perfil de usuario</h1>
+              <h1 class="mat-h1">Pérfil</h1>
               <mat-card-content>
                 <mat-form-field class="full-width">
                   <input matInput required type="text" placeholder="Correo" formControlName="email">
@@ -83,7 +83,7 @@ const meQuery = gql`
               <mat-card-actions>
                 <button mat-raised-button color="primary" type="submit" [disabled]="!profileForm.valid" aria-label="profile">
                   <mat-icon>edit</mat-icon>
-                  <span>Perfil</span>
+                  <span>Pérfil</span>
                 </button>
 
                 <button mat-raised-button color="accent" type="button"
@@ -194,7 +194,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     } else {
       this.loading = false;
-      console.log('Formulario con errores, por favor verifique');
+      console.log('Form not valid');
     }
 
   }

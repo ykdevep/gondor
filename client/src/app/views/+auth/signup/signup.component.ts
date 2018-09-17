@@ -37,7 +37,7 @@ const signup = gql`
           <form [formGroup]="signupForm" #f="ngForm" (ngSubmit)="onSignup()" class="example-form">
             <mat-card class="card">
 
-              <h1 class="mat-h1">Registro</h1>
+              <h1 class="mat-h1">Registrar</h1>
               <mat-card-content>
                 <mat-form-field class="full-width">
                   <input matInput required type="text" placeholder="Correo" formControlName="email">
@@ -76,7 +76,7 @@ const signup = gql`
                          formControlName="repeat_password">
                   <mat-hint *ngIf="(signupForm.value.password != signupForm.value.repeat_password)
                     || (signupForm.value.password.length <= 6 && signupForm.value.password.length > 1)">
-                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 caracteres</span>
+                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 carácteres</span>
                   </mat-hint>
                   <mat-hint *ngIf="(signupForm.value.password == signupForm.value.repeat_password)
                    && (signupForm.value.password.length > 6)">
@@ -178,7 +178,7 @@ export class SignupComponent implements OnInit {
 
     } else {
       this.loading = false;
-      console.log('Formulario con errores, por favor verifique');
+      console.log('Form not valid');
     }
 
   }

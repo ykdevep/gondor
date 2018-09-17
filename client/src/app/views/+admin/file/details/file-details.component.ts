@@ -35,7 +35,7 @@ const fileQuery = gql`
           <mat-card class="file-details-card">
             <mat-card-header>
               <mat-card-title>
-                <h1>Detalles archivo</h1>
+                <h1>Detalles Archivo</h1>
               </mat-card-title>
             </mat-card-header>
 
@@ -54,7 +54,7 @@ const fileQuery = gql`
                     <mat-grid-tile><h3> {{fileData.encoding}}</h3></mat-grid-tile>
                     <mat-grid-tile><h3>Tamaño:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{fileData.size | size}}</h3></mat-grid-tile>
-                    <mat-grid-tile><h3>Enlace de descarga</h3></mat-grid-tile>
+                    <mat-grid-tile><h3>Link de Descarga</h3></mat-grid-tile>
                     <mat-grid-tile>
                       <a download mat-icon-button [href]="downloadLink+'/'+fileData.id" routerLinkActive="active">
                         <mat-icon>file_download</mat-icon>
@@ -67,7 +67,7 @@ const fileQuery = gql`
             <mat-card-actions>
               <button mat-raised-button color="accent" routerLink="/admin/file" routerLinkActive type="button" aria-label="details">
                 <mat-icon>list</mat-icon>
-                <span>Listado de archivos</span>
+                <span>Listado de files</span>
               </button>
               <button *ngIf="fileData" mat-raised-button
                     color="primary" [routerLink]="['/admin','file', 'change', fileData.id]" routerLinkActive="active">

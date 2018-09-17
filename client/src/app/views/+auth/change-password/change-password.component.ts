@@ -28,12 +28,12 @@ const changePassword = gql`
           <form [formGroup]="changePasswordForm" #f="ngForm" (ngSubmit)="onChangePassword()" class="change-password-form">
             <mat-card class="card">
 
-              <h1 class="mat-h1">Cambiar contraseña</h1>
+              <h1 class="mat-h1">Cambiar Contraseña</h1>
               <mat-card-content>
 
                 <mat-form-field class="full-width">
                   <input matInput required #oldPassword [type]="hide ? 'password' : 'text'"
-                                  placeholder="Contraseña anterior" formControlName="oldPassword">
+                                  placeholder="Contraseña vieja" formControlName="oldPassword">
                    <mat-icon matSuffix (click)="hide = !hide">
                     {{hide ? 'visibility' : 'visibility_off'}}
                    </mat-icon>
@@ -49,7 +49,7 @@ const changePassword = gql`
                          formControlName="repeatPassword">
                   <mat-hint *ngIf="(changePasswordForm.value.newPassword != changePasswordForm.value.repeatPassword)
                     && (changePasswordForm.value.newPassword.length <= 6 || changePasswordForm.value.repeatPassword.length >= 0)">
-                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 caracteres</span>
+                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 carácteres</span>
                   </mat-hint>
                   <mat-hint *ngIf="(changePasswordForm.value.newPassword == changePasswordForm.value.repeatPassword)
                    && (changePasswordForm.value.newPassword.length > 6)">
@@ -135,7 +135,7 @@ export class ChangePasswordComponent implements OnInit {
 
     } else {
       this.loading = false;
-      console.log('Formulario con errores, por favor verifique');
+      console.log('Form not valid');
     }
 
   }

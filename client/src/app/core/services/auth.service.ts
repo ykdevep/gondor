@@ -20,6 +20,7 @@ export class AuthService {
   private _roles = new BehaviorSubject([]);
 
   private _isAdmin = new BehaviorSubject(false);
+  private _isSpecialist = new BehaviorSubject(false);
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -56,6 +57,10 @@ export class AuthService {
     return this._isAdmin.asObservable();
   }
 
+  public isSpecialist(): Observable<boolean> {
+    return this._isSpecialist.asObservable();
+  }
+
   public getFirstname(): Observable<string> {
     return this._firstname.asObservable();
   }
@@ -76,10 +81,15 @@ export class AuthService {
   }
 
   private setRoles(): void {
-    if (this.getRoles().some(value => value.name === 'ADMIN') && this.isLoggedIn()) {
+    if (this.getRoles().some(value => value.name === 'Administrador') && this.isLoggedIn()) {
       this._isAdmin.next(true);
     } else {
       this._isAdmin.next(false);
+    }
+    if (this.getRoles().some(value => value.name === 'Especialista') && this.isLoggedIn()) {
+      this._isSpecialist.next(true);
+    } else {
+      this._isSpecialist.next(false);
     }
   }
 

@@ -1,28 +1,17 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 
 
-// We use the gql tag to parse our query string into a query document
-const UsersConnection = gql`
-  query usersConnection {
-    usersConnection {
-      aggregate {
-       count
-     }
-   }
-  }
-`;
-
 @Component({
-  selector: 'app-count-users',
+  selector: 'app-count-entity',
   template: `
     <div fxLayout="row">
       <div fxFlex="80" fxLayout="row"  fxLayoutAlign="center center">
-        <mat-icon>person</mat-icon>
+        <mat-icon>{{icon}}</mat-icon>
         <span class="spacer"></span>
-        <span class="span-count">{{userCount}}</span>
+        <span class="span-count">{{count}}</span>
       </div>
     </div>
   `,
@@ -39,24 +28,39 @@ const UsersConnection = gql`
     }
   `]
 })
-export class CountUsersComponent implements OnInit, OnDestroy {
+export class CountEntityComponent implements OnInit, OnDestroy {
+
+  count = 0;
+  @Input() entity = 0;
+  @Input() icon = '';
 
   loading: boolean;
-  userCount: number;
   private querySubscription: Subscription;
 
   constructor(private apollo: Apollo) {}
 
   ngOnInit() {
+
+    // We use the gql tag to parse our query string into a query document
+    const connection = gql`
+    query ${this.entity}Connection {
+      ${this.entity}Connection {
+          aggregate {
+          count
+        }
+      }
+    }
+    `;
+
     this.querySubscription = this.apollo.watchQuery<any>({
-      query: UsersConnection
+      query: connection
     })
       .valueChanges
       .subscribe(({ data, loading }) => {
         this.loading = loading;
 
         if (!loading) {
-          this.userCount = data.usersConnection.aggregate.count;
+          this.count = data[`${this.entity}Connection`].aggregate.count;
         }
       });
   }

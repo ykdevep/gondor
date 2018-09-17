@@ -31,7 +31,7 @@ mutation changeFile($file: Upload!, $where: FileWhereUniqueInput!) {
             <mat-card class="file-card">
               <mat-card-header>
                 <mat-card-title>
-                  <h3>Cambiar Archivo con identificador {{fileId}}</h3>
+                  <h3>Cambiar Archivo con id {{fileId}}</h3>
                 </mat-card-title>
               </mat-card-header>
               <mat-card-content>
@@ -56,7 +56,7 @@ mutation changeFile($file: Upload!, $where: FileWhereUniqueInput!) {
 
                 <button mat-raised-button color="accent" routerLink="/admin/file" routerLinkActive type="button" aria-label="filesList">
                   <mat-icon>list</mat-icon>
-                  <span>Listado de archivos</span>
+                  <span>Listado de files</span>
                 </button>
               </mat-card-actions>
             </mat-card>

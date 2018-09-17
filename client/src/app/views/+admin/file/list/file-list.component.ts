@@ -314,7 +314,7 @@ export class FileListComponent implements OnInit, AfterViewInit, OnDestroy {
   onDeleteSelected($event): void {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       data: {
-        message: `¿Está seguro que desea eliminar los ${this.selection.selected.length} archivos selecionados?`,
+        message: `¿Está seguro que desea eliminar los ${this.selection.selected.length} files selecionados?`,
       }
     });
 

@@ -6,7 +6,7 @@ type User {
   lastname: String!
   birthdate: DateTime!
   sex: Sexs!
-  roles: [Role!]! @relation(name: "Authorization")
+  roles: [Role!]! @relation(name: "R1")
 }
 
 enum Sexs {
@@ -18,7 +18,7 @@ type Role {
   id: ID! @unique
   name: String! @unique
   description: String
-  users: [User!]! @relation(name: "Authorization")
+  users: [User!]! @relation(name: "R2")
 }
 
 type File {
@@ -28,4 +28,38 @@ type File {
   mimetype: String!
   encoding: String!
   size: Int!
+}
+
+"""
+Schemas of SEMEAT project
+"""
+
+type Test {
+  id: ID! @unique
+  type: Types!
+  description: String
+  enable: Boolean! @default(value: false)
+  sections: [Section!]! @relation(name: "R3")  
+}
+
+type Section {
+  id: ID! @unique
+  name: String! @unique
+  description: String
+  exercises: [Exercise!]! @relation(name: "R4")
+  tests: [Test!]! @relation(name: "R5")  
+}
+
+type Exercise {
+  id: ID! @unique
+  """
+  Code schema A1,A2,...
+  """
+  code: String! @unique
+  description: String
+  sections: [Section!]! @relation(name: "R6")  
+}
+
+enum Types {
+  INITIAL
 }

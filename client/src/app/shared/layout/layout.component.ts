@@ -32,28 +32,44 @@ import { environment as env } from '@env/environment';
             <mat-icon aria-label="Side nav toggle icon">close</mat-icon>
           </button>
         </mat-toolbar>
+
         <mat-nav-list>
-          <a class="menu" *ngIf="(isAdmin | async)"
-                mat-list-item routerLink="/dashboard" routerLinkActive="active">
+          <a class="menu" mat-list-item routerLink="/dashboard" routerLinkActive="active">
             <mat-icon aria-label="dashboard">dashboard</mat-icon>
             <span>Escritorio</span>
           </a>
-          <a class="menu" *ngIf="(isAdmin | async)"
-                mat-list-item routerLink="/admin/user" routerLinkActive="active">
+        </mat-nav-list>
+
+        <mat-nav-list *ngIf="(isAdmin | async)">
+          <a class="menu" mat-list-item routerLink="/admin/user" routerLinkActive="active">
             <mat-icon aria-label="users">person</mat-icon>
             <span>Gestión de Usuarios</span>
           </a>
-          <a class="menu" *ngIf="(isAdmin | async)"
-                mat-list-item routerLink="/admin/role" routerLinkActive="active">
+          <a class="menu" mat-list-item routerLink="/admin/role" routerLinkActive="active">
             <mat-icon aria-label="roles">supervisor_account</mat-icon>
             <span>Gestión de Roles</span>
           </a>
-          <a class="menu" *ngIf="(isAdmin | async)"
-                mat-list-item routerLink="/admin/file" routerLinkActive="active">
+          <a class="menu" mat-list-item routerLink="/admin/file" routerLinkActive="active">
             <mat-icon aria-label="files">folder</mat-icon>
             <span>Gestión de Archivos</span>
           </a>
+        </mat-nav-list>
 
+        <mat-divider></mat-divider>
+
+        <mat-nav-list *ngIf="(isSpecialist | async)">
+          <a class="menu" mat-list-item routerLink="/admin/exercise" routerLinkActive="active">
+            <mat-icon aria-label="exercises">extension</mat-icon>
+            <span>Gestión de Ejercicios</span>
+          </a>
+          <a class="menu" mat-list-item routerLink="/admin/section" routerLinkActive="active">
+            <mat-icon aria-label="sections">reorder</mat-icon>
+            <span>Gestión de Secciones</span>
+          </a>
+          <a class="menu" mat-list-item routerLink="/admin/test" routerLinkActive="active">
+            <mat-icon aria-label="test">assignment</mat-icon>
+            <span>Gestión de Cuestionarios</span>
+          </a>
         </mat-nav-list>
 
       </mat-sidenav>
@@ -106,7 +122,7 @@ import { environment as env } from '@env/environment';
         </mat-toolbar>
 
         <div class="layout">
-          <div class="router">
+          <div class="router mat-elevation-z8">
             <div class="item" [@routerTransition]="o.isActivated && o.activatedRoute.routeConfig.path">
               <router-outlet #o="outlet"></router-outlet>
             </div>
@@ -193,6 +209,12 @@ import { environment as env } from '@env/environment';
       height: 80px;
     }
 
+    .mat-list, .mat-nav-list {
+      padding-top: 3px;
+      padding-bottom: 3px;
+      display: block;
+    }
+
   `],
   animations: [routerTransition]
 })
@@ -200,6 +222,7 @@ export class LayoutComponent implements OnInit {
 
   isLoggedIn: Observable<boolean>;
   isAdmin: Observable<boolean>;
+  isSpecialist: Observable<boolean>;
   firstname: Observable<string>;
 
   envName = env.envName;
@@ -226,6 +249,7 @@ export class LayoutComponent implements OnInit {
     this.isLoggedIn = this.authService.isAuthenticated();
     this.firstname = this.authService.getFirstname();
     this.isAdmin = this.authService.isAdmin();
+    this.isSpecialist = this.authService.isSpecialist();
   }
 
   logout(): void {

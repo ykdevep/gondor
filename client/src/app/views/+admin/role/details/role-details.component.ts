@@ -30,7 +30,7 @@ const roleQuery = gql`
           <mat-card class="role-details-card">
             <mat-card-header>
               <mat-card-title>
-                <h1>Detalles rol</h1>
+                <h1>Detalles Rol</h1>
               </mat-card-title>
             </mat-card-header>
 

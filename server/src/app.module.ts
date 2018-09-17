@@ -6,9 +6,12 @@ import { UserModule } from './modules/user/user.module';
 import { CommonModule } from './modules/common/common.module';
 import { RoleModule } from './modules/role/role.module';
 import { FileModule } from './modules/file/file.module';
+import { AppController } from './app.controller';
+import { TestModule } from './modules/test/test.module';
+import { SectionModule } from './modules/section/section.module';
+import { ExerciseModule } from './modules/exercise/exercise.module';
 import * as path from 'path';
 import * as GraphQLJSON from 'graphql-type-json';
-import { AppController } from './app.controller';
 
 const typeDefs = importSchema(path.resolve('./src/schema.graphql'));
 
@@ -50,6 +53,9 @@ const typeDefs = importSchema(path.resolve('./src/schema.graphql'));
     UserModule,
     RoleModule,
     FileModule,
+    TestModule,
+    SectionModule,
+    ExerciseModule,
   ],
   providers: [],
   controllers: [AppController],

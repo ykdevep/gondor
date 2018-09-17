@@ -112,7 +112,7 @@ const rolesQuery = gql`
                   <input matInput type="password" minlength="6" placeholder="Repetir Contraseña" formControlName="repeat_password">
                   <mat-hint *ngIf="(updateUserForm.value.password != updateUserForm.value.repeat_password)
                     || (updateUserForm.value.password.length <= 6 && updateUserForm.value.password.length > 1)">
-                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 caracteres</span>
+                    <span class="mat-warn">Las contraseñas no coinciden, debe poseer un mínimo de 6 carácteres</span>
                   </mat-hint>
                   <mat-hint *ngIf="(updateUserForm.value.password == updateUserForm.value.repeat_password)
                     && (updateUserForm.value.password.length > 6)">
@@ -292,7 +292,7 @@ export class UserUpdateComponent implements OnInit, OnDestroy {
           }
         );
     } else {
-      console.log('Formulario con errores, por favor verifique');
+      console.log('Form not valid');
     }
   }
 

@@ -5,15 +5,13 @@ import { SharedModule } from '@app/shared/shared.module';
 
 import { IndexComponent } from './index/index.component';
 import { RoleGuard } from '@app/core/guard/role.guard';
-import { CountUsersComponent } from './count-users/count-users.component';
-import { CountFilesComponent } from './count-files/count-files.component';
-import { CountRolesComponent } from './count-roles/count-roles.component';
+import { CountEntityComponent } from './count-entity/count-entity.component';
 
 const routes: Routes = [
   {
     path: '',
     component: IndexComponent,
-    data: {title: 'Escritorio', expectedRole: 'ADMIN'},
+    data: {title: 'Escritorio', expectedRole: 'Administrador'},
     canActivate: [RoleGuard]
   }
 ];
@@ -24,6 +22,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [IndexComponent, CountUsersComponent, CountFilesComponent, CountRolesComponent]
+  declarations: [IndexComponent, CountEntityComponent]
 })
 export class DashboardModule { }

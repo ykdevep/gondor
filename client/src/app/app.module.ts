@@ -15,6 +15,7 @@ import { CoreModule } from '@app/core/core.module';
 import { SharedModule } from '@app/shared/shared.module';
 
 import { AuthGuard } from '@app/core/guard/auth.guard';
+import { SemeatModule } from './semeat/semeat.module';
 
 const routes: Routes = [
   {
@@ -43,9 +44,8 @@ const routes: Routes = [
   {
     path: 'error',
     loadChildren: './views/+error/error.module#ErrorModule',
-    canLoad: [AuthGuard]
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'error/unauthorized' }
 ];
 
 
@@ -58,6 +58,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
 
     SharedModule.forRoot(),
+    SemeatModule.forRoot(),
     CoreModule,
 
     RouterModule.forRoot(routes,
