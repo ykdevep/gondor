@@ -33,6 +33,7 @@ import {
   MatSlideToggleModule,
   MatPaginatorIntl,
   MatAutocompleteModule,
+  MatStepperModule,
 
 } from '@angular/material';
 
@@ -56,6 +57,7 @@ import { SizePipe } from '@app/shared/pipes/size.pipe';
     MatSidenavModule,
     MatAutocompleteModule,
     MatIconModule,
+    MatStepperModule,
     MatListModule,
     MatButtonModule,
     MatToolbarModule,
@@ -93,6 +95,7 @@ import { SizePipe } from '@app/shared/pipes/size.pipe';
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
+    MatStepperModule,
     MatListModule,
     MatButtonModule,
     MatToolbarModule,

@@ -16,6 +16,7 @@
     "paths": {
       "@app/core/*": ["src/app/core/*"],
       "@app/shared/*": ["src/app/shared/*"],
+      "@app/semeat/*": ["src/app/semeat/*"],
       "@env/*": ["src/environments/*"]
     },
     "lib": [

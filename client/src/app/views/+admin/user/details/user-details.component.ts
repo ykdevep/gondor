@@ -105,7 +105,6 @@ export class UserDetailsComponent implements OnInit, OnDestroy {
   userQuerySubscription: Subscription;
 
   constructor(
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private apollo: Apollo

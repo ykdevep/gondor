@@ -1,7 +1,11 @@
 # source: http://localhost:4466
-# timestamp: Fri Sep 14 2018 15:22:56 GMT-0400 (EDT)
+# timestamp: Sun Sep 23 2018 17:44:26 GMT-0400 (EDT)
 
 type AggregateExercise {
+  count: Int!
+}
+
+type AggregateExerciseData {
   count: Int!
 }
 
@@ -21,6 +25,10 @@ type AggregateTest {
   count: Int!
 }
 
+type AggregateTestData {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -30,11 +38,34 @@ type BatchPayload {
   count: Long!
 }
 
+enum Codes {
+  A0
+  A1
+  A2
+  A3
+  A4
+  A5
+  A6
+  A7
+  A8
+  A9
+  B0
+  B1
+  B2
+  B3
+  B4
+  B5
+  B6
+  B7
+  B8
+  B9
+}
+
 scalar DateTime
 
 type Exercise implements Node {
   id: ID!
-  code: String!
+  code: Codes!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
 }
@@ -50,7 +81,7 @@ type ExerciseConnection {
 }
 
 input ExerciseCreateInput {
-  code: String!
+  code: Codes!
   description: String
   sections: SectionCreateManyInput
 }
@@ -58,6 +89,496 @@ input ExerciseCreateInput {
 input ExerciseCreateManyInput {
   create: [ExerciseCreateInput!]
   connect: [ExerciseWhereUniqueInput!]
+}
+
+type ExerciseData implements Node {
+  id: ID!
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+"""A connection to a list of items."""
+type ExerciseDataConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ExerciseDataEdge]!
+  aggregate: AggregateExerciseData!
+}
+
+input ExerciseDataCreateInput {
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+input ExerciseDataCreateManyInput {
+  create: [ExerciseDataCreateInput!]
+  connect: [ExerciseDataWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type ExerciseDataEdge {
+  """The item at the end of the edge."""
+  node: ExerciseData!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ExerciseDataOrderByInput {
+  id_ASC
+  id_DESC
+  initAt_ASC
+  initAt_DESC
+  finalAt_ASC
+  finalAt_DESC
+  question_ASC
+  question_DESC
+  response_ASC
+  response_DESC
+  level_ASC
+  level_DESC
+  hit_ASC
+  hit_DESC
+  fault_ASC
+  fault_DESC
+  omit_ASC
+  omit_DESC
+  error_ASC
+  error_DESC
+  point_ASC
+  point_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ExerciseDataPreviousValues {
+  id: ID!
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+type ExerciseDataSubscriptionPayload {
+  mutation: MutationType!
+  node: ExerciseData
+  updatedFields: [String!]
+  previousValues: ExerciseDataPreviousValues
+}
+
+input ExerciseDataSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ExerciseDataSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ExerciseDataSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ExerciseDataSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ExerciseDataWhereInput
+}
+
+input ExerciseDataUpdateDataInput {
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+input ExerciseDataUpdateInput {
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+input ExerciseDataUpdateManyInput {
+  create: [ExerciseDataCreateInput!]
+  connect: [ExerciseDataWhereUniqueInput!]
+  disconnect: [ExerciseDataWhereUniqueInput!]
+  delete: [ExerciseDataWhereUniqueInput!]
+  update: [ExerciseDataUpdateWithWhereUniqueNestedInput!]
+  upsert: [ExerciseDataUpsertWithWhereUniqueNestedInput!]
+}
+
+input ExerciseDataUpdateWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput!
+  data: ExerciseDataUpdateDataInput!
+}
+
+input ExerciseDataUpsertWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput!
+  update: ExerciseDataUpdateDataInput!
+  create: ExerciseDataCreateInput!
+}
+
+input ExerciseDataWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ExerciseDataWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ExerciseDataWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ExerciseDataWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  initAt: DateTime
+
+  """All values that are not equal to given value."""
+  initAt_not: DateTime
+
+  """All values that are contained in given list."""
+  initAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  initAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  initAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  initAt_lte: DateTime
+
+  """All values greater than the given value."""
+  initAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  initAt_gte: DateTime
+  finalAt: DateTime
+
+  """All values that are not equal to given value."""
+  finalAt_not: DateTime
+
+  """All values that are contained in given list."""
+  finalAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  finalAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  finalAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  finalAt_lte: DateTime
+
+  """All values greater than the given value."""
+  finalAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  finalAt_gte: DateTime
+  question: String
+
+  """All values that are not equal to given value."""
+  question_not: String
+
+  """All values that are contained in given list."""
+  question_in: [String!]
+
+  """All values that are not contained in given list."""
+  question_not_in: [String!]
+
+  """All values less than the given value."""
+  question_lt: String
+
+  """All values less than or equal the given value."""
+  question_lte: String
+
+  """All values greater than the given value."""
+  question_gt: String
+
+  """All values greater than or equal the given value."""
+  question_gte: String
+
+  """All values containing the given string."""
+  question_contains: String
+
+  """All values not containing the given string."""
+  question_not_contains: String
+
+  """All values starting with the given string."""
+  question_starts_with: String
+
+  """All values not starting with the given string."""
+  question_not_starts_with: String
+
+  """All values ending with the given string."""
+  question_ends_with: String
+
+  """All values not ending with the given string."""
+  question_not_ends_with: String
+  response: String
+
+  """All values that are not equal to given value."""
+  response_not: String
+
+  """All values that are contained in given list."""
+  response_in: [String!]
+
+  """All values that are not contained in given list."""
+  response_not_in: [String!]
+
+  """All values less than the given value."""
+  response_lt: String
+
+  """All values less than or equal the given value."""
+  response_lte: String
+
+  """All values greater than the given value."""
+  response_gt: String
+
+  """All values greater than or equal the given value."""
+  response_gte: String
+
+  """All values containing the given string."""
+  response_contains: String
+
+  """All values not containing the given string."""
+  response_not_contains: String
+
+  """All values starting with the given string."""
+  response_starts_with: String
+
+  """All values not starting with the given string."""
+  response_not_starts_with: String
+
+  """All values ending with the given string."""
+  response_ends_with: String
+
+  """All values not ending with the given string."""
+  response_not_ends_with: String
+  level: Int
+
+  """All values that are not equal to given value."""
+  level_not: Int
+
+  """All values that are contained in given list."""
+  level_in: [Int!]
+
+  """All values that are not contained in given list."""
+  level_not_in: [Int!]
+
+  """All values less than the given value."""
+  level_lt: Int
+
+  """All values less than or equal the given value."""
+  level_lte: Int
+
+  """All values greater than the given value."""
+  level_gt: Int
+
+  """All values greater than or equal the given value."""
+  level_gte: Int
+  hit: Int
+
+  """All values that are not equal to given value."""
+  hit_not: Int
+
+  """All values that are contained in given list."""
+  hit_in: [Int!]
+
+  """All values that are not contained in given list."""
+  hit_not_in: [Int!]
+
+  """All values less than the given value."""
+  hit_lt: Int
+
+  """All values less than or equal the given value."""
+  hit_lte: Int
+
+  """All values greater than the given value."""
+  hit_gt: Int
+
+  """All values greater than or equal the given value."""
+  hit_gte: Int
+  fault: Int
+
+  """All values that are not equal to given value."""
+  fault_not: Int
+
+  """All values that are contained in given list."""
+  fault_in: [Int!]
+
+  """All values that are not contained in given list."""
+  fault_not_in: [Int!]
+
+  """All values less than the given value."""
+  fault_lt: Int
+
+  """All values less than or equal the given value."""
+  fault_lte: Int
+
+  """All values greater than the given value."""
+  fault_gt: Int
+
+  """All values greater than or equal the given value."""
+  fault_gte: Int
+  omit: Int
+
+  """All values that are not equal to given value."""
+  omit_not: Int
+
+  """All values that are contained in given list."""
+  omit_in: [Int!]
+
+  """All values that are not contained in given list."""
+  omit_not_in: [Int!]
+
+  """All values less than the given value."""
+  omit_lt: Int
+
+  """All values less than or equal the given value."""
+  omit_lte: Int
+
+  """All values greater than the given value."""
+  omit_gt: Int
+
+  """All values greater than or equal the given value."""
+  omit_gte: Int
+  error: Int
+
+  """All values that are not equal to given value."""
+  error_not: Int
+
+  """All values that are contained in given list."""
+  error_in: [Int!]
+
+  """All values that are not contained in given list."""
+  error_not_in: [Int!]
+
+  """All values less than the given value."""
+  error_lt: Int
+
+  """All values less than or equal the given value."""
+  error_lte: Int
+
+  """All values greater than the given value."""
+  error_gt: Int
+
+  """All values greater than or equal the given value."""
+  error_gte: Int
+  point: Int
+
+  """All values that are not equal to given value."""
+  point_not: Int
+
+  """All values that are contained in given list."""
+  point_in: [Int!]
+
+  """All values that are not contained in given list."""
+  point_not_in: [Int!]
+
+  """All values less than the given value."""
+  point_lt: Int
+
+  """All values less than or equal the given value."""
+  point_lte: Int
+
+  """All values greater than the given value."""
+  point_gt: Int
+
+  """All values greater than or equal the given value."""
+  point_gte: Int
+}
+
+input ExerciseDataWhereUniqueInput {
+  id: ID
 }
 
 """An edge in a connection."""
@@ -84,7 +605,7 @@ enum ExerciseOrderByInput {
 
 type ExercisePreviousValues {
   id: ID!
-  code: String!
+  code: Codes!
   description: String
 }
 
@@ -128,13 +649,13 @@ input ExerciseSubscriptionWhereInput {
 }
 
 input ExerciseUpdateDataInput {
-  code: String
+  code: Codes
   description: String
   sections: SectionUpdateManyInput
 }
 
 input ExerciseUpdateInput {
-  code: String
+  code: Codes
   description: String
   sections: SectionUpdateManyInput
 }
@@ -208,46 +729,16 @@ input ExerciseWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  code: String
+  code: Codes
 
   """All values that are not equal to given value."""
-  code_not: String
+  code_not: Codes
 
   """All values that are contained in given list."""
-  code_in: [String!]
+  code_in: [Codes!]
 
   """All values that are not contained in given list."""
-  code_not_in: [String!]
-
-  """All values less than the given value."""
-  code_lt: String
-
-  """All values less than or equal the given value."""
-  code_lte: String
-
-  """All values greater than the given value."""
-  code_gt: String
-
-  """All values greater than or equal the given value."""
-  code_gte: String
-
-  """All values containing the given string."""
-  code_contains: String
-
-  """All values not containing the given string."""
-  code_not_contains: String
-
-  """All values starting with the given string."""
-  code_starts_with: String
-
-  """All values not starting with the given string."""
-  code_not_starts_with: String
-
-  """All values ending with the given string."""
-  code_ends_with: String
-
-  """All values not ending with the given string."""
-  code_not_ends_with: String
+  code_not_in: [Codes!]
   description: String
 
   """All values that are not equal to given value."""
@@ -295,7 +786,7 @@ input ExerciseWhereInput {
 
 input ExerciseWhereUniqueInput {
   id: ID
-  code: String
+  code: Codes
 }
 
 type File implements Node {
@@ -654,36 +1145,48 @@ scalar Long
 
 type Mutation {
   createFile(data: FileCreateInput!): File!
+  createTestData(data: TestDataCreateInput!): TestData!
+  createExerciseData(data: ExerciseDataCreateInput!): ExerciseData!
   createRole(data: RoleCreateInput!): Role!
   createSection(data: SectionCreateInput!): Section!
   createExercise(data: ExerciseCreateInput!): Exercise!
   createUser(data: UserCreateInput!): User!
   createTest(data: TestCreateInput!): Test!
   updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
+  updateTestData(data: TestDataUpdateInput!, where: TestDataWhereUniqueInput!): TestData
+  updateExerciseData(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereUniqueInput!): ExerciseData
   updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
   updateSection(data: SectionUpdateInput!, where: SectionWhereUniqueInput!): Section
   updateExercise(data: ExerciseUpdateInput!, where: ExerciseWhereUniqueInput!): Exercise
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateTest(data: TestUpdateInput!, where: TestWhereUniqueInput!): Test
   deleteFile(where: FileWhereUniqueInput!): File
+  deleteTestData(where: TestDataWhereUniqueInput!): TestData
+  deleteExerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
   deleteRole(where: RoleWhereUniqueInput!): Role
   deleteSection(where: SectionWhereUniqueInput!): Section
   deleteExercise(where: ExerciseWhereUniqueInput!): Exercise
   deleteUser(where: UserWhereUniqueInput!): User
   deleteTest(where: TestWhereUniqueInput!): Test
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
+  upsertTestData(where: TestDataWhereUniqueInput!, create: TestDataCreateInput!, update: TestDataUpdateInput!): TestData!
+  upsertExerciseData(where: ExerciseDataWhereUniqueInput!, create: ExerciseDataCreateInput!, update: ExerciseDataUpdateInput!): ExerciseData!
   upsertRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role!
   upsertSection(where: SectionWhereUniqueInput!, create: SectionCreateInput!, update: SectionUpdateInput!): Section!
   upsertExercise(where: ExerciseWhereUniqueInput!, create: ExerciseCreateInput!, update: ExerciseUpdateInput!): Exercise!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertTest(where: TestWhereUniqueInput!, create: TestCreateInput!, update: TestUpdateInput!): Test!
   updateManyFiles(data: FileUpdateInput!, where: FileWhereInput): BatchPayload!
+  updateManyTestDatas(data: TestDataUpdateInput!, where: TestDataWhereInput): BatchPayload!
+  updateManyExerciseDatas(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereInput): BatchPayload!
   updateManyRoles(data: RoleUpdateInput!, where: RoleWhereInput): BatchPayload!
   updateManySections(data: SectionUpdateInput!, where: SectionWhereInput): BatchPayload!
   updateManyExercises(data: ExerciseUpdateInput!, where: ExerciseWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyTests(data: TestUpdateInput!, where: TestWhereInput): BatchPayload!
   deleteManyFiles(where: FileWhereInput): BatchPayload!
+  deleteManyTestDatas(where: TestDataWhereInput): BatchPayload!
+  deleteManyExerciseDatas(where: ExerciseDataWhereInput): BatchPayload!
   deleteManyRoles(where: RoleWhereInput): BatchPayload!
   deleteManySections(where: SectionWhereInput): BatchPayload!
   deleteManyExercises(where: ExerciseWhereInput): BatchPayload!
@@ -720,18 +1223,24 @@ type PageInfo {
 
 type Query {
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
+  testDatas(where: TestDataWhereInput, orderBy: TestDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TestData]!
+  exerciseDatas(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ExerciseData]!
   roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section]!
   exercises(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Exercise]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   tests(where: TestWhereInput, orderBy: TestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Test]!
   file(where: FileWhereUniqueInput!): File
+  testData(where: TestDataWhereUniqueInput!): TestData
+  exerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
   role(where: RoleWhereUniqueInput!): Role
   section(where: SectionWhereUniqueInput!): Section
   exercise(where: ExerciseWhereUniqueInput!): Exercise
   user(where: UserWhereUniqueInput!): User
   test(where: TestWhereUniqueInput!): Test
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
+  testDatasConnection(where: TestDataWhereInput, orderBy: TestDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TestDataConnection!
+  exerciseDatasConnection(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExerciseDataConnection!
   rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
   sectionsConnection(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SectionConnection!
   exercisesConnection(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExerciseConnection!
@@ -1291,6 +1800,8 @@ enum Sexs {
 
 type Subscription {
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
+  testData(where: TestDataSubscriptionWhereInput): TestDataSubscriptionPayload
+  exerciseData(where: ExerciseDataSubscriptionWhereInput): ExerciseDataSubscriptionPayload
   role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
   section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
   exercise(where: ExerciseSubscriptionWhereInput): ExerciseSubscriptionPayload
@@ -1326,6 +1837,224 @@ input TestCreateInput {
 input TestCreateManyInput {
   create: [TestCreateInput!]
   connect: [TestWhereUniqueInput!]
+}
+
+type TestData implements Node {
+  id: ID!
+  type: Types!
+  createdBy(where: UserWhereInput): User!
+  initAt: DateTime!
+  finalAt: DateTime!
+  exerciseDatas(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ExerciseData!]
+}
+
+"""A connection to a list of items."""
+type TestDataConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TestDataEdge]!
+  aggregate: AggregateTestData!
+}
+
+input TestDataCreateInput {
+  type: Types!
+  initAt: DateTime!
+  finalAt: DateTime!
+  createdBy: UserCreateOneInput!
+  exerciseDatas: ExerciseDataCreateManyInput
+}
+
+"""An edge in a connection."""
+type TestDataEdge {
+  """The item at the end of the edge."""
+  node: TestData!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TestDataOrderByInput {
+  id_ASC
+  id_DESC
+  type_ASC
+  type_DESC
+  initAt_ASC
+  initAt_DESC
+  finalAt_ASC
+  finalAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TestDataPreviousValues {
+  id: ID!
+  type: Types!
+  initAt: DateTime!
+  finalAt: DateTime!
+}
+
+type TestDataSubscriptionPayload {
+  mutation: MutationType!
+  node: TestData
+  updatedFields: [String!]
+  previousValues: TestDataPreviousValues
+}
+
+input TestDataSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TestDataSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TestDataSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TestDataSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TestDataWhereInput
+}
+
+input TestDataUpdateInput {
+  type: Types
+  initAt: DateTime
+  finalAt: DateTime
+  createdBy: UserUpdateOneInput
+  exerciseDatas: ExerciseDataUpdateManyInput
+}
+
+input TestDataWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TestDataWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TestDataWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TestDataWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  type: Types
+
+  """All values that are not equal to given value."""
+  type_not: Types
+
+  """All values that are contained in given list."""
+  type_in: [Types!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [Types!]
+  initAt: DateTime
+
+  """All values that are not equal to given value."""
+  initAt_not: DateTime
+
+  """All values that are contained in given list."""
+  initAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  initAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  initAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  initAt_lte: DateTime
+
+  """All values greater than the given value."""
+  initAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  initAt_gte: DateTime
+  finalAt: DateTime
+
+  """All values that are not equal to given value."""
+  finalAt_not: DateTime
+
+  """All values that are contained in given list."""
+  finalAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  finalAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  finalAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  finalAt_lte: DateTime
+
+  """All values greater than the given value."""
+  finalAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  finalAt_gte: DateTime
+  createdBy: UserWhereInput
+  exerciseDatas_every: ExerciseDataWhereInput
+  exerciseDatas_some: ExerciseDataWhereInput
+  exerciseDatas_none: ExerciseDataWhereInput
+}
+
+input TestDataWhereUniqueInput {
+  id: ID
 }
 
 """An edge in a connection."""
@@ -1584,6 +2313,11 @@ input UserCreateManyInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 """An edge in a connection."""
 type UserEdge {
   """The item at the end of the edge."""
@@ -1692,9 +2426,22 @@ input UserUpdateManyInput {
   upsert: [UserUpsertWithWhereUniqueNestedInput!]
 }
 
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
 input UserUpdateWithWhereUniqueNestedInput {
   where: UserWhereUniqueInput!
   data: UserUpdateDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithWhereUniqueNestedInput {

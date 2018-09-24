@@ -12,9 +12,11 @@ const signup = gql`
   mutation signup($data: UserSignupInput!) {
     signup(data: $data) {
       user {
+        id
         firstname
         lastname
         email
+        birthdate
         roles {
           name
         }

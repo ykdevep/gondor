@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Token } from '@app/core/model/token.model';
-import { Role } from '@app/core/model/user.model';
+import { Role, User } from '@app/core/model/user.model';
 import { Apollo } from 'apollo-angular';
 
 const TOKEN_PREFIX = 'TOKEN';
@@ -15,12 +15,12 @@ export class AuthService {
 
   private tokenGetter: string = null;
   private _isAuthenticated = new BehaviorSubject(false);
-  private _firstname = new BehaviorSubject('');
+  private _user = new BehaviorSubject(null);
   private _token = new BehaviorSubject('');
-  private _roles = new BehaviorSubject([]);
 
   private _isAdmin = new BehaviorSubject(false);
   private _isSpecialist = new BehaviorSubject(false);
+  private _isStudent = new BehaviorSubject(false);
 
   constructor(
     private localStorageService: LocalStorageService,
@@ -30,13 +30,11 @@ export class AuthService {
     if (this.isLoggedIn()) {
       const token: Token = this.decodeToken(this.tokenGetter);
       this._token.next(this.tokenGetter);
-      this._firstname.next(token.user.firstname);
-      this._roles.next(token.user.roles);
+      this._user.next(token.user);
       this._isAuthenticated.next(true);
     } else {
       this._token.next('');
       this._isAuthenticated.next(false);
-      this._roles.next([]);
     }
     this.setRoles();
   }
@@ -45,12 +43,23 @@ export class AuthService {
     return this.tokenGetter;
   }
 
+  public getUser(): User {
+    return this._user.getValue();
+  }
+
+  public getAsyncUser(): Observable<User> {
+    return this._user.asObservable();
+  }
+
   public getTokenAsync(): Promise<string> {
     return this._token.toPromise();
   }
 
   public getRoles(): Role[] {
-    return this._roles.value;
+    if (this._user.getValue()) {
+      return this._user.getValue().roles;
+    }
+    return [];
   }
 
   public isAdmin(): Observable<boolean> {
@@ -61,8 +70,8 @@ export class AuthService {
     return this._isSpecialist.asObservable();
   }
 
-  public getFirstname(): Observable<string> {
-    return this._firstname.asObservable();
+  public isStudent(): Observable<boolean> {
+    return this._isStudent.asObservable();
   }
 
   public getTokenn(): Observable<string> {
@@ -91,29 +100,31 @@ export class AuthService {
     } else {
       this._isSpecialist.next(false);
     }
+    if (this.getRoles().some(value => value.name === 'Estudiante') && this.isLoggedIn()) {
+      this._isStudent.next(true);
+    } else {
+      this._isStudent.next(false);
+    }
   }
 
   public login(body: any): void {
     this.localStorageService.setItem(TOKEN_PREFIX, body.token);
     this.tokenGetter = body.token;
-    this._roles.next(body.user.roles);
-    this._firstname.next(body.user.firstname);
+    this._user.next(body.user);
     this._isAuthenticated.next(true);
     this.setRoles();
   }
 
   public register(body: any): void {
     this.localStorageService.setItem(TOKEN_PREFIX, body.token);
-    this._roles.next(body.user.roles);
-    this._firstname.next(body.user.firstname);
+    this._user.next(body.user);
     this._isAuthenticated.next(true);
     this.setRoles();
   }
 
   public profile(body: any): void {
     this.localStorageService.setItem(TOKEN_PREFIX, body.token);
-    this._roles.next(body.user.roles);
-    this._firstname.next(body.user.firstname);
+    this._user.next(body.user);
     this._isAuthenticated.next(true);
     this.setRoles();
   }
@@ -121,8 +132,7 @@ export class AuthService {
   public logout(): void {
     this.localStorageService.removeItem(TOKEN_PREFIX);
     this._isAuthenticated.next(false);
-    this._firstname.next('');
-    this._roles.next([]);
+    this._user.next(null);
     this.setRoles();
 
     // reset the store after that

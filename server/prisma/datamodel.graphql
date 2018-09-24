@@ -52,14 +52,57 @@ type Section {
 
 type Exercise {
   id: ID! @unique
-  """
-  Code schema A1,A2,...
-  """
-  code: String! @unique
+  code: Codes! @unique
   description: String
   sections: [Section!]! @relation(name: "R6")  
 }
 
+type TestData {
+  id: ID! @unique
+  type: Types!
+  createdBy: User!
+  initAt: DateTime!
+  finalAt: DateTime!
+  exerciseDatas: [ExerciseData!]! @relation(name: "R7")  
+}
+
+type ExerciseData {
+  id: ID! @unique
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
 enum Types {
   INITIAL
+}
+
+enum Codes {
+  A0
+  A1
+  A2
+  A3
+  A4
+  A5
+  A6
+  A7
+  A8
+  A9  
+  B0
+  B1
+  B2
+  B3
+  B4
+  B5
+  B6
+  B7
+  B8
+  B9
 }

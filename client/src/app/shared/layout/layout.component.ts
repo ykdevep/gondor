@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 
 import { routerTransition } from '@app/core/animations/router.transition';
 import { environment as env } from '@env/environment';
+import { User } from '@app/core/model/user.model';
 
 @Component({
   selector: 'app-layout',
@@ -39,6 +40,8 @@ import { environment as env } from '@env/environment';
             <span>Escritorio</span>
           </a>
         </mat-nav-list>
+
+        <mat-divider></mat-divider>
 
         <mat-nav-list *ngIf="(isAdmin | async)">
           <a class="menu" mat-list-item routerLink="/admin/user" routerLinkActive="active">
@@ -88,7 +91,7 @@ import { environment as env } from '@env/environment';
             <span class="spacer"></span>
 
             <button mat-button [matMenuTriggerFor]="menu">
-              <span *ngIf="isLoggedIn | async">Bienvenido {{firstname | async}}</span>
+              <span *ngIf="isLoggedIn | async">Bienvenido {{(user | async).firstname}}</span>
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
@@ -223,7 +226,7 @@ export class LayoutComponent implements OnInit {
   isLoggedIn: Observable<boolean>;
   isAdmin: Observable<boolean>;
   isSpecialist: Observable<boolean>;
-  firstname: Observable<string>;
+  user: Observable<User>;
 
   envName = env.envName;
   appName = env.appName;
@@ -247,7 +250,8 @@ export class LayoutComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isAuthenticated();
-    this.firstname = this.authService.getFirstname();
+    this.user = this.authService.getAsyncUser();
+
     this.isAdmin = this.authService.isAdmin();
     this.isSpecialist = this.authService.isSpecialist();
   }

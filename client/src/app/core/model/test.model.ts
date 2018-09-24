@@ -1,4 +1,4 @@
-import { Section } from "@app/core/model/section.model";
+import { Section } from '@app/core/model/section.model';
 
 export interface Test {
   id: string;

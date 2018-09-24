@@ -5,18 +5,24 @@ import { makePrismaBindingClass, BasePrismaOptions } from 'prisma-binding'
 
 export interface Query {
     files: <T = File[]>(args: { where?: FileWhereInput, orderBy?: FileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    testDatas: <T = TestData[]>(args: { where?: TestDataWhereInput, orderBy?: TestDataOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    exerciseDatas: <T = ExerciseData[]>(args: { where?: ExerciseDataWhereInput, orderBy?: ExerciseDataOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     roles: <T = Role[]>(args: { where?: RoleWhereInput, orderBy?: RoleOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     sections: <T = Section[]>(args: { where?: SectionWhereInput, orderBy?: SectionOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     exercises: <T = Exercise[]>(args: { where?: ExerciseWhereInput, orderBy?: ExerciseOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     users: <T = User[]>(args: { where?: UserWhereInput, orderBy?: UserOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     tests: <T = Test[]>(args: { where?: TestWhereInput, orderBy?: TestOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     file: <T = File | null>(args: { where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    testData: <T = TestData | null>(args: { where: TestDataWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    exerciseData: <T = ExerciseData | null>(args: { where: ExerciseDataWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     role: <T = Role | null>(args: { where: RoleWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     section: <T = Section | null>(args: { where: SectionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     exercise: <T = Exercise | null>(args: { where: ExerciseWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     user: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     test: <T = Test | null>(args: { where: TestWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     filesConnection: <T = FileConnection>(args: { where?: FileWhereInput, orderBy?: FileOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    testDatasConnection: <T = TestDataConnection>(args: { where?: TestDataWhereInput, orderBy?: TestDataOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    exerciseDatasConnection: <T = ExerciseDataConnection>(args: { where?: ExerciseDataWhereInput, orderBy?: ExerciseDataOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     rolesConnection: <T = RoleConnection>(args: { where?: RoleWhereInput, orderBy?: RoleOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     sectionsConnection: <T = SectionConnection>(args: { where?: SectionWhereInput, orderBy?: SectionOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     exercisesConnection: <T = ExerciseConnection>(args: { where?: ExerciseWhereInput, orderBy?: ExerciseOrderByInput, skip?: Int, after?: String, before?: String, first?: Int, last?: Int }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -27,36 +33,48 @@ export interface Query {
 
 export interface Mutation {
     createFile: <T = File>(args: { data: FileCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createTestData: <T = TestData>(args: { data: TestDataCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    createExerciseData: <T = ExerciseData>(args: { data: ExerciseDataCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createRole: <T = Role>(args: { data: RoleCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createSection: <T = Section>(args: { data: SectionCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createExercise: <T = Exercise>(args: { data: ExerciseCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createUser: <T = User>(args: { data: UserCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     createTest: <T = Test>(args: { data: TestCreateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateFile: <T = File | null>(args: { data: FileUpdateInput, where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateTestData: <T = TestData | null>(args: { data: TestDataUpdateInput, where: TestDataWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateExerciseData: <T = ExerciseData | null>(args: { data: ExerciseDataUpdateInput, where: ExerciseDataWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateRole: <T = Role | null>(args: { data: RoleUpdateInput, where: RoleWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateSection: <T = Section | null>(args: { data: SectionUpdateInput, where: SectionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateExercise: <T = Exercise | null>(args: { data: ExerciseUpdateInput, where: ExerciseWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateUser: <T = User | null>(args: { data: UserUpdateInput, where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateTest: <T = Test | null>(args: { data: TestUpdateInput, where: TestWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteFile: <T = File | null>(args: { where: FileWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteTestData: <T = TestData | null>(args: { where: TestDataWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteExerciseData: <T = ExerciseData | null>(args: { where: ExerciseDataWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteRole: <T = Role | null>(args: { where: RoleWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteSection: <T = Section | null>(args: { where: SectionWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteExercise: <T = Exercise | null>(args: { where: ExerciseWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteUser: <T = User | null>(args: { where: UserWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteTest: <T = Test | null>(args: { where: TestWhereUniqueInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertFile: <T = File>(args: { where: FileWhereUniqueInput, create: FileCreateInput, update: FileUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertTestData: <T = TestData>(args: { where: TestDataWhereUniqueInput, create: TestDataCreateInput, update: TestDataUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    upsertExerciseData: <T = ExerciseData>(args: { where: ExerciseDataWhereUniqueInput, create: ExerciseDataCreateInput, update: ExerciseDataUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertRole: <T = Role>(args: { where: RoleWhereUniqueInput, create: RoleCreateInput, update: RoleUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertSection: <T = Section>(args: { where: SectionWhereUniqueInput, create: SectionCreateInput, update: SectionUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertExercise: <T = Exercise>(args: { where: ExerciseWhereUniqueInput, create: ExerciseCreateInput, update: ExerciseUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertUser: <T = User>(args: { where: UserWhereUniqueInput, create: UserCreateInput, update: UserUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     upsertTest: <T = Test>(args: { where: TestWhereUniqueInput, create: TestCreateInput, update: TestUpdateInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyFiles: <T = BatchPayload>(args: { data: FileUpdateInput, where?: FileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyTestDatas: <T = BatchPayload>(args: { data: TestDataUpdateInput, where?: TestDataWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    updateManyExerciseDatas: <T = BatchPayload>(args: { data: ExerciseDataUpdateInput, where?: ExerciseDataWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyRoles: <T = BatchPayload>(args: { data: RoleUpdateInput, where?: RoleWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManySections: <T = BatchPayload>(args: { data: SectionUpdateInput, where?: SectionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyExercises: <T = BatchPayload>(args: { data: ExerciseUpdateInput, where?: ExerciseWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyUsers: <T = BatchPayload>(args: { data: UserUpdateInput, where?: UserWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     updateManyTests: <T = BatchPayload>(args: { data: TestUpdateInput, where?: TestWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyFiles: <T = BatchPayload>(args: { where?: FileWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyTestDatas: <T = BatchPayload>(args: { where?: TestDataWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
+    deleteManyExerciseDatas: <T = BatchPayload>(args: { where?: ExerciseDataWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyRoles: <T = BatchPayload>(args: { where?: RoleWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManySections: <T = BatchPayload>(args: { where?: SectionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
     deleteManyExercises: <T = BatchPayload>(args: { where?: ExerciseWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<T> ,
@@ -66,6 +84,8 @@ export interface Mutation {
 
 export interface Subscription {
     file: <T = FileSubscriptionPayload | null>(args: { where?: FileSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    testData: <T = TestDataSubscriptionPayload | null>(args: { where?: TestDataSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
+    exerciseData: <T = ExerciseDataSubscriptionPayload | null>(args: { where?: ExerciseDataSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     role: <T = RoleSubscriptionPayload | null>(args: { where?: RoleSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     section: <T = SectionSubscriptionPayload | null>(args: { where?: SectionSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
     exercise: <T = ExerciseSubscriptionPayload | null>(args: { where?: ExerciseSubscriptionWhereInput }, info?: GraphQLResolveInfo | string, options?: Options) => Promise<AsyncIterator<T>> ,
@@ -75,6 +95,8 @@ export interface Subscription {
 
 export interface Exists {
   File: (where?: FileWhereInput) => Promise<boolean>
+  TestData: (where?: TestDataWhereInput) => Promise<boolean>
+  ExerciseData: (where?: ExerciseDataWhereInput) => Promise<boolean>
   Role: (where?: RoleWhereInput) => Promise<boolean>
   Section: (where?: SectionWhereInput) => Promise<boolean>
   Exercise: (where?: ExerciseWhereInput) => Promise<boolean>
@@ -108,6 +130,10 @@ const typeDefs = `type AggregateExercise {
   count: Int!
 }
 
+type AggregateExerciseData {
+  count: Int!
+}
+
 type AggregateFile {
   count: Int!
 }
@@ -124,6 +150,10 @@ type AggregateTest {
   count: Int!
 }
 
+type AggregateTestData {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -133,11 +163,34 @@ type BatchPayload {
   count: Long!
 }
 
+enum Codes {
+  A0
+  A1
+  A2
+  A3
+  A4
+  A5
+  A6
+  A7
+  A8
+  A9
+  B0
+  B1
+  B2
+  B3
+  B4
+  B5
+  B6
+  B7
+  B8
+  B9
+}
+
 scalar DateTime
 
 type Exercise implements Node {
   id: ID!
-  code: String!
+  code: Codes!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
 }
@@ -153,7 +206,7 @@ type ExerciseConnection {
 }
 
 input ExerciseCreateInput {
-  code: String!
+  code: Codes!
   description: String
   sections: SectionCreateManyInput
 }
@@ -161,6 +214,496 @@ input ExerciseCreateInput {
 input ExerciseCreateManyInput {
   create: [ExerciseCreateInput!]
   connect: [ExerciseWhereUniqueInput!]
+}
+
+type ExerciseData implements Node {
+  id: ID!
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+"""A connection to a list of items."""
+type ExerciseDataConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ExerciseDataEdge]!
+  aggregate: AggregateExerciseData!
+}
+
+input ExerciseDataCreateInput {
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+input ExerciseDataCreateManyInput {
+  create: [ExerciseDataCreateInput!]
+  connect: [ExerciseDataWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type ExerciseDataEdge {
+  """The item at the end of the edge."""
+  node: ExerciseData!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ExerciseDataOrderByInput {
+  id_ASC
+  id_DESC
+  initAt_ASC
+  initAt_DESC
+  finalAt_ASC
+  finalAt_DESC
+  question_ASC
+  question_DESC
+  response_ASC
+  response_DESC
+  level_ASC
+  level_DESC
+  hit_ASC
+  hit_DESC
+  fault_ASC
+  fault_DESC
+  omit_ASC
+  omit_DESC
+  error_ASC
+  error_DESC
+  point_ASC
+  point_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ExerciseDataPreviousValues {
+  id: ID!
+  initAt: DateTime!
+  finalAt: DateTime!
+  question: String!
+  response: String!
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+type ExerciseDataSubscriptionPayload {
+  mutation: MutationType!
+  node: ExerciseData
+  updatedFields: [String!]
+  previousValues: ExerciseDataPreviousValues
+}
+
+input ExerciseDataSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ExerciseDataSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ExerciseDataSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ExerciseDataSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ExerciseDataWhereInput
+}
+
+input ExerciseDataUpdateDataInput {
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+input ExerciseDataUpdateInput {
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level: Int
+  hit: Int
+  fault: Int
+  omit: Int
+  error: Int
+  point: Int
+}
+
+input ExerciseDataUpdateManyInput {
+  create: [ExerciseDataCreateInput!]
+  connect: [ExerciseDataWhereUniqueInput!]
+  disconnect: [ExerciseDataWhereUniqueInput!]
+  delete: [ExerciseDataWhereUniqueInput!]
+  update: [ExerciseDataUpdateWithWhereUniqueNestedInput!]
+  upsert: [ExerciseDataUpsertWithWhereUniqueNestedInput!]
+}
+
+input ExerciseDataUpdateWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput!
+  data: ExerciseDataUpdateDataInput!
+}
+
+input ExerciseDataUpsertWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput!
+  update: ExerciseDataUpdateDataInput!
+  create: ExerciseDataCreateInput!
+}
+
+input ExerciseDataWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ExerciseDataWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ExerciseDataWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ExerciseDataWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  initAt: DateTime
+
+  """All values that are not equal to given value."""
+  initAt_not: DateTime
+
+  """All values that are contained in given list."""
+  initAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  initAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  initAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  initAt_lte: DateTime
+
+  """All values greater than the given value."""
+  initAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  initAt_gte: DateTime
+  finalAt: DateTime
+
+  """All values that are not equal to given value."""
+  finalAt_not: DateTime
+
+  """All values that are contained in given list."""
+  finalAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  finalAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  finalAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  finalAt_lte: DateTime
+
+  """All values greater than the given value."""
+  finalAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  finalAt_gte: DateTime
+  question: String
+
+  """All values that are not equal to given value."""
+  question_not: String
+
+  """All values that are contained in given list."""
+  question_in: [String!]
+
+  """All values that are not contained in given list."""
+  question_not_in: [String!]
+
+  """All values less than the given value."""
+  question_lt: String
+
+  """All values less than or equal the given value."""
+  question_lte: String
+
+  """All values greater than the given value."""
+  question_gt: String
+
+  """All values greater than or equal the given value."""
+  question_gte: String
+
+  """All values containing the given string."""
+  question_contains: String
+
+  """All values not containing the given string."""
+  question_not_contains: String
+
+  """All values starting with the given string."""
+  question_starts_with: String
+
+  """All values not starting with the given string."""
+  question_not_starts_with: String
+
+  """All values ending with the given string."""
+  question_ends_with: String
+
+  """All values not ending with the given string."""
+  question_not_ends_with: String
+  response: String
+
+  """All values that are not equal to given value."""
+  response_not: String
+
+  """All values that are contained in given list."""
+  response_in: [String!]
+
+  """All values that are not contained in given list."""
+  response_not_in: [String!]
+
+  """All values less than the given value."""
+  response_lt: String
+
+  """All values less than or equal the given value."""
+  response_lte: String
+
+  """All values greater than the given value."""
+  response_gt: String
+
+  """All values greater than or equal the given value."""
+  response_gte: String
+
+  """All values containing the given string."""
+  response_contains: String
+
+  """All values not containing the given string."""
+  response_not_contains: String
+
+  """All values starting with the given string."""
+  response_starts_with: String
+
+  """All values not starting with the given string."""
+  response_not_starts_with: String
+
+  """All values ending with the given string."""
+  response_ends_with: String
+
+  """All values not ending with the given string."""
+  response_not_ends_with: String
+  level: Int
+
+  """All values that are not equal to given value."""
+  level_not: Int
+
+  """All values that are contained in given list."""
+  level_in: [Int!]
+
+  """All values that are not contained in given list."""
+  level_not_in: [Int!]
+
+  """All values less than the given value."""
+  level_lt: Int
+
+  """All values less than or equal the given value."""
+  level_lte: Int
+
+  """All values greater than the given value."""
+  level_gt: Int
+
+  """All values greater than or equal the given value."""
+  level_gte: Int
+  hit: Int
+
+  """All values that are not equal to given value."""
+  hit_not: Int
+
+  """All values that are contained in given list."""
+  hit_in: [Int!]
+
+  """All values that are not contained in given list."""
+  hit_not_in: [Int!]
+
+  """All values less than the given value."""
+  hit_lt: Int
+
+  """All values less than or equal the given value."""
+  hit_lte: Int
+
+  """All values greater than the given value."""
+  hit_gt: Int
+
+  """All values greater than or equal the given value."""
+  hit_gte: Int
+  fault: Int
+
+  """All values that are not equal to given value."""
+  fault_not: Int
+
+  """All values that are contained in given list."""
+  fault_in: [Int!]
+
+  """All values that are not contained in given list."""
+  fault_not_in: [Int!]
+
+  """All values less than the given value."""
+  fault_lt: Int
+
+  """All values less than or equal the given value."""
+  fault_lte: Int
+
+  """All values greater than the given value."""
+  fault_gt: Int
+
+  """All values greater than or equal the given value."""
+  fault_gte: Int
+  omit: Int
+
+  """All values that are not equal to given value."""
+  omit_not: Int
+
+  """All values that are contained in given list."""
+  omit_in: [Int!]
+
+  """All values that are not contained in given list."""
+  omit_not_in: [Int!]
+
+  """All values less than the given value."""
+  omit_lt: Int
+
+  """All values less than or equal the given value."""
+  omit_lte: Int
+
+  """All values greater than the given value."""
+  omit_gt: Int
+
+  """All values greater than or equal the given value."""
+  omit_gte: Int
+  error: Int
+
+  """All values that are not equal to given value."""
+  error_not: Int
+
+  """All values that are contained in given list."""
+  error_in: [Int!]
+
+  """All values that are not contained in given list."""
+  error_not_in: [Int!]
+
+  """All values less than the given value."""
+  error_lt: Int
+
+  """All values less than or equal the given value."""
+  error_lte: Int
+
+  """All values greater than the given value."""
+  error_gt: Int
+
+  """All values greater than or equal the given value."""
+  error_gte: Int
+  point: Int
+
+  """All values that are not equal to given value."""
+  point_not: Int
+
+  """All values that are contained in given list."""
+  point_in: [Int!]
+
+  """All values that are not contained in given list."""
+  point_not_in: [Int!]
+
+  """All values less than the given value."""
+  point_lt: Int
+
+  """All values less than or equal the given value."""
+  point_lte: Int
+
+  """All values greater than the given value."""
+  point_gt: Int
+
+  """All values greater than or equal the given value."""
+  point_gte: Int
+}
+
+input ExerciseDataWhereUniqueInput {
+  id: ID
 }
 
 """An edge in a connection."""
@@ -187,7 +730,7 @@ enum ExerciseOrderByInput {
 
 type ExercisePreviousValues {
   id: ID!
-  code: String!
+  code: Codes!
   description: String
 }
 
@@ -231,13 +774,13 @@ input ExerciseSubscriptionWhereInput {
 }
 
 input ExerciseUpdateDataInput {
-  code: String
+  code: Codes
   description: String
   sections: SectionUpdateManyInput
 }
 
 input ExerciseUpdateInput {
-  code: String
+  code: Codes
   description: String
   sections: SectionUpdateManyInput
 }
@@ -311,46 +854,16 @@ input ExerciseWhereInput {
 
   """All values not ending with the given string."""
   id_not_ends_with: ID
-  code: String
+  code: Codes
 
   """All values that are not equal to given value."""
-  code_not: String
+  code_not: Codes
 
   """All values that are contained in given list."""
-  code_in: [String!]
+  code_in: [Codes!]
 
   """All values that are not contained in given list."""
-  code_not_in: [String!]
-
-  """All values less than the given value."""
-  code_lt: String
-
-  """All values less than or equal the given value."""
-  code_lte: String
-
-  """All values greater than the given value."""
-  code_gt: String
-
-  """All values greater than or equal the given value."""
-  code_gte: String
-
-  """All values containing the given string."""
-  code_contains: String
-
-  """All values not containing the given string."""
-  code_not_contains: String
-
-  """All values starting with the given string."""
-  code_starts_with: String
-
-  """All values not starting with the given string."""
-  code_not_starts_with: String
-
-  """All values ending with the given string."""
-  code_ends_with: String
-
-  """All values not ending with the given string."""
-  code_not_ends_with: String
+  code_not_in: [Codes!]
   description: String
 
   """All values that are not equal to given value."""
@@ -398,7 +911,7 @@ input ExerciseWhereInput {
 
 input ExerciseWhereUniqueInput {
   id: ID
-  code: String
+  code: Codes
 }
 
 type File implements Node {
@@ -757,36 +1270,48 @@ scalar Long
 
 type Mutation {
   createFile(data: FileCreateInput!): File!
+  createTestData(data: TestDataCreateInput!): TestData!
+  createExerciseData(data: ExerciseDataCreateInput!): ExerciseData!
   createRole(data: RoleCreateInput!): Role!
   createSection(data: SectionCreateInput!): Section!
   createExercise(data: ExerciseCreateInput!): Exercise!
   createUser(data: UserCreateInput!): User!
   createTest(data: TestCreateInput!): Test!
   updateFile(data: FileUpdateInput!, where: FileWhereUniqueInput!): File
+  updateTestData(data: TestDataUpdateInput!, where: TestDataWhereUniqueInput!): TestData
+  updateExerciseData(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereUniqueInput!): ExerciseData
   updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
   updateSection(data: SectionUpdateInput!, where: SectionWhereUniqueInput!): Section
   updateExercise(data: ExerciseUpdateInput!, where: ExerciseWhereUniqueInput!): Exercise
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateTest(data: TestUpdateInput!, where: TestWhereUniqueInput!): Test
   deleteFile(where: FileWhereUniqueInput!): File
+  deleteTestData(where: TestDataWhereUniqueInput!): TestData
+  deleteExerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
   deleteRole(where: RoleWhereUniqueInput!): Role
   deleteSection(where: SectionWhereUniqueInput!): Section
   deleteExercise(where: ExerciseWhereUniqueInput!): Exercise
   deleteUser(where: UserWhereUniqueInput!): User
   deleteTest(where: TestWhereUniqueInput!): Test
   upsertFile(where: FileWhereUniqueInput!, create: FileCreateInput!, update: FileUpdateInput!): File!
+  upsertTestData(where: TestDataWhereUniqueInput!, create: TestDataCreateInput!, update: TestDataUpdateInput!): TestData!
+  upsertExerciseData(where: ExerciseDataWhereUniqueInput!, create: ExerciseDataCreateInput!, update: ExerciseDataUpdateInput!): ExerciseData!
   upsertRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role!
   upsertSection(where: SectionWhereUniqueInput!, create: SectionCreateInput!, update: SectionUpdateInput!): Section!
   upsertExercise(where: ExerciseWhereUniqueInput!, create: ExerciseCreateInput!, update: ExerciseUpdateInput!): Exercise!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertTest(where: TestWhereUniqueInput!, create: TestCreateInput!, update: TestUpdateInput!): Test!
   updateManyFiles(data: FileUpdateInput!, where: FileWhereInput): BatchPayload!
+  updateManyTestDatas(data: TestDataUpdateInput!, where: TestDataWhereInput): BatchPayload!
+  updateManyExerciseDatas(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereInput): BatchPayload!
   updateManyRoles(data: RoleUpdateInput!, where: RoleWhereInput): BatchPayload!
   updateManySections(data: SectionUpdateInput!, where: SectionWhereInput): BatchPayload!
   updateManyExercises(data: ExerciseUpdateInput!, where: ExerciseWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyTests(data: TestUpdateInput!, where: TestWhereInput): BatchPayload!
   deleteManyFiles(where: FileWhereInput): BatchPayload!
+  deleteManyTestDatas(where: TestDataWhereInput): BatchPayload!
+  deleteManyExerciseDatas(where: ExerciseDataWhereInput): BatchPayload!
   deleteManyRoles(where: RoleWhereInput): BatchPayload!
   deleteManySections(where: SectionWhereInput): BatchPayload!
   deleteManyExercises(where: ExerciseWhereInput): BatchPayload!
@@ -823,18 +1348,24 @@ type PageInfo {
 
 type Query {
   files(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [File]!
+  testDatas(where: TestDataWhereInput, orderBy: TestDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TestData]!
+  exerciseDatas(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ExerciseData]!
   roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section]!
   exercises(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Exercise]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   tests(where: TestWhereInput, orderBy: TestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Test]!
   file(where: FileWhereUniqueInput!): File
+  testData(where: TestDataWhereUniqueInput!): TestData
+  exerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
   role(where: RoleWhereUniqueInput!): Role
   section(where: SectionWhereUniqueInput!): Section
   exercise(where: ExerciseWhereUniqueInput!): Exercise
   user(where: UserWhereUniqueInput!): User
   test(where: TestWhereUniqueInput!): Test
   filesConnection(where: FileWhereInput, orderBy: FileOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): FileConnection!
+  testDatasConnection(where: TestDataWhereInput, orderBy: TestDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TestDataConnection!
+  exerciseDatasConnection(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExerciseDataConnection!
   rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
   sectionsConnection(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SectionConnection!
   exercisesConnection(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExerciseConnection!
@@ -1394,6 +1925,8 @@ enum Sexs {
 
 type Subscription {
   file(where: FileSubscriptionWhereInput): FileSubscriptionPayload
+  testData(where: TestDataSubscriptionWhereInput): TestDataSubscriptionPayload
+  exerciseData(where: ExerciseDataSubscriptionWhereInput): ExerciseDataSubscriptionPayload
   role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
   section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
   exercise(where: ExerciseSubscriptionWhereInput): ExerciseSubscriptionPayload
@@ -1429,6 +1962,224 @@ input TestCreateInput {
 input TestCreateManyInput {
   create: [TestCreateInput!]
   connect: [TestWhereUniqueInput!]
+}
+
+type TestData implements Node {
+  id: ID!
+  type: Types!
+  createdBy(where: UserWhereInput): User!
+  initAt: DateTime!
+  finalAt: DateTime!
+  exerciseDatas(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ExerciseData!]
+}
+
+"""A connection to a list of items."""
+type TestDataConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [TestDataEdge]!
+  aggregate: AggregateTestData!
+}
+
+input TestDataCreateInput {
+  type: Types!
+  initAt: DateTime!
+  finalAt: DateTime!
+  createdBy: UserCreateOneInput!
+  exerciseDatas: ExerciseDataCreateManyInput
+}
+
+"""An edge in a connection."""
+type TestDataEdge {
+  """The item at the end of the edge."""
+  node: TestData!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum TestDataOrderByInput {
+  id_ASC
+  id_DESC
+  type_ASC
+  type_DESC
+  initAt_ASC
+  initAt_DESC
+  finalAt_ASC
+  finalAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type TestDataPreviousValues {
+  id: ID!
+  type: Types!
+  initAt: DateTime!
+  finalAt: DateTime!
+}
+
+type TestDataSubscriptionPayload {
+  mutation: MutationType!
+  node: TestData
+  updatedFields: [String!]
+  previousValues: TestDataPreviousValues
+}
+
+input TestDataSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TestDataSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TestDataSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TestDataSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: TestDataWhereInput
+}
+
+input TestDataUpdateInput {
+  type: Types
+  initAt: DateTime
+  finalAt: DateTime
+  createdBy: UserUpdateOneInput
+  exerciseDatas: ExerciseDataUpdateManyInput
+}
+
+input TestDataWhereInput {
+  """Logical AND on all given filters."""
+  AND: [TestDataWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [TestDataWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [TestDataWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  type: Types
+
+  """All values that are not equal to given value."""
+  type_not: Types
+
+  """All values that are contained in given list."""
+  type_in: [Types!]
+
+  """All values that are not contained in given list."""
+  type_not_in: [Types!]
+  initAt: DateTime
+
+  """All values that are not equal to given value."""
+  initAt_not: DateTime
+
+  """All values that are contained in given list."""
+  initAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  initAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  initAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  initAt_lte: DateTime
+
+  """All values greater than the given value."""
+  initAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  initAt_gte: DateTime
+  finalAt: DateTime
+
+  """All values that are not equal to given value."""
+  finalAt_not: DateTime
+
+  """All values that are contained in given list."""
+  finalAt_in: [DateTime!]
+
+  """All values that are not contained in given list."""
+  finalAt_not_in: [DateTime!]
+
+  """All values less than the given value."""
+  finalAt_lt: DateTime
+
+  """All values less than or equal the given value."""
+  finalAt_lte: DateTime
+
+  """All values greater than the given value."""
+  finalAt_gt: DateTime
+
+  """All values greater than or equal the given value."""
+  finalAt_gte: DateTime
+  createdBy: UserWhereInput
+  exerciseDatas_every: ExerciseDataWhereInput
+  exerciseDatas_some: ExerciseDataWhereInput
+  exerciseDatas_none: ExerciseDataWhereInput
+}
+
+input TestDataWhereUniqueInput {
+  id: ID
 }
 
 """An edge in a connection."""
@@ -1687,6 +2438,11 @@ input UserCreateManyInput {
   connect: [UserWhereUniqueInput!]
 }
 
+input UserCreateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+}
+
 """An edge in a connection."""
 type UserEdge {
   """The item at the end of the edge."""
@@ -1795,9 +2551,22 @@ input UserUpdateManyInput {
   upsert: [UserUpsertWithWhereUniqueNestedInput!]
 }
 
+input UserUpdateOneInput {
+  create: UserCreateInput
+  connect: UserWhereUniqueInput
+  delete: Boolean
+  update: UserUpdateDataInput
+  upsert: UserUpsertNestedInput
+}
+
 input UserUpdateWithWhereUniqueNestedInput {
   where: UserWhereUniqueInput!
   data: UserUpdateDataInput!
+}
+
+input UserUpsertNestedInput {
+  update: UserUpdateDataInput!
+  create: UserCreateInput!
 }
 
 input UserUpsertWithWhereUniqueNestedInput {
@@ -2064,8 +2833,54 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDe
  * Types
 */
 
-export type Sexs =   'MALE' |
-  'FEMALE'
+export type Codes =   'A0' |
+  'A1' |
+  'A2' |
+  'A3' |
+  'A4' |
+  'A5' |
+  'A6' |
+  'A7' |
+  'A8' |
+  'A9' |
+  'B0' |
+  'B1' |
+  'B2' |
+  'B3' |
+  'B4' |
+  'B5' |
+  'B6' |
+  'B7' |
+  'B8' |
+  'B9'
+
+export type TestDataOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'type_ASC' |
+  'type_DESC' |
+  'initAt_ASC' |
+  'initAt_DESC' |
+  'finalAt_ASC' |
+  'finalAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type Types =   'INITIAL'
+
+export type TestOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'type_ASC' |
+  'type_DESC' |
+  'description_ASC' |
+  'description_DESC' |
+  'enable_ASC' |
+  'enable_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
 
 export type RoleOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -2077,6 +2892,9 @@ export type RoleOrderByInput =   'id_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
   'createdAt_DESC'
+
+export type Sexs =   'MALE' |
+  'FEMALE'
 
 export type UserOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -2097,7 +2915,53 @@ export type UserOrderByInput =   'id_ASC' |
   'createdAt_ASC' |
   'createdAt_DESC'
 
-export type Types =   'INITIAL'
+export type ExerciseDataOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'initAt_ASC' |
+  'initAt_DESC' |
+  'finalAt_ASC' |
+  'finalAt_DESC' |
+  'question_ASC' |
+  'question_DESC' |
+  'response_ASC' |
+  'response_DESC' |
+  'level_ASC' |
+  'level_DESC' |
+  'hit_ASC' |
+  'hit_DESC' |
+  'fault_ASC' |
+  'fault_DESC' |
+  'omit_ASC' |
+  'omit_DESC' |
+  'error_ASC' |
+  'error_DESC' |
+  'point_ASC' |
+  'point_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type FileOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'path_ASC' |
+  'path_DESC' |
+  'filename_ASC' |
+  'filename_DESC' |
+  'mimetype_ASC' |
+  'mimetype_DESC' |
+  'encoding_ASC' |
+  'encoding_DESC' |
+  'size_ASC' |
+  'size_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type MutationType =   'CREATED' |
+  'UPDATED' |
+  'DELETED'
 
 export type SectionOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -2121,48 +2985,10 @@ export type ExerciseOrderByInput =   'id_ASC' |
   'createdAt_ASC' |
   'createdAt_DESC'
 
-export type FileOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'path_ASC' |
-  'path_DESC' |
-  'filename_ASC' |
-  'filename_DESC' |
-  'mimetype_ASC' |
-  'mimetype_DESC' |
-  'encoding_ASC' |
-  'encoding_DESC' |
-  'size_ASC' |
-  'size_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type TestOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'type_ASC' |
-  'type_DESC' |
-  'description_ASC' |
-  'description_DESC' |
-  'enable_ASC' |
-  'enable_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type MutationType =   'CREATED' |
-  'UPDATED' |
-  'DELETED'
-
-export interface UserCreateInput {
-  email: String
-  password?: String
-  firstname: String
-  lastname: String
-  birthdate: DateTime
-  sex: Sexs
-  roles?: RoleCreateManyInput
+export interface RoleCreateInput {
+  name: String
+  description?: String
+  users?: UserCreateManyInput
 }
 
 export interface FileWhereInput {
@@ -2249,61 +3075,15 @@ export interface FileWhereInput {
   size_gte?: Int
 }
 
-export interface TestUpdateManyInput {
-  create?: TestCreateInput[] | TestCreateInput
-  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
-  disconnect?: TestWhereUniqueInput[] | TestWhereUniqueInput
-  delete?: TestWhereUniqueInput[] | TestWhereUniqueInput
-  update?: TestUpdateWithWhereUniqueNestedInput[] | TestUpdateWithWhereUniqueNestedInput
-  upsert?: TestUpsertWithWhereUniqueNestedInput[] | TestUpsertWithWhereUniqueNestedInput
-}
-
-export interface UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput
-  data: UserUpdateDataInput
-}
-
-export interface SectionUpdateDataInput {
-  name?: String
-  description?: String
-  exercises?: ExerciseUpdateManyInput
-  tests?: TestUpdateManyInput
-}
-
-export interface TestCreateManyInput {
-  create?: TestCreateInput[] | TestCreateInput
-  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
-}
-
-export interface SectionUpdateWithWhereUniqueNestedInput {
-  where: SectionWhereUniqueInput
-  data: SectionUpdateDataInput
-}
-
-export interface TestSubscriptionWhereInput {
-  AND?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
-  OR?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
-  NOT?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: TestWhereInput
-}
-
-export interface SectionUpdateManyInput {
+export interface SectionCreateManyInput {
   create?: SectionCreateInput[] | SectionCreateInput
   connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
-  disconnect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
-  delete?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
-  update?: SectionUpdateWithWhereUniqueNestedInput[] | SectionUpdateWithWhereUniqueNestedInput
-  upsert?: SectionUpsertWithWhereUniqueNestedInput[] | SectionUpsertWithWhereUniqueNestedInput
 }
 
-export interface ExerciseWhereInput {
-  AND?: ExerciseWhereInput[] | ExerciseWhereInput
-  OR?: ExerciseWhereInput[] | ExerciseWhereInput
-  NOT?: ExerciseWhereInput[] | ExerciseWhereInput
+export interface ExerciseDataWhereInput {
+  AND?: ExerciseDataWhereInput[] | ExerciseDataWhereInput
+  OR?: ExerciseDataWhereInput[] | ExerciseDataWhereInput
+  NOT?: ExerciseDataWhereInput[] | ExerciseDataWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -2318,94 +3098,109 @@ export interface ExerciseWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
-  code?: String
-  code_not?: String
-  code_in?: String[] | String
-  code_not_in?: String[] | String
-  code_lt?: String
-  code_lte?: String
-  code_gt?: String
-  code_gte?: String
-  code_contains?: String
-  code_not_contains?: String
-  code_starts_with?: String
-  code_not_starts_with?: String
-  code_ends_with?: String
-  code_not_ends_with?: String
-  description?: String
-  description_not?: String
-  description_in?: String[] | String
-  description_not_in?: String[] | String
-  description_lt?: String
-  description_lte?: String
-  description_gt?: String
-  description_gte?: String
-  description_contains?: String
-  description_not_contains?: String
-  description_starts_with?: String
-  description_not_starts_with?: String
-  description_ends_with?: String
-  description_not_ends_with?: String
-  sections_every?: SectionWhereInput
-  sections_some?: SectionWhereInput
-  sections_none?: SectionWhereInput
+  initAt?: DateTime
+  initAt_not?: DateTime
+  initAt_in?: DateTime[] | DateTime
+  initAt_not_in?: DateTime[] | DateTime
+  initAt_lt?: DateTime
+  initAt_lte?: DateTime
+  initAt_gt?: DateTime
+  initAt_gte?: DateTime
+  finalAt?: DateTime
+  finalAt_not?: DateTime
+  finalAt_in?: DateTime[] | DateTime
+  finalAt_not_in?: DateTime[] | DateTime
+  finalAt_lt?: DateTime
+  finalAt_lte?: DateTime
+  finalAt_gt?: DateTime
+  finalAt_gte?: DateTime
+  question?: String
+  question_not?: String
+  question_in?: String[] | String
+  question_not_in?: String[] | String
+  question_lt?: String
+  question_lte?: String
+  question_gt?: String
+  question_gte?: String
+  question_contains?: String
+  question_not_contains?: String
+  question_starts_with?: String
+  question_not_starts_with?: String
+  question_ends_with?: String
+  question_not_ends_with?: String
+  response?: String
+  response_not?: String
+  response_in?: String[] | String
+  response_not_in?: String[] | String
+  response_lt?: String
+  response_lte?: String
+  response_gt?: String
+  response_gte?: String
+  response_contains?: String
+  response_not_contains?: String
+  response_starts_with?: String
+  response_not_starts_with?: String
+  response_ends_with?: String
+  response_not_ends_with?: String
+  level?: Int
+  level_not?: Int
+  level_in?: Int[] | Int
+  level_not_in?: Int[] | Int
+  level_lt?: Int
+  level_lte?: Int
+  level_gt?: Int
+  level_gte?: Int
+  hit?: Int
+  hit_not?: Int
+  hit_in?: Int[] | Int
+  hit_not_in?: Int[] | Int
+  hit_lt?: Int
+  hit_lte?: Int
+  hit_gt?: Int
+  hit_gte?: Int
+  fault?: Int
+  fault_not?: Int
+  fault_in?: Int[] | Int
+  fault_not_in?: Int[] | Int
+  fault_lt?: Int
+  fault_lte?: Int
+  fault_gt?: Int
+  fault_gte?: Int
+  omit?: Int
+  omit_not?: Int
+  omit_in?: Int[] | Int
+  omit_not_in?: Int[] | Int
+  omit_lt?: Int
+  omit_lte?: Int
+  omit_gt?: Int
+  omit_gte?: Int
+  error?: Int
+  error_not?: Int
+  error_in?: Int[] | Int
+  error_not_in?: Int[] | Int
+  error_lt?: Int
+  error_lte?: Int
+  error_gt?: Int
+  error_gte?: Int
+  point?: Int
+  point_not?: Int
+  point_in?: Int[] | Int
+  point_not_in?: Int[] | Int
+  point_lt?: Int
+  point_lte?: Int
+  point_gt?: Int
+  point_gte?: Int
 }
 
 export interface ExerciseUpdateDataInput {
-  code?: String
+  code?: Codes
   description?: String
   sections?: SectionUpdateManyInput
 }
 
-export interface RoleWhereInput {
-  AND?: RoleWhereInput[] | RoleWhereInput
-  OR?: RoleWhereInput[] | RoleWhereInput
-  NOT?: RoleWhereInput[] | RoleWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  name?: String
-  name_not?: String
-  name_in?: String[] | String
-  name_not_in?: String[] | String
-  name_lt?: String
-  name_lte?: String
-  name_gt?: String
-  name_gte?: String
-  name_contains?: String
-  name_not_contains?: String
-  name_starts_with?: String
-  name_not_starts_with?: String
-  name_ends_with?: String
-  name_not_ends_with?: String
-  description?: String
-  description_not?: String
-  description_in?: String[] | String
-  description_not_in?: String[] | String
-  description_lt?: String
-  description_lte?: String
-  description_gt?: String
-  description_gte?: String
-  description_contains?: String
-  description_not_contains?: String
-  description_starts_with?: String
-  description_not_starts_with?: String
-  description_ends_with?: String
-  description_not_ends_with?: String
-  users_every?: UserWhereInput
-  users_some?: UserWhereInput
-  users_none?: UserWhereInput
+export interface RoleUpdateWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput
+  data: RoleUpdateDataInput
 }
 
 export interface ExerciseUpdateWithWhereUniqueNestedInput {
@@ -2413,15 +3208,9 @@ export interface ExerciseUpdateWithWhereUniqueNestedInput {
   data: ExerciseUpdateDataInput
 }
 
-export interface SectionSubscriptionWhereInput {
-  AND?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
-  OR?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
-  NOT?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: SectionWhereInput
+export interface TestCreateManyInput {
+  create?: TestCreateInput[] | TestCreateInput
+  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
 }
 
 export interface ExerciseUpdateManyInput {
@@ -2431,235 +3220,6 @@ export interface ExerciseUpdateManyInput {
   delete?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
   update?: ExerciseUpdateWithWhereUniqueNestedInput[] | ExerciseUpdateWithWhereUniqueNestedInput
   upsert?: ExerciseUpsertWithWhereUniqueNestedInput[] | ExerciseUpsertWithWhereUniqueNestedInput
-}
-
-export interface FileSubscriptionWhereInput {
-  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: FileWhereInput
-}
-
-export interface SectionUpdateInput {
-  name?: String
-  description?: String
-  exercises?: ExerciseUpdateManyInput
-  tests?: TestUpdateManyInput
-}
-
-export interface FileWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface UserUpsertWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput
-  update: UserUpdateDataInput
-  create: UserCreateInput
-}
-
-export interface SectionWhereUniqueInput {
-  id?: ID_Input
-  name?: String
-}
-
-export interface RoleUpsertWithWhereUniqueNestedInput {
-  where: RoleWhereUniqueInput
-  update: RoleUpdateDataInput
-  create: RoleCreateInput
-}
-
-export interface UserWhereUniqueInput {
-  id?: ID_Input
-  email?: String
-}
-
-export interface RoleUpdateDataInput {
-  name?: String
-  description?: String
-  users?: UserUpdateManyInput
-}
-
-export interface UserUpdateInput {
-  email?: String
-  password?: String
-  firstname?: String
-  lastname?: String
-  birthdate?: DateTime
-  sex?: Sexs
-  roles?: RoleUpdateManyInput
-}
-
-export interface RoleUpdateWithWhereUniqueNestedInput {
-  where: RoleWhereUniqueInput
-  data: RoleUpdateDataInput
-}
-
-export interface ExerciseUpsertWithWhereUniqueNestedInput {
-  where: ExerciseWhereUniqueInput
-  update: ExerciseUpdateDataInput
-  create: ExerciseCreateInput
-}
-
-export interface FileCreateInput {
-  path: String
-  filename: String
-  mimetype: String
-  encoding: String
-  size: Int
-}
-
-export interface TestUpsertWithWhereUniqueNestedInput {
-  where: TestWhereUniqueInput
-  update: TestUpdateDataInput
-  create: TestCreateInput
-}
-
-export interface RoleCreateInput {
-  name: String
-  description?: String
-  users?: UserCreateManyInput
-}
-
-export interface TestUpdateWithWhereUniqueNestedInput {
-  where: TestWhereUniqueInput
-  data: TestUpdateDataInput
-}
-
-export interface UserCreateManyInput {
-  create?: UserCreateInput[] | UserCreateInput
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
-}
-
-export interface SectionWhereInput {
-  AND?: SectionWhereInput[] | SectionWhereInput
-  OR?: SectionWhereInput[] | SectionWhereInput
-  NOT?: SectionWhereInput[] | SectionWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  name?: String
-  name_not?: String
-  name_in?: String[] | String
-  name_not_in?: String[] | String
-  name_lt?: String
-  name_lte?: String
-  name_gt?: String
-  name_gte?: String
-  name_contains?: String
-  name_not_contains?: String
-  name_starts_with?: String
-  name_not_starts_with?: String
-  name_ends_with?: String
-  name_not_ends_with?: String
-  description?: String
-  description_not?: String
-  description_in?: String[] | String
-  description_not_in?: String[] | String
-  description_lt?: String
-  description_lte?: String
-  description_gt?: String
-  description_gte?: String
-  description_contains?: String
-  description_not_contains?: String
-  description_starts_with?: String
-  description_not_starts_with?: String
-  description_ends_with?: String
-  description_not_ends_with?: String
-  exercises_every?: ExerciseWhereInput
-  exercises_some?: ExerciseWhereInput
-  exercises_none?: ExerciseWhereInput
-  tests_every?: TestWhereInput
-  tests_some?: TestWhereInput
-  tests_none?: TestWhereInput
-}
-
-export interface RoleUpdateManyInput {
-  create?: RoleCreateInput[] | RoleCreateInput
-  connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-  disconnect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-  delete?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-  update?: RoleUpdateWithWhereUniqueNestedInput[] | RoleUpdateWithWhereUniqueNestedInput
-  upsert?: RoleUpsertWithWhereUniqueNestedInput[] | RoleUpsertWithWhereUniqueNestedInput
-}
-
-export interface UserSubscriptionWhereInput {
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: UserWhereInput
-}
-
-export interface RoleCreateManyInput {
-  create?: RoleCreateInput[] | RoleCreateInput
-  connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-}
-
-export interface RoleSubscriptionWhereInput {
-  AND?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
-  OR?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
-  NOT?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: RoleWhereInput
-}
-
-export interface SectionCreateInput {
-  name: String
-  description?: String
-  exercises?: ExerciseCreateManyInput
-  tests?: TestCreateManyInput
-}
-
-export interface RoleWhereUniqueInput {
-  id?: ID_Input
-  name?: String
-}
-
-export interface ExerciseCreateManyInput {
-  create?: ExerciseCreateInput[] | ExerciseCreateInput
-  connect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
-}
-
-export interface TestWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface ExerciseCreateInput {
-  code: String
-  description?: String
-  sections?: SectionCreateManyInput
-}
-
-export interface SectionUpsertWithWhereUniqueNestedInput {
-  where: SectionWhereUniqueInput
-  update: SectionUpdateDataInput
-  create: SectionCreateInput
-}
-
-export interface SectionCreateManyInput {
-  create?: SectionCreateInput[] | SectionCreateInput
-  connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
 }
 
 export interface UserWhereInput {
@@ -2753,14 +3313,11 @@ export interface UserWhereInput {
   roles_none?: RoleWhereInput
 }
 
-export interface UserUpdateDataInput {
-  email?: String
-  password?: String
-  firstname?: String
-  lastname?: String
-  birthdate?: DateTime
-  sex?: Sexs
-  roles?: RoleUpdateManyInput
+export interface SectionUpdateInput {
+  name?: String
+  description?: String
+  exercises?: ExerciseUpdateManyInput
+  tests?: TestUpdateManyInput
 }
 
 export interface ExerciseSubscriptionWhereInput {
@@ -2774,41 +3331,64 @@ export interface ExerciseSubscriptionWhereInput {
   node?: ExerciseWhereInput
 }
 
-export interface UserUpdateManyInput {
-  create?: UserCreateInput[] | UserCreateInput
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
-  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput
-  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput
-  update?: UserUpdateWithWhereUniqueNestedInput[] | UserUpdateWithWhereUniqueNestedInput
-  upsert?: UserUpsertWithWhereUniqueNestedInput[] | UserUpsertWithWhereUniqueNestedInput
-}
-
 export interface RoleUpdateInput {
   name?: String
   description?: String
   users?: UserUpdateManyInput
 }
 
-export interface FileUpdateInput {
-  path?: String
-  filename?: String
-  mimetype?: String
-  encoding?: String
-  size?: Int
+export interface ExerciseWhereInput {
+  AND?: ExerciseWhereInput[] | ExerciseWhereInput
+  OR?: ExerciseWhereInput[] | ExerciseWhereInput
+  NOT?: ExerciseWhereInput[] | ExerciseWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  code?: Codes
+  code_not?: Codes
+  code_in?: Codes[] | Codes
+  code_not_in?: Codes[] | Codes
+  description?: String
+  description_not?: String
+  description_in?: String[] | String
+  description_not_in?: String[] | String
+  description_lt?: String
+  description_lte?: String
+  description_gt?: String
+  description_gte?: String
+  description_contains?: String
+  description_not_contains?: String
+  description_starts_with?: String
+  description_not_starts_with?: String
+  description_ends_with?: String
+  description_not_ends_with?: String
+  sections_every?: SectionWhereInput
+  sections_some?: SectionWhereInput
+  sections_none?: SectionWhereInput
 }
 
-export interface TestCreateInput {
-  type: Types
-  description?: String
-  enable?: Boolean
-  sections?: SectionCreateManyInput
-}
-
-export interface TestUpdateInput {
-  type?: Types
-  description?: String
-  enable?: Boolean
-  sections?: SectionUpdateManyInput
+export interface ExerciseDataUpdateInput {
+  initAt?: DateTime
+  finalAt?: DateTime
+  question?: String
+  response?: String
+  level?: Int
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Int
 }
 
 export interface TestWhereInput {
@@ -2854,6 +3434,466 @@ export interface TestWhereInput {
   sections_none?: SectionWhereInput
 }
 
+export interface ExerciseDataUpsertWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput
+  update: ExerciseDataUpdateDataInput
+  create: ExerciseDataCreateInput
+}
+
+export interface ExerciseDataSubscriptionWhereInput {
+  AND?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
+  OR?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
+  NOT?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: ExerciseDataWhereInput
+}
+
+export interface ExerciseDataUpdateDataInput {
+  initAt?: DateTime
+  finalAt?: DateTime
+  question?: String
+  response?: String
+  level?: Int
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Int
+}
+
+export interface FileSubscriptionWhereInput {
+  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: FileWhereInput
+}
+
+export interface ExerciseDataUpdateWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput
+  data: ExerciseDataUpdateDataInput
+}
+
+export interface FileWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface ExerciseDataUpdateManyInput {
+  create?: ExerciseDataCreateInput[] | ExerciseDataCreateInput
+  connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+  disconnect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+  delete?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+  update?: ExerciseDataUpdateWithWhereUniqueNestedInput[] | ExerciseDataUpdateWithWhereUniqueNestedInput
+  upsert?: ExerciseDataUpsertWithWhereUniqueNestedInput[] | ExerciseDataUpsertWithWhereUniqueNestedInput
+}
+
+export interface ExerciseDataWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput
+  create: UserCreateInput
+}
+
+export interface SectionWhereUniqueInput {
+  id?: ID_Input
+  name?: String
+}
+
+export interface RoleUpsertWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput
+  update: RoleUpdateDataInput
+  create: RoleCreateInput
+}
+
+export interface UserWhereUniqueInput {
+  id?: ID_Input
+  email?: String
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  create: UserCreateInput
+}
+
+export interface UserUpdateInput {
+  email?: String
+  password?: String
+  firstname?: String
+  lastname?: String
+  birthdate?: DateTime
+  sex?: Sexs
+  roles?: RoleUpdateManyInput
+}
+
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput
+  data: UserUpdateDataInput
+}
+
+export interface ExerciseUpsertWithWhereUniqueNestedInput {
+  where: ExerciseWhereUniqueInput
+  update: ExerciseUpdateDataInput
+  create: ExerciseCreateInput
+}
+
+export interface FileCreateInput {
+  path: String
+  filename: String
+  mimetype: String
+  encoding: String
+  size: Int
+}
+
+export interface TestUpsertWithWhereUniqueNestedInput {
+  where: TestWhereUniqueInput
+  update: TestUpdateDataInput
+  create: TestCreateInput
+}
+
+export interface TestDataCreateInput {
+  type: Types
+  initAt: DateTime
+  finalAt: DateTime
+  createdBy: UserCreateOneInput
+  exerciseDatas?: ExerciseDataCreateManyInput
+}
+
+export interface TestUpdateWithWhereUniqueNestedInput {
+  where: TestWhereUniqueInput
+  data: TestUpdateDataInput
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface SectionUpdateDataInput {
+  name?: String
+  description?: String
+  exercises?: ExerciseUpdateManyInput
+  tests?: TestUpdateManyInput
+}
+
+export interface UserCreateInput {
+  email: String
+  password?: String
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  sex: Sexs
+  roles?: RoleCreateManyInput
+}
+
+export interface SectionUpdateManyInput {
+  create?: SectionCreateInput[] | SectionCreateInput
+  connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+  disconnect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+  delete?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+  update?: SectionUpdateWithWhereUniqueNestedInput[] | SectionUpdateWithWhereUniqueNestedInput
+  upsert?: SectionUpsertWithWhereUniqueNestedInput[] | SectionUpsertWithWhereUniqueNestedInput
+}
+
+export interface RoleCreateManyInput {
+  create?: RoleCreateInput[] | RoleCreateInput
+  connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+}
+
+export interface UserSubscriptionWhereInput {
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserWhereInput
+}
+
+export interface UserUpdateManyInput {
+  create?: UserCreateInput[] | UserCreateInput
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput
+  update?: UserUpdateWithWhereUniqueNestedInput[] | UserUpdateWithWhereUniqueNestedInput
+  upsert?: UserUpsertWithWhereUniqueNestedInput[] | UserUpsertWithWhereUniqueNestedInput
+}
+
+export interface TestDataWhereInput {
+  AND?: TestDataWhereInput[] | TestDataWhereInput
+  OR?: TestDataWhereInput[] | TestDataWhereInput
+  NOT?: TestDataWhereInput[] | TestDataWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  type?: Types
+  type_not?: Types
+  type_in?: Types[] | Types
+  type_not_in?: Types[] | Types
+  initAt?: DateTime
+  initAt_not?: DateTime
+  initAt_in?: DateTime[] | DateTime
+  initAt_not_in?: DateTime[] | DateTime
+  initAt_lt?: DateTime
+  initAt_lte?: DateTime
+  initAt_gt?: DateTime
+  initAt_gte?: DateTime
+  finalAt?: DateTime
+  finalAt_not?: DateTime
+  finalAt_in?: DateTime[] | DateTime
+  finalAt_not_in?: DateTime[] | DateTime
+  finalAt_lt?: DateTime
+  finalAt_lte?: DateTime
+  finalAt_gt?: DateTime
+  finalAt_gte?: DateTime
+  createdBy?: UserWhereInput
+  exerciseDatas_every?: ExerciseDataWhereInput
+  exerciseDatas_some?: ExerciseDataWhereInput
+  exerciseDatas_none?: ExerciseDataWhereInput
+}
+
+export interface UserCreateManyInput {
+  create?: UserCreateInput[] | UserCreateInput
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
+}
+
+export interface RoleSubscriptionWhereInput {
+  AND?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
+  OR?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
+  NOT?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: RoleWhereInput
+}
+
+export interface ExerciseDataCreateManyInput {
+  create?: ExerciseDataCreateInput[] | ExerciseDataCreateInput
+  connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+}
+
+export interface TestUpdateInput {
+  type?: Types
+  description?: String
+  enable?: Boolean
+  sections?: SectionUpdateManyInput
+}
+
+export interface ExerciseDataCreateInput {
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level?: Int
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Int
+}
+
+export interface RoleWhereUniqueInput {
+  id?: ID_Input
+  name?: String
+}
+
+export interface SectionCreateInput {
+  name: String
+  description?: String
+  exercises?: ExerciseCreateManyInput
+  tests?: TestCreateManyInput
+}
+
+export interface TestWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface ExerciseCreateManyInput {
+  create?: ExerciseCreateInput[] | ExerciseCreateInput
+  connect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
+}
+
+export interface SectionUpsertWithWhereUniqueNestedInput {
+  where: SectionWhereUniqueInput
+  update: SectionUpdateDataInput
+  create: SectionCreateInput
+}
+
+export interface ExerciseCreateInput {
+  code: Codes
+  description?: String
+  sections?: SectionCreateManyInput
+}
+
+export interface TestUpdateManyInput {
+  create?: TestCreateInput[] | TestCreateInput
+  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
+  disconnect?: TestWhereUniqueInput[] | TestWhereUniqueInput
+  delete?: TestWhereUniqueInput[] | TestWhereUniqueInput
+  update?: TestUpdateWithWhereUniqueNestedInput[] | TestUpdateWithWhereUniqueNestedInput
+  upsert?: TestUpsertWithWhereUniqueNestedInput[] | TestUpsertWithWhereUniqueNestedInput
+}
+
+export interface RoleUpdateDataInput {
+  name?: String
+  description?: String
+  users?: UserUpdateManyInput
+}
+
+export interface TestSubscriptionWhereInput {
+  AND?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
+  OR?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
+  NOT?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: TestWhereInput
+}
+
+export interface RoleWhereInput {
+  AND?: RoleWhereInput[] | RoleWhereInput
+  OR?: RoleWhereInput[] | RoleWhereInput
+  NOT?: RoleWhereInput[] | RoleWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  name?: String
+  name_not?: String
+  name_in?: String[] | String
+  name_not_in?: String[] | String
+  name_lt?: String
+  name_lte?: String
+  name_gt?: String
+  name_gte?: String
+  name_contains?: String
+  name_not_contains?: String
+  name_starts_with?: String
+  name_not_starts_with?: String
+  name_ends_with?: String
+  name_not_ends_with?: String
+  description?: String
+  description_not?: String
+  description_in?: String[] | String
+  description_not_in?: String[] | String
+  description_lt?: String
+  description_lte?: String
+  description_gt?: String
+  description_gte?: String
+  description_contains?: String
+  description_not_contains?: String
+  description_starts_with?: String
+  description_not_starts_with?: String
+  description_ends_with?: String
+  description_not_ends_with?: String
+  users_every?: UserWhereInput
+  users_some?: UserWhereInput
+  users_none?: UserWhereInput
+}
+
+export interface SectionSubscriptionWhereInput {
+  AND?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
+  OR?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
+  NOT?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: SectionWhereInput
+}
+
+export interface TestCreateInput {
+  type: Types
+  description?: String
+  enable?: Boolean
+  sections?: SectionCreateManyInput
+}
+
+export interface TestDataWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface FileUpdateInput {
+  path?: String
+  filename?: String
+  mimetype?: String
+  encoding?: String
+  size?: Int
+}
+
+export interface ExerciseUpdateInput {
+  code?: Codes
+  description?: String
+  sections?: SectionUpdateManyInput
+}
+
+export interface RoleUpdateManyInput {
+  create?: RoleCreateInput[] | RoleCreateInput
+  connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+  disconnect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+  delete?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+  update?: RoleUpdateWithWhereUniqueNestedInput[] | RoleUpdateWithWhereUniqueNestedInput
+  upsert?: RoleUpsertWithWhereUniqueNestedInput[] | RoleUpsertWithWhereUniqueNestedInput
+}
+
+export interface UserUpdateDataInput {
+  email?: String
+  password?: String
+  firstname?: String
+  lastname?: String
+  birthdate?: DateTime
+  sex?: Sexs
+  roles?: RoleUpdateManyInput
+}
+
+export interface UserUpdateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateDataInput
+  upsert?: UserUpsertNestedInput
+}
+
+export interface TestDataUpdateInput {
+  type?: Types
+  initAt?: DateTime
+  finalAt?: DateTime
+  createdBy?: UserUpdateOneInput
+  exerciseDatas?: ExerciseDataUpdateManyInput
+}
+
 export interface TestUpdateDataInput {
   type?: Types
   description?: String
@@ -2861,15 +3901,79 @@ export interface TestUpdateDataInput {
   sections?: SectionUpdateManyInput
 }
 
-export interface ExerciseUpdateInput {
-  code?: String
-  description?: String
-  sections?: SectionUpdateManyInput
-}
-
 export interface ExerciseWhereUniqueInput {
   id?: ID_Input
-  code?: String
+  code?: Codes
+}
+
+export interface TestDataSubscriptionWhereInput {
+  AND?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+  OR?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+  NOT?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: TestDataWhereInput
+}
+
+export interface SectionWhereInput {
+  AND?: SectionWhereInput[] | SectionWhereInput
+  OR?: SectionWhereInput[] | SectionWhereInput
+  NOT?: SectionWhereInput[] | SectionWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  name?: String
+  name_not?: String
+  name_in?: String[] | String
+  name_not_in?: String[] | String
+  name_lt?: String
+  name_lte?: String
+  name_gt?: String
+  name_gte?: String
+  name_contains?: String
+  name_not_contains?: String
+  name_starts_with?: String
+  name_not_starts_with?: String
+  name_ends_with?: String
+  name_not_ends_with?: String
+  description?: String
+  description_not?: String
+  description_in?: String[] | String
+  description_not_in?: String[] | String
+  description_lt?: String
+  description_lte?: String
+  description_gt?: String
+  description_gte?: String
+  description_contains?: String
+  description_not_contains?: String
+  description_starts_with?: String
+  description_not_starts_with?: String
+  description_ends_with?: String
+  description_not_ends_with?: String
+  exercises_every?: ExerciseWhereInput
+  exercises_some?: ExerciseWhereInput
+  exercises_none?: ExerciseWhereInput
+  tests_every?: TestWhereInput
+  tests_some?: TestWhereInput
+  tests_none?: TestWhereInput
+}
+
+export interface SectionUpdateWithWhereUniqueNestedInput {
+  where: SectionWhereUniqueInput
+  data: SectionUpdateDataInput
 }
 
 /*
@@ -2895,42 +3999,32 @@ export interface Test extends Node {
   sections?: Section[]
 }
 
-export interface Role extends Node {
+export interface User extends Node {
   id: ID_Output
-  name: String
-  description?: String
-  users?: User[]
+  email: String
+  password?: String
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  sex: Sexs
+  roles?: Role[]
 }
 
 export interface BatchPayload {
   count: Long
 }
 
+export interface TestData extends Node {
+  id: ID_Output
+  type: Types
+  createdBy: User
+  initAt: DateTime
+  finalAt: DateTime
+  exerciseDatas?: ExerciseData[]
+}
+
 export interface AggregateTest {
   count: Int
-}
-
-export interface TestSubscriptionPayload {
-  mutation: MutationType
-  node?: Test
-  updatedFields?: String[]
-  previousValues?: TestPreviousValues
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType
-  node?: User
-  updatedFields?: String[]
-  previousValues?: UserPreviousValues
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface TestEdge {
-  node: Test
-  cursor: String
 }
 
 /*
@@ -2943,8 +4037,33 @@ export interface TestConnection {
   aggregate: AggregateTest
 }
 
+/*
+ * An edge in a connection.
+
+ */
+export interface TestEdge {
+  node: Test
+  cursor: String
+}
+
+export interface UserSubscriptionPayload {
+  mutation: MutationType
+  node?: User
+  updatedFields?: String[]
+  previousValues?: UserPreviousValues
+}
+
 export interface AggregateUser {
   count: Int
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface UserEdge {
+  node: User
+  cursor: String
 }
 
 /*
@@ -2957,17 +4076,6 @@ export interface UserConnection {
   aggregate: AggregateUser
 }
 
-export interface User extends Node {
-  id: ID_Output
-  email: String
-  password?: String
-  firstname: String
-  lastname: String
-  birthdate: DateTime
-  sex: Sexs
-  roles?: Role[]
-}
-
 /*
  * An edge in a connection.
 
@@ -2977,14 +4085,11 @@ export interface ExerciseEdge {
   cursor: String
 }
 
-export interface UserPreviousValues {
+export interface Role extends Node {
   id: ID_Output
-  email: String
-  password?: String
-  firstname: String
-  lastname: String
-  birthdate: DateTime
-  sex: Sexs
+  name: String
+  description?: String
+  users?: User[]
 }
 
 export interface AggregateSection {
@@ -3028,20 +4133,66 @@ export interface RoleEdge {
 
 export interface Exercise extends Node {
   id: ID_Output
-  code: String
+  code: Codes
   description?: String
   sections?: Section[]
+}
+
+export interface AggregateExerciseData {
+  count: Int
+}
+
+export interface TestDataSubscriptionPayload {
+  mutation: MutationType
+  node?: TestData
+  updatedFields?: String[]
+  previousValues?: TestDataPreviousValues
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface ExerciseDataConnection {
+  pageInfo: PageInfo
+  edges: ExerciseDataEdge[]
+  aggregate: AggregateExerciseData
+}
+
+export interface TestDataPreviousValues {
+  id: ID_Output
+  type: Types
+  initAt: DateTime
+  finalAt: DateTime
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface TestDataEdge {
+  node: TestData
+  cursor: String
+}
+
+export interface File extends Node {
+  id: ID_Output
+  path: String
+  filename: String
+  mimetype: String
+  encoding: String
+  size: Int
 }
 
 export interface AggregateFile {
   count: Int
 }
 
-export interface RoleSubscriptionPayload {
+export interface ExerciseDataSubscriptionPayload {
   mutation: MutationType
-  node?: Role
+  node?: ExerciseData
   updatedFields?: String[]
-  previousValues?: RolePreviousValues
+  previousValues?: ExerciseDataPreviousValues
 }
 
 /*
@@ -3055,28 +4206,33 @@ export interface PageInfo {
   endCursor?: String
 }
 
-export interface RolePreviousValues {
+export interface ExerciseDataPreviousValues {
+  id: ID_Output
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level?: Int
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Int
+}
+
+export interface TestSubscriptionPayload {
+  mutation: MutationType
+  node?: Test
+  updatedFields?: String[]
+  previousValues?: TestPreviousValues
+}
+
+export interface Section extends Node {
   id: ID_Output
   name: String
   description?: String
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface UserEdge {
-  node: User
-  cursor: String
-}
-
-export interface File extends Node {
-  id: ID_Output
-  path: String
-  filename: String
-  mimetype: String
-  encoding: String
-  size: Int
+  exercises?: Exercise[]
+  tests?: Test[]
 }
 
 /*
@@ -3089,51 +4245,57 @@ export interface ExerciseConnection {
   aggregate: AggregateExercise
 }
 
-export interface SectionSubscriptionPayload {
+export interface RoleSubscriptionPayload {
   mutation: MutationType
-  node?: Section
+  node?: Role
   updatedFields?: String[]
-  previousValues?: SectionPreviousValues
+  previousValues?: RolePreviousValues
 }
 
 export interface AggregateRole {
   count: Int
 }
 
+export interface RolePreviousValues {
+  id: ID_Output
+  name: String
+  description?: String
+}
+
 /*
  * An edge in a connection.
 
  */
-export interface FileEdge {
-  node: File
+export interface ExerciseDataEdge {
+  node: ExerciseData
   cursor: String
 }
 
-export interface ExercisePreviousValues {
+export interface UserPreviousValues {
   id: ID_Output
-  code: String
-  description?: String
+  email: String
+  password?: String
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  sex: Sexs
 }
 
-export interface ExerciseSubscriptionPayload {
+/*
+ * A connection to a list of items.
+
+ */
+export interface TestDataConnection {
+  pageInfo: PageInfo
+  edges: TestDataEdge[]
+  aggregate: AggregateTestData
+}
+
+export interface SectionSubscriptionPayload {
   mutation: MutationType
-  node?: Exercise
+  node?: Section
   updatedFields?: String[]
-  previousValues?: ExercisePreviousValues
-}
-
-export interface Section extends Node {
-  id: ID_Output
-  name: String
-  description?: String
-  exercises?: Exercise[]
-  tests?: Test[]
-}
-
-export interface SectionPreviousValues {
-  id: ID_Output
-  name: String
-  description?: String
+  previousValues?: SectionPreviousValues
 }
 
 /*
@@ -3147,6 +4309,48 @@ export interface FileConnection {
 }
 
 /*
+ * An edge in a connection.
+
+ */
+export interface SectionEdge {
+  node: Section
+  cursor: String
+}
+
+export interface ExercisePreviousValues {
+  id: ID_Output
+  code: Codes
+  description?: String
+}
+
+export interface ExerciseSubscriptionPayload {
+  mutation: MutationType
+  node?: Exercise
+  updatedFields?: String[]
+  previousValues?: ExercisePreviousValues
+}
+
+export interface ExerciseData extends Node {
+  id: ID_Output
+  initAt: DateTime
+  finalAt: DateTime
+  question: String
+  response: String
+  level?: Int
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Int
+}
+
+export interface SectionPreviousValues {
+  id: ID_Output
+  name: String
+  description?: String
+}
+
+/*
  * A connection to a list of items.
 
  */
@@ -3156,18 +4360,27 @@ export interface RoleConnection {
   aggregate: AggregateRole
 }
 
+export interface AggregateExercise {
+  count: Int
+}
+
 /*
  * An edge in a connection.
 
  */
-export interface SectionEdge {
-  node: Section
+export interface FileEdge {
+  node: File
   cursor: String
 }
 
-export interface AggregateExercise {
+export interface AggregateTestData {
   count: Int
 }
+
+/*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number
 
 /*
 The `Long` scalar type represents non-fractional signed whole numeric values.
@@ -3175,18 +4388,11 @@ Long can represent values between -(2^63) and 2^63 - 1.
 */
 export type Long = string
 
-export type DateTime = Date | string
-
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
 */
 export type ID_Input = string | number
 export type ID_Output = string
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number
 
 /*
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
@@ -3197,3 +4403,5 @@ export type String = string
 The `Boolean` scalar type represents `true` or `false`.
 */
 export type Boolean = boolean
+
+export type DateTime = Date | string

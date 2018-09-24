@@ -7,35 +7,62 @@ mutation {
       lastname: "Admin user"
       sex: MALE
       birthdate: "1988-09-19"
-      roles: { create: { name: "Administrador", description: "Administrador ROL" } }
+      roles: { 
+        create:  [
+          {
+            name: "Administrador",
+            description: "Administrador ROL"
+          },
+          { 
+            name: "Visitante", 
+            description: "Visitante ROL"
+          },
+          { 
+            name: "Especialista", 
+            description: "Especialista ROL" 
+          },
+          { 
+            name: "Estudiante", 
+            description: "Estudiante ROL" 
+          }
+        ]
+      }
     }
   ) {
     id
   }
-  r1: createRole(data: { name: "Visitante", description: "Visitante ROL" }) {
-    id
-  }
-  r2: createRole(data: { name: "Especialista", description: "Especialista ROL" }) {
-    id
-  }
-  r3: createRole(data: { name: "Estudiante", description: "Estudiante ROL" }) {
-    id
-  }
+
   create_TI: createTest(data: {
     type: INITIAL
     description: "Cuestionario Inicial por defecto"
     enable: true
     sections: {
-      create: {
-        name: "Sección Datos Generales"
-        description: "En esta sección se ingresarán los datos generales."
-        exercises: {
-          create: {
-            code: "A1"
-            description: "Primer ejercicio"
+      create: [
+        {
+          name: "Datos Generales y Antecedentes Médicos"
+          description: "En esta sección se ingresarán los datos generales y los antecedentes médicos."
+          exercises: {
+            create: [
+              {
+                code: A0
+                description: "Datos Generales y Antecedentes Médicos"
+              }
+            ]
+          }
+        },
+        {
+          name: "Orientación"
+          description: "En esta sección se ingresarán preguntas de orientación."
+          exercises: {
+            create: [
+              {
+                code: A1
+                description: "Ejercicios de Orientación"
+              }
+            ]
           }
         }
-      }
+      ]
     }
   }) {
     id

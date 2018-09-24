@@ -13,9 +13,11 @@ const profile = gql`
   mutation profile($data: UserProfileInput!) {
     profile(data: $data) {
       user {
+        id
         firstname
         lastname
         email
+        birthdate
         roles {
           name
         }
@@ -153,6 +155,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
           'sex': data.me.sex,
           'birthdate': data.me.birthdate,
         });
+
         this.profileForm.enable();
       }
       this.loading = loading;

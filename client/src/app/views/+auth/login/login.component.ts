@@ -12,8 +12,11 @@ const login = gql`
   mutation login($email: String!, $password: String!) {
     login(email: $email, password: $password) {
       user {
+        id
         firstname
+        lastname
         email
+        birthdate
         roles {
           name
         }

@@ -32,6 +32,11 @@ const routes: Routes = [
     canLoad: [AuthGuard]
   },
   {
+    path: 'student',
+    loadChildren: './views/+student/student.module#StudentModule',
+    canLoad: [AuthGuard]
+  },
+  {
     path: 'dashboard',
     loadChildren: './views/+dashboard/dashboard.module#DashboardModule',
     canLoad: [AuthGuard]

@@ -59,7 +59,7 @@ const testQuery = gql`
             <mat-card-actions>
               <button mat-raised-button color="accent" routerLink="/admin/test" routerLinkActive type="button" aria-label="details">
                 <mat-icon>list</mat-icon>
-                <span>Listado de ejercisios</span>
+                <span>Listado de ejercicios</span>
               </button>
               <button *ngIf="testData" mat-raised-button color="primary" [routerLink]="['/admin','test', 'update', testData.id]"
                routerLinkActive="active">

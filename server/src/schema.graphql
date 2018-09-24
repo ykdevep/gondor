@@ -8,6 +8,9 @@
 # import Section, SectionCreateInput, SectionUpdateInput, SectionWhereUniqueInput, SectionConnection, SectionSubscriptionPayload from "./generated/prisma.graphql"
 # import Exercise, ExerciseCreateInput, ExerciseUpdateInput, ExerciseWhereUniqueInput, ExerciseConnection, ExerciseSubscriptionPayload from "./generated/prisma.graphql"
 
+# import TestData, TestDataCreateInput, TestDataUpdateInput, TestDataWhereUniqueInput, TestDataConnection, TestDataSubscriptionPayload from "./generated/prisma.graphql"
+# import ExerciseData, ExerciseDataCreateInput, ExerciseDataUpdateInput, ExerciseDataWhereUniqueInput, ExerciseDataConnection, ExerciseDataSubscriptionPayload from "./generated/prisma.graphql"
+
 scalar Upload
 scalar JSON
 scalar Date
@@ -163,6 +166,46 @@ type Query {
     first: Int
     last: Int
   ): ExerciseConnection!
+
+  testData(id: String!): TestData!
+  testDatas(
+    where: TestDataWhereInput
+    orderBy: TestDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [TestData!]!
+  testDataConnection(
+    where: TestDataWhereInput
+    orderBy: TestDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): TestDataConnection!
+
+  exerciseData(id: String!): ExerciseData!
+  exerciseDatas(
+    where: ExerciseDataWhereInput
+    orderBy: ExerciseDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): [ExerciseData!]!
+  exerciseDataConnection(
+    where: ExerciseDataWhereInput
+    orderBy: ExerciseDataOrderByInput
+    skip: Int
+    after: String
+    before: String
+    first: Int
+    last: Int
+  ): ExerciseDataConnection!
 }
 
 type Mutation {
@@ -201,6 +244,16 @@ type Mutation {
   updateExercise(data: ExerciseUpdateInput!, where: ExerciseWhereUniqueInput!): Exercise!
   deleteExercise(where: ExerciseWhereUniqueInput!): Exercise
   deleteManyExercises(where: ExerciseWhereInput): BatchPayload!
+
+  createTestData(data: TestDataCreateInput!): TestData!
+  updateTestData(data: TestDataUpdateInput!, where: TestDataWhereUniqueInput!): TestData!
+  deleteTestData(where: TestDataWhereUniqueInput!): TestData
+  deleteManyTestDatas(where: TestDataWhereInput): BatchPayload!
+
+  createExerciseData(data: ExerciseDataCreateInput!): ExerciseData!
+  updateExerciseData(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereUniqueInput!): ExerciseData!
+  deleteExerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
+  deleteManyExerciseDatas(where: ExerciseDataWhereInput): BatchPayload!
   
 }
 

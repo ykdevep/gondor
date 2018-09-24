@@ -55,7 +55,7 @@ export class AuthResolver {
             },
           },
         },
-        `{id firstname lastname email roles {name}}`,
+        `{id firstname lastname email birthdate roles {name}}`,
       );
 
       return {
@@ -65,6 +65,7 @@ export class AuthResolver {
               id: createUser.id,
               firstname: createUser.firstname,
               email: createUser.email,
+              birthdate: createUser.birthdate,
               roles: createUser.roles,
             },
           },
@@ -89,7 +90,7 @@ export class AuthResolver {
           },
         },
       },
-      `{id firstname lastname email roles {name}}`,
+      `{id firstname lastname email birthdate roles {name}}`,
     );
 
     return {
@@ -98,7 +99,9 @@ export class AuthResolver {
           user: {
             id: user.id,
             firstname: user.firstname,
+            lastname: user.lastname,
             email: user.email,
+            birthdate: user.birthdate,
             roles: user.roles,
           },
         },
@@ -120,7 +123,7 @@ export class AuthResolver {
 
     const user: any = await this.prisma.query.user(
       { where: {email:  args.email} },
-      `{id firstname email password roles  {name}}`,
+      `{id firstname lastname email password birthdate roles {name}}`,
     );
     if (!user) {
       throw new ApolloError(`No such user found for email: ${args.email}`);
@@ -137,7 +140,9 @@ export class AuthResolver {
           user: {
             id: user.id,
             firstname: user.firstname,
+            lastname: user.lastname,
             email: user.email,
+            birthdate: user.birthdate,
             roles: user.roles,
           },
         },
@@ -190,10 +195,8 @@ export class AuthResolver {
   @Mutation('profile')
   @UseGuards(AuthGuard)
   async profile(
-    @Parent() parant: any,
     @Context('token') token: string,
     @Args() args: any,
-    @Info() info: GraphQLResolveInfo,
   ): Promise<any> {
     const userId = this.authService.getUserId(token, APP_SECRET);
 
@@ -203,7 +206,7 @@ export class AuthResolver {
           where: { id: userId },
           data: { ...args.data },
         },
-        `{id firstname lastname email roles {name}}`,
+        `{id firstname lastname email birthdate roles {name}}`,
       );
 
       return {
@@ -212,7 +215,9 @@ export class AuthResolver {
             user: {
               id: user.id,
               firstname: user.firstname,
+              lastname: user.lastname,
               email: user.email,
+              birthdate: user.birthdate,
               roles: user.roles,
             },
           },

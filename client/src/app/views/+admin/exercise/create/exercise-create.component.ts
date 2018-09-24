@@ -39,7 +39,10 @@ const createExercise = gql`
               <mat-card-content>
 
                 <mat-form-field class="full-width">
-                  <input matInput required type="text" placeholder="Código (A1, A2, A3...)" formControlName="code">
+                  <mat-select placeholder="Código del ejercicio (A1, A2, A3...)" formControlName="code">
+                    <mat-option value="A0">Datos generales</mat-option>
+                    <mat-option value="A1">Orientación</mat-option>
+                  </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="full-width">

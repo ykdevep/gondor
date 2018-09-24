@@ -1,17 +1,18 @@
 import { Module } from '@nestjs/common';
+
 import { GraphQLModule } from '@nestjs/graphql';
 import { MemcachedCache } from 'apollo-server-cache-memcached';
 import { importSchema } from 'graphql-import';
+import * as path from 'path';
+import * as GraphQLJSON from 'graphql-type-json';
+
 import { UserModule } from './modules/user/user.module';
 import { CommonModule } from './modules/common/common.module';
 import { RoleModule } from './modules/role/role.module';
 import { FileModule } from './modules/file/file.module';
 import { AppController } from './app.controller';
 import { TestModule } from './modules/test/test.module';
-import { SectionModule } from './modules/section/section.module';
-import { ExerciseModule } from './modules/exercise/exercise.module';
-import * as path from 'path';
-import * as GraphQLJSON from 'graphql-type-json';
+import { TestDataModule } from './modules/testData/testData.module';
 
 const typeDefs = importSchema(path.resolve('./src/schema.graphql'));
 
@@ -54,8 +55,7 @@ const typeDefs = importSchema(path.resolve('./src/schema.graphql'));
     RoleModule,
     FileModule,
     TestModule,
-    SectionModule,
-    ExerciseModule,
+    TestDataModule,
   ],
   providers: [],
   controllers: [AppController],

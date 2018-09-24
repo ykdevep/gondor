@@ -1,0 +1,65 @@
+<div class="loading">
+  <mat-progress-bar *ngIf="loading" color="warn"></mat-progress-bar>
+</div>
+
+<div class="grid-container">
+  <mat-toolbar color="accent">
+    <h2>Evaluación Neuropsicológica (NEUROPSI)</h2>
+    <span class="spacer"></span>
+    <h3>Hoy: {{today | date}}</h3>
+  </mat-toolbar>
+  <div *ngIf="test" class="container mat-elevation-z8" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+    <div class="item" fxFlex="90%" fxFlex.xs="98%" fxFlex.md="96%">
+      <mat-toolbar>
+        <span>{{test.description}}</span>
+        <span class="spacer"></span>
+        <h2>{{name}} </h2>
+        <span> -- </span>
+        <h3>{{age}} años</h3>
+      </mat-toolbar>
+
+      <mat-vertical-stepper linear="true" #stepper>
+        <mat-step *ngFor="let section of test.sections; let i=index;" [completed]="steps[i]">
+          <ng-template matStepLabel>{{section.name}}</ng-template>
+
+          <ul class="list">
+            <li *ngFor="let exercise of section.exercises; let g=index;">
+              <div [ngSwitch]="exercise?.code">
+                <app-semeat-a0 *ngSwitchCase="'A0'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
+                <app-semeat-a1 *ngSwitchCase="'A1'" [age]="age" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
+              </div>
+              <br />
+              <mat-divider></mat-divider>
+              <br />
+            </li>
+          </ul>
+
+          <button mat-raised-button type="button" color="primary" [disabled]="!steps[i]" matStepperNext>
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Cuestionario</ng-template>
+
+          <div *ngIf="testData">
+            <span>Nombre: {{testData.createdBy.firstname}}</span>
+            <mat-list>
+              <mat-list-item *ngFor="let exercise of testData.exerciseDatas">
+                <span>{{exercise.question}} -- {{exercise.response}}</span>
+              </mat-list-item>
+            </mat-list>
+          </div>
+          <div>
+            <button mat-raised-button color="primary" (click)="saveTest()">
+              <mat-icon>done</mat-icon>
+              <span>Guardar</span>
+            </button>
+          </div>
+        </mat-step>
+      </mat-vertical-stepper>
+
+    </div>
+  </div>
+
+</div>
