@@ -75,7 +75,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
   name: string;
   testData: TestData;
 
-  multiple: boolean[][] = [[], []];
+  multiple: boolean[][] = [];
   steps: boolean[];
 
   constructor(
@@ -122,6 +122,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
             this.test = data.test;
             this.steps = new Array<boolean>(this.test.sections.length);
             for (let i = 0; i < this.test.sections.length; i++) {
+              this.multiple.push([]);
               for (let g = 0; g < this.test.sections[i].exercises.length; g++) {
                 this.multiple[i][g] = false;
               }

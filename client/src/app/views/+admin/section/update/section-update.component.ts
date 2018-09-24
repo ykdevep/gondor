@@ -58,7 +58,7 @@ const sectionQuery = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="text" placeholder="Describe la sección" formControlName="description">
+                  <textarea matInput type="text" placeholder="Describe la sección" formControlName="description"></textarea>
                 </mat-form-field>
 
               </mat-card-content>

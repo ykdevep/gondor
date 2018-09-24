@@ -41,7 +41,7 @@ const exerciseQuery = gql`
                 <mat-grid-list cols="2" rowHeight="6:1">
                     <mat-grid-tile><h3>Id:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{exerciseData.id}}</h3></mat-grid-tile>
-                    <mat-grid-tile><h3>Nombre:</h3></mat-grid-tile>
+                    <mat-grid-tile><h3>Código:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{exerciseData.code}}</h3></mat-grid-tile>
                     <mat-grid-tile><h3>Descripción:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{exerciseData.description}}</h3></mat-grid-tile>

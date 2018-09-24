@@ -61,6 +61,26 @@ mutation {
               }
             ]
           }
+        },
+        {
+          name: "Atención y Concentración"
+          description:  "En esta sección se mostrarán una serie de ejercicios para evaluar la atención y concentración."
+          exercises: {
+            create: [
+              {
+                code: A2
+                description: "Dígitos en regresión"
+              },
+              {
+                code: A3
+                description: "Detención visual"
+              },
+              {
+                code: A4
+                description: "20-3"
+              }
+            ]
+          }
         }
       ]
     }

@@ -27,6 +27,10 @@
               <div [ngSwitch]="exercise?.code">
                 <app-semeat-a0 *ngSwitchCase="'A0'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
                 <app-semeat-a1 *ngSwitchCase="'A1'" [age]="age" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
+
+                <app-semeat-a2 *ngSwitchCase="'A2'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a2>
+                <app-semeat-a3 *ngSwitchCase="'A3'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a3>
+                <app-semeat-a4 *ngSwitchCase="'A4'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a4>
               </div>
               <br />
               <mat-divider></mat-divider>
