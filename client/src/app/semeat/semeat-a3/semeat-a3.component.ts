@@ -12,7 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <span>
           Presione los botones cuya figura sea igual a la figura resaltada,
           se mostrará por 3 segundos, para realizar el ejercicio dispondrá de 60 segundos.
-          <button mat-icon-button color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
+          <button mat-mini-fab color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
         </span>
 
         <h2 mat-h2 [hidden]="flagQuestion"><mat-icon>{{question.value}}</mat-icon></h2>
@@ -137,7 +137,7 @@ export class SemeatA3Component implements OnInit {
 
     setTimeout(() => {
       this.flagFinish = true;
-    }, 6000);
+    }, 60000);
   }
 
   saveForm(): void {
@@ -176,4 +176,3 @@ export class SemeatA3Component implements OnInit {
     });
   }
 }
-

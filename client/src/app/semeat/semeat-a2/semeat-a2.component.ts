@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 
         <span>Se mostrarán varias series de números, repíta cada serie en orden regresivo.
          Por ejemplo, si se muestra 6-9 usted escribe 9-6.
-         <button mat-icon-button color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
+         <button mat-mini-fab color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
         </span>
 
         <h2 mat-h2 [hidden]="flagQuestion">{{question}}</h2>
