@@ -10,7 +10,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
         <h3 mat-h3>20-3</h3>
 
         <span>
-          A 19 restále 3, y repita el proceso con el resultado, después de 5 iteraciones, terminar. Ejemplo respuesta: 19-16-13-9-6
+          A 27 restále 3, y repita el proceso con el resultado, después de 5 iteraciones, terminar. Ejemplo respuesta: 24-21-18-15-12
         </span>
 
         <form [formGroup]="exerciseForm" #f="ngForm" (ngSubmit)="saveForm()">
@@ -75,7 +75,8 @@ export class SemeatA4Component implements OnInit {
       let i = 1;
 
       for (const number of numbers) {
-        if (20 - (3 * i) === number) {
+        console.log(i, number);
+        if ((20 - (3 * i)).toString() === number) {
           this.hit += 1;
           this.point += 1;
           this.omit -= 1;
