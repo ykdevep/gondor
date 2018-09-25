@@ -127,6 +127,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
                 this.multiple[i][g] = false;
               }
             }
+            console.log(this.multiple);
             this.loading = false;
           }
         },
@@ -147,6 +148,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
     console.log(this.testData);
 
     if (this.testData) {
+
       this.apollo.mutate({
         mutation: createTestData,
         variables: {
@@ -175,18 +177,14 @@ export class InitTestComponent implements OnInit, OnDestroy {
         this.loading = false;
         this.snackBar.open(error, 'X', {duration: 3000});
       });
-  } else {
-    this.snackBar.open('Error al guardar cuestionario...', 'X', {duration: 3000});
-  }
-
+    } else {
+      this.snackBar.open('Error al guardar cuestionario...', 'X', {duration: 3000});
+    }
   }
 
   saveExercise($datas, i, g, count) {
 
-    for (const data of $datas) {
-      this.testData.exerciseDatas.push(data);
-    }
-
+    this.testData.exerciseDatas.push($datas);
     this.multiple[i][g] = true;
     let flag = false;
 
@@ -201,5 +199,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
     if (flag) {
       this.steps[i] = true;
     }
+
+    console.log(this.multiple);
   }
 }

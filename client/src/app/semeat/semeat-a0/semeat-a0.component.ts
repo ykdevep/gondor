@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ExerciseData } from '@app/core/model/exerciseData.model';
 
 @Component({
   selector: 'app-semeat-a0',
@@ -68,7 +67,7 @@ export class SemeatA0Component implements OnInit {
              'Otras'];
 
   generalDataForm: FormGroup;
-  exerciseList: ExerciseData[];
+  exercise: any;
   @Output() save = new EventEmitter();
 
   initAt: Date;
@@ -93,41 +92,38 @@ export class SemeatA0Component implements OnInit {
 
     if (this.generalDataForm.valid) {
 
-      this.exerciseList = [
-        {
-          question: '¿Sexo?',
-          response: this.generalDataForm.value.sex,
-          initAt: this.initAt,
-          finalAt: new Date(),
+      this.exercise = {
+        result: {
+          create: [
+            {
+              question: '¿Sexo?',
+              response: this.generalDataForm.value.sex
+            },
+            {
+              question: '¿Qué mano usas frecuentemente?',
+              response: this.generalDataForm.value.lateral
+            },
+            {
+              question: '¿En donde trabajas?',
+              response: this.generalDataForm.value.job
+            },
+            {
+              question: '¿Grado Escolar?',
+              response: this.generalDataForm.value.scholarGrade
+            },
+            {
+              question: '¿Usted padece alguna enfermedad?',
+              response: (this.generalDataForm.value.desease).toString()
+            }
+          ],
         },
-        {
-          question: '¿Qué mano usas frecuentemente?',
-          response: this.generalDataForm.value.lateral,
-          initAt: this.initAt,
-          finalAt: new Date(),
-        },
-        {
-          question: '¿En donde trabajas?',
-          response: this.generalDataForm.value.job,
-          initAt: this.initAt,
-          finalAt: new Date(),
-        },
-        {
-          question: '¿Grado Escolar?',
-          response: this.generalDataForm.value.scholarGrade,
-          initAt: this.initAt,
-          finalAt: new Date(),
-        },
-        {
-          question: '¿Usted padece alguna enfermedad?',
-          response: (this.generalDataForm.value.desease).toString(),
-          initAt: this.initAt,
-          finalAt: new Date(),
-        }
-      ];
+        initAt: this.initAt,
+        finalAt: new Date(),
+    };
+
       this.generalDataForm.disable();
     }
-    this.save.emit(this.exerciseList);
+    this.save.emit(this.exercise);
   }
 
 }

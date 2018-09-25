@@ -46,6 +46,7 @@ type Section {
   id: ID! @unique
   name: String! @unique
   description: String
+  enable: Boolean! @default(value: true)
   exercises: [Exercise!]! @relation(name: "R4")
   tests: [Test!]! @relation(name: "R5")  
 }
@@ -70,14 +71,19 @@ type ExerciseData {
   id: ID! @unique
   initAt: DateTime!
   finalAt: DateTime!
+  result: [Result!]! @relation(name: "R8") 
+  level: Int @default(value: 0)
+  hit: Int @default(value: 0)
+  fault: Int @default(value: 0)
+  omit: Int @default(value: 0)
+  error: Int @default(value: 0)
+  point: Int @default(value: 0)
+}
+
+type Result {
+  id: ID! @unique
   question: String!
   response: String!
-  level: Int
-  hit: Int
-  fault: Int
-  omit: Int
-  error: Int
-  point: Int
 }
 
 enum Types {

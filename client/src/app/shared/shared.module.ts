@@ -47,6 +47,7 @@ import { RouterModule } from '@angular/router';
 import { ConfirmComponent } from '@app/shared/confirm/confirm.component';
 import { TreeMenuComponent } from './tree-menu/tree-menu.component';
 import { SizePipe } from '@app/shared/pipes/size.pipe';
+import { HideButtonDirective } from '@app/shared/directives/hide-button.directive';
 
 @NgModule({
   imports: [
@@ -132,9 +133,10 @@ import { SizePipe } from '@app/shared/pipes/size.pipe';
     LayoutComponent,
     ConfirmComponent,
     TreeMenuComponent,
-    SizePipe
+    SizePipe,
+    HideButtonDirective
   ],
-  declarations: [LayoutComponent, ConfirmComponent, TreeMenuComponent, SizePipe],
+  declarations: [LayoutComponent, ConfirmComponent, TreeMenuComponent, SizePipe, HideButtonDirective],
   providers: [
     {provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl}
   ],

@@ -25,12 +25,16 @@
           <ul class="list">
             <li *ngFor="let exercise of section.exercises; let g=index;">
               <div [ngSwitch]="exercise?.code">
+
                 <app-semeat-a0 *ngSwitchCase="'A0'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
                 <app-semeat-a1 *ngSwitchCase="'A1'" [age]="age" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
 
                 <app-semeat-a2 *ngSwitchCase="'A2'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a2>
                 <app-semeat-a3 *ngSwitchCase="'A3'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a3>
-                <app-semeat-a4 *ngSwitchCase="'A4'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a4>
+                <!--
+                  <app-semeat-a4 *ngSwitchCase="'A4'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a4>
+                -->
+
               </div>
               <br />
               <mat-divider></mat-divider>
@@ -38,21 +42,24 @@
             </li>
           </ul>
 
-          <button mat-raised-button type="button" color="primary" [disabled]="!steps[i]" matStepperNext>
-            <mat-icon>arrow_downward</mat-icon>
-          </button>
+          <div class="steper-next" [hidden]="!steps[i]">
+            <button mat-raised-button type="button" color="primary" [disabled]="!steps[i]" matStepperNext>
+              <mat-icon>arrow_downward</mat-icon>
+            </button>
+          </div>
 
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Cuestionario</ng-template>
 
           <div *ngIf="testData">
-            <span>Nombre: {{testData.createdBy.firstname}}</span>
-            <mat-list>
-              <mat-list-item *ngFor="let exercise of testData.exerciseDatas">
-                <span>{{exercise.question}} -- {{exercise.response}}</span>
-              </mat-list-item>
-            </mat-list>
+            <span>Guarde todos los cambios hechos por usted {{testData.createdBy.firstname}}.</span>
+
+            <code>
+              {{
+                testData | json
+              }}
+            </code>
           </div>
           <div>
             <button mat-raised-button color="primary" (click)="saveTest()">

@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Sep 23 2018 17:44:26 GMT-0400 (EDT)
+# timestamp: Mon Sep 24 2018 14:46:44 GMT-0400 (EDT)
 
 type AggregateExercise {
   count: Int!
@@ -10,6 +10,10 @@ type AggregateExerciseData {
 }
 
 type AggregateFile {
+  count: Int!
+}
+
+type AggregateResult {
   count: Int!
 }
 
@@ -95,8 +99,7 @@ type ExerciseData implements Node {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  question: String!
-  response: String!
+  result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
   level: Int
   hit: Int
   fault: Int
@@ -118,14 +121,13 @@ type ExerciseDataConnection {
 input ExerciseDataCreateInput {
   initAt: DateTime!
   finalAt: DateTime!
-  question: String!
-  response: String!
   level: Int
   hit: Int
   fault: Int
   omit: Int
   error: Int
   point: Int
+  result: ResultCreateManyInput
 }
 
 input ExerciseDataCreateManyInput {
@@ -149,10 +151,6 @@ enum ExerciseDataOrderByInput {
   initAt_DESC
   finalAt_ASC
   finalAt_DESC
-  question_ASC
-  question_DESC
-  response_ASC
-  response_DESC
   level_ASC
   level_DESC
   hit_ASC
@@ -175,8 +173,6 @@ type ExerciseDataPreviousValues {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  question: String!
-  response: String!
   level: Int
   hit: Int
   fault: Int
@@ -227,27 +223,25 @@ input ExerciseDataSubscriptionWhereInput {
 input ExerciseDataUpdateDataInput {
   initAt: DateTime
   finalAt: DateTime
-  question: String
-  response: String
   level: Int
   hit: Int
   fault: Int
   omit: Int
   error: Int
   point: Int
+  result: ResultUpdateManyInput
 }
 
 input ExerciseDataUpdateInput {
   initAt: DateTime
   finalAt: DateTime
-  question: String
-  response: String
   level: Int
   hit: Int
   fault: Int
   omit: Int
   error: Int
   point: Int
+  result: ResultUpdateManyInput
 }
 
 input ExerciseDataUpdateManyInput {
@@ -363,86 +357,6 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   finalAt_gte: DateTime
-  question: String
-
-  """All values that are not equal to given value."""
-  question_not: String
-
-  """All values that are contained in given list."""
-  question_in: [String!]
-
-  """All values that are not contained in given list."""
-  question_not_in: [String!]
-
-  """All values less than the given value."""
-  question_lt: String
-
-  """All values less than or equal the given value."""
-  question_lte: String
-
-  """All values greater than the given value."""
-  question_gt: String
-
-  """All values greater than or equal the given value."""
-  question_gte: String
-
-  """All values containing the given string."""
-  question_contains: String
-
-  """All values not containing the given string."""
-  question_not_contains: String
-
-  """All values starting with the given string."""
-  question_starts_with: String
-
-  """All values not starting with the given string."""
-  question_not_starts_with: String
-
-  """All values ending with the given string."""
-  question_ends_with: String
-
-  """All values not ending with the given string."""
-  question_not_ends_with: String
-  response: String
-
-  """All values that are not equal to given value."""
-  response_not: String
-
-  """All values that are contained in given list."""
-  response_in: [String!]
-
-  """All values that are not contained in given list."""
-  response_not_in: [String!]
-
-  """All values less than the given value."""
-  response_lt: String
-
-  """All values less than or equal the given value."""
-  response_lte: String
-
-  """All values greater than the given value."""
-  response_gt: String
-
-  """All values greater than or equal the given value."""
-  response_gte: String
-
-  """All values containing the given string."""
-  response_contains: String
-
-  """All values not containing the given string."""
-  response_not_contains: String
-
-  """All values starting with the given string."""
-  response_starts_with: String
-
-  """All values not starting with the given string."""
-  response_not_starts_with: String
-
-  """All values ending with the given string."""
-  response_ends_with: String
-
-  """All values not ending with the given string."""
-  response_not_ends_with: String
   level: Int
 
   """All values that are not equal to given value."""
@@ -575,6 +489,9 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   point_gte: Int
+  result_every: ResultWhereInput
+  result_some: ResultWhereInput
+  result_none: ResultWhereInput
 }
 
 input ExerciseDataWhereUniqueInput {
@@ -1148,6 +1065,7 @@ type Mutation {
   createTestData(data: TestDataCreateInput!): TestData!
   createExerciseData(data: ExerciseDataCreateInput!): ExerciseData!
   createRole(data: RoleCreateInput!): Role!
+  createResult(data: ResultCreateInput!): Result!
   createSection(data: SectionCreateInput!): Section!
   createExercise(data: ExerciseCreateInput!): Exercise!
   createUser(data: UserCreateInput!): User!
@@ -1156,6 +1074,7 @@ type Mutation {
   updateTestData(data: TestDataUpdateInput!, where: TestDataWhereUniqueInput!): TestData
   updateExerciseData(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereUniqueInput!): ExerciseData
   updateRole(data: RoleUpdateInput!, where: RoleWhereUniqueInput!): Role
+  updateResult(data: ResultUpdateInput!, where: ResultWhereUniqueInput!): Result
   updateSection(data: SectionUpdateInput!, where: SectionWhereUniqueInput!): Section
   updateExercise(data: ExerciseUpdateInput!, where: ExerciseWhereUniqueInput!): Exercise
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
@@ -1164,6 +1083,7 @@ type Mutation {
   deleteTestData(where: TestDataWhereUniqueInput!): TestData
   deleteExerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
   deleteRole(where: RoleWhereUniqueInput!): Role
+  deleteResult(where: ResultWhereUniqueInput!): Result
   deleteSection(where: SectionWhereUniqueInput!): Section
   deleteExercise(where: ExerciseWhereUniqueInput!): Exercise
   deleteUser(where: UserWhereUniqueInput!): User
@@ -1172,6 +1092,7 @@ type Mutation {
   upsertTestData(where: TestDataWhereUniqueInput!, create: TestDataCreateInput!, update: TestDataUpdateInput!): TestData!
   upsertExerciseData(where: ExerciseDataWhereUniqueInput!, create: ExerciseDataCreateInput!, update: ExerciseDataUpdateInput!): ExerciseData!
   upsertRole(where: RoleWhereUniqueInput!, create: RoleCreateInput!, update: RoleUpdateInput!): Role!
+  upsertResult(where: ResultWhereUniqueInput!, create: ResultCreateInput!, update: ResultUpdateInput!): Result!
   upsertSection(where: SectionWhereUniqueInput!, create: SectionCreateInput!, update: SectionUpdateInput!): Section!
   upsertExercise(where: ExerciseWhereUniqueInput!, create: ExerciseCreateInput!, update: ExerciseUpdateInput!): Exercise!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
@@ -1180,6 +1101,7 @@ type Mutation {
   updateManyTestDatas(data: TestDataUpdateInput!, where: TestDataWhereInput): BatchPayload!
   updateManyExerciseDatas(data: ExerciseDataUpdateInput!, where: ExerciseDataWhereInput): BatchPayload!
   updateManyRoles(data: RoleUpdateInput!, where: RoleWhereInput): BatchPayload!
+  updateManyResults(data: ResultUpdateInput!, where: ResultWhereInput): BatchPayload!
   updateManySections(data: SectionUpdateInput!, where: SectionWhereInput): BatchPayload!
   updateManyExercises(data: ExerciseUpdateInput!, where: ExerciseWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
@@ -1188,6 +1110,7 @@ type Mutation {
   deleteManyTestDatas(where: TestDataWhereInput): BatchPayload!
   deleteManyExerciseDatas(where: ExerciseDataWhereInput): BatchPayload!
   deleteManyRoles(where: RoleWhereInput): BatchPayload!
+  deleteManyResults(where: ResultWhereInput): BatchPayload!
   deleteManySections(where: SectionWhereInput): BatchPayload!
   deleteManyExercises(where: ExerciseWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
@@ -1226,6 +1149,7 @@ type Query {
   testDatas(where: TestDataWhereInput, orderBy: TestDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [TestData]!
   exerciseDatas(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ExerciseData]!
   roles(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Role]!
+  results(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result]!
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section]!
   exercises(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Exercise]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
@@ -1234,6 +1158,7 @@ type Query {
   testData(where: TestDataWhereUniqueInput!): TestData
   exerciseData(where: ExerciseDataWhereUniqueInput!): ExerciseData
   role(where: RoleWhereUniqueInput!): Role
+  result(where: ResultWhereUniqueInput!): Result
   section(where: SectionWhereUniqueInput!): Section
   exercise(where: ExerciseWhereUniqueInput!): Exercise
   user(where: UserWhereUniqueInput!): User
@@ -1242,6 +1167,7 @@ type Query {
   testDatasConnection(where: TestDataWhereInput, orderBy: TestDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): TestDataConnection!
   exerciseDatasConnection(where: ExerciseDataWhereInput, orderBy: ExerciseDataOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExerciseDataConnection!
   rolesConnection(where: RoleWhereInput, orderBy: RoleOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): RoleConnection!
+  resultsConnection(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ResultConnection!
   sectionsConnection(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SectionConnection!
   exercisesConnection(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): ExerciseConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1252,6 +1178,264 @@ type Query {
     """The ID of an object"""
     id: ID!
   ): Node
+}
+
+type Result implements Node {
+  id: ID!
+  question: String!
+  response: String!
+}
+
+"""A connection to a list of items."""
+type ResultConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [ResultEdge]!
+  aggregate: AggregateResult!
+}
+
+input ResultCreateInput {
+  question: String!
+  response: String!
+}
+
+input ResultCreateManyInput {
+  create: [ResultCreateInput!]
+  connect: [ResultWhereUniqueInput!]
+}
+
+"""An edge in a connection."""
+type ResultEdge {
+  """The item at the end of the edge."""
+  node: Result!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum ResultOrderByInput {
+  id_ASC
+  id_DESC
+  question_ASC
+  question_DESC
+  response_ASC
+  response_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type ResultPreviousValues {
+  id: ID!
+  question: String!
+  response: String!
+}
+
+type ResultSubscriptionPayload {
+  mutation: MutationType!
+  node: Result
+  updatedFields: [String!]
+  previousValues: ResultPreviousValues
+}
+
+input ResultSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ResultSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ResultSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ResultSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: ResultWhereInput
+}
+
+input ResultUpdateDataInput {
+  question: String
+  response: String
+}
+
+input ResultUpdateInput {
+  question: String
+  response: String
+}
+
+input ResultUpdateManyInput {
+  create: [ResultCreateInput!]
+  connect: [ResultWhereUniqueInput!]
+  disconnect: [ResultWhereUniqueInput!]
+  delete: [ResultWhereUniqueInput!]
+  update: [ResultUpdateWithWhereUniqueNestedInput!]
+  upsert: [ResultUpsertWithWhereUniqueNestedInput!]
+}
+
+input ResultUpdateWithWhereUniqueNestedInput {
+  where: ResultWhereUniqueInput!
+  data: ResultUpdateDataInput!
+}
+
+input ResultUpsertWithWhereUniqueNestedInput {
+  where: ResultWhereUniqueInput!
+  update: ResultUpdateDataInput!
+  create: ResultCreateInput!
+}
+
+input ResultWhereInput {
+  """Logical AND on all given filters."""
+  AND: [ResultWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [ResultWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [ResultWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  question: String
+
+  """All values that are not equal to given value."""
+  question_not: String
+
+  """All values that are contained in given list."""
+  question_in: [String!]
+
+  """All values that are not contained in given list."""
+  question_not_in: [String!]
+
+  """All values less than the given value."""
+  question_lt: String
+
+  """All values less than or equal the given value."""
+  question_lte: String
+
+  """All values greater than the given value."""
+  question_gt: String
+
+  """All values greater than or equal the given value."""
+  question_gte: String
+
+  """All values containing the given string."""
+  question_contains: String
+
+  """All values not containing the given string."""
+  question_not_contains: String
+
+  """All values starting with the given string."""
+  question_starts_with: String
+
+  """All values not starting with the given string."""
+  question_not_starts_with: String
+
+  """All values ending with the given string."""
+  question_ends_with: String
+
+  """All values not ending with the given string."""
+  question_not_ends_with: String
+  response: String
+
+  """All values that are not equal to given value."""
+  response_not: String
+
+  """All values that are contained in given list."""
+  response_in: [String!]
+
+  """All values that are not contained in given list."""
+  response_not_in: [String!]
+
+  """All values less than the given value."""
+  response_lt: String
+
+  """All values less than or equal the given value."""
+  response_lte: String
+
+  """All values greater than the given value."""
+  response_gt: String
+
+  """All values greater than or equal the given value."""
+  response_gte: String
+
+  """All values containing the given string."""
+  response_contains: String
+
+  """All values not containing the given string."""
+  response_not_contains: String
+
+  """All values starting with the given string."""
+  response_starts_with: String
+
+  """All values not starting with the given string."""
+  response_not_starts_with: String
+
+  """All values ending with the given string."""
+  response_ends_with: String
+
+  """All values not ending with the given string."""
+  response_not_ends_with: String
+}
+
+input ResultWhereUniqueInput {
+  id: ID
 }
 
 type Role implements Node {
@@ -1803,6 +1987,7 @@ type Subscription {
   testData(where: TestDataSubscriptionWhereInput): TestDataSubscriptionPayload
   exerciseData(where: ExerciseDataSubscriptionWhereInput): ExerciseDataSubscriptionPayload
   role(where: RoleSubscriptionWhereInput): RoleSubscriptionPayload
+  result(where: ResultSubscriptionWhereInput): ResultSubscriptionPayload
   section(where: SectionSubscriptionWhereInput): SectionSubscriptionPayload
   exercise(where: ExerciseSubscriptionWhereInput): ExerciseSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload

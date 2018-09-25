@@ -1,6 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ExerciseData } from '@app/core/model/exerciseData.model';
 
 @Component({
   selector: 'app-semeat-a1',
@@ -140,7 +139,7 @@ export class SemeatA1Component implements OnInit {
   ];
 
   exerciseForm: FormGroup;
-  exerciseList: ExerciseData[];
+  exercise: any;
 
   @Output() save = new EventEmitter();
   @Input() age = 0;
@@ -166,51 +165,54 @@ export class SemeatA1Component implements OnInit {
 
   saveForm(): void {
     if (this.exerciseForm.valid) {
-      this.exerciseList = [
-        {
-          question: '¿Qué día es?',
-          response: this.days[this.exerciseForm.value.day].name,
+      this.exercise = {
+          result: {
+            create: [
+              {
+                question: '¿Qué día es?',
+                response: this.days[this.exerciseForm.value.day].name,
+              },
+              {
+                question: '¿Qué mes es?',
+                response: this.months[this.exerciseForm.value.month].name,
+              },
+              {
+                question: '¿Qué año es?',
+                response: this.exerciseForm.value.year,
+              },
+              {
+                question: '¿En qué ciudad estás?',
+                response: this.exerciseForm.value.city,
+              },
+              {
+                question: '¿En qué lugar estás?',
+                response: this.exerciseForm.value.place,
+              },
+              {
+                question: '¿Cuántos años tiene usted?',
+                response: this.exerciseForm.value.age,
+              }
+
+            ]
+          },
           initAt: this.initAt,
           finalAt: new Date(),
-          hit: (Number)(new Date().getDay() === this.exerciseForm.value.day)
-        },
-        {
-          question: '¿Qué mes es?',
-          response: this.months[this.exerciseForm.value.month].name,
-          initAt: this.initAt,
-          finalAt: new Date(),
-          hit: (Number)(new Date().getMonth() === this.exerciseForm.value.month)
-        },
-        {
-          question: '¿Qué año es?',
-          response: this.exerciseForm.value.year,
-          initAt: this.initAt,
-          finalAt: new Date(),
-          hit: (Number)(new Date().getFullYear() === this.exerciseForm.value.year)
-        },
-        {
-          question: '¿En qué ciudad estás?',
-          response: this.exerciseForm.value.city,
-          initAt: this.initAt,
-          finalAt: new Date(),
-        },
-        {
-          question: '¿En qué lugar estás?',
-          response: this.exerciseForm.value.place,
-          initAt: this.initAt,
-          finalAt: new Date(),
-        },
-        {
-          question: '¿Cuántos años tiene usted?',
-          response: this.exerciseForm.value.age,
-          initAt: this.initAt,
-          finalAt: new Date(),
-          hit: (Number)(this.age === this.exerciseForm.value.age)
-        }
-      ];
+          hit: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
+            (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
+            (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
+            (Number)(this.age === this.exerciseForm.value.age)),
+          point: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
+            (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
+            (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
+            (Number)(this.age === this.exerciseForm.value.age)),
+          error: ((Number)(new Date().getDay() !== this.exerciseForm.value.day) +
+            (Number)(new Date().getMonth() !== this.exerciseForm.value.month) +
+            (Number)(new Date().getFullYear() !== this.exerciseForm.value.year) +
+            (Number)(this.age !== this.exerciseForm.value.age)),
+        };
       this.exerciseForm.disable();
     }
-    this.save.emit(this.exerciseList);
+    this.save.emit(this.exercise);
   }
 
 }
