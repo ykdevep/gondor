@@ -26,8 +26,6 @@
             <li *ngFor="let exercise of section.exercises; let g=index;">
               <div [ngSwitch]="exercise?.code">
 
-                <app-semeat-a5 *ngSwitchCase="'A0'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a5>
-
                 <app-semeat-a0 *ngSwitchCase="'A0'" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
                 <app-semeat-a1 *ngSwitchCase="'A1'" [age]="age" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
 
