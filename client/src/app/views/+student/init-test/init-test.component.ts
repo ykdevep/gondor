@@ -145,8 +145,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
   saveTest(): void {
 
-    console.log(this.testData);
-
     if (this.testData) {
 
       this.apollo.mutate({
