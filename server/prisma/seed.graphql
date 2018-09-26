@@ -81,6 +81,18 @@ mutation {
               }
             ]
           }
+        },
+        {
+          name: "Codificación"
+          description:  "En esta sección se mostrarán una serie de ejercicios para evaluar la Codificación."
+          exercises: {
+            create: [
+              {
+                code: A5
+                description: "Memoria verbal espontánea"
+              }
+            ]
+          }
         }
       ]
     }
