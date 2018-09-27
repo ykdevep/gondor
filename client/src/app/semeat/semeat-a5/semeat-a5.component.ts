@@ -28,7 +28,7 @@ import { trigger, style, state, animate, transition } from '@angular/animations'
           </div>
 
           <br />
-          <div [@state]="state" class="button" [hidden]="!exerciseForm.valid || !flagQuestion || !flagStart || flagFinish">
+          <div class="button" [hidden]="!exerciseForm.valid || !flagQuestion || !flagStart || flagFinish">
             <button mat-raised-button color="accent" [disabled]="!exerciseForm.valid"
                 type="submit" aria-label="done">
               <span>Evaluar</span>

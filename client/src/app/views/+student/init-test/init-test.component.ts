@@ -75,6 +75,8 @@ export class InitTestComponent implements OnInit, OnDestroy {
   name: string;
   testData: TestData;
 
+  flagFinishTest = false;
+
   multiple: boolean[][] = [];
   steps: boolean[];
 
@@ -148,6 +150,8 @@ export class InitTestComponent implements OnInit, OnDestroy {
   saveTest(): void {
 
     if (this.testData) {
+
+      this.flagFinishTest = true;
 
       this.apollo.mutate({
         mutation: createTestData,

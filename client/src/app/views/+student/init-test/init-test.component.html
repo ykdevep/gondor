@@ -57,7 +57,7 @@
           </div>
 
           <div>
-            <button mat-raised-button color="primary" (click)="saveTest()">
+            <button mat-raised-button color="primary" [disabled]="flagFinishTest" (click)="saveTest()">
               <mat-icon>done</mat-icon>
               <span>Guardar Cuestionario</span>
             </button>
