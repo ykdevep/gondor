@@ -215,8 +215,8 @@ export class SemeatA5Component implements OnInit {
     if (this.exerciseForm.valid) {
 
       this.create.push({
-        question: this.question,
-        response: this.response
+        question: this.question.toString(),
+        response: this.response.toString()
       });
 
       this.index++;
