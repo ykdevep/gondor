@@ -34,7 +34,7 @@ import { User } from '@app/core/model/user.model';
           </button>
         </mat-toolbar>
 
-        <mat-nav-list>
+        <mat-nav-list *ngIf="(isLoggedIn | async)">
           <a class="menu" mat-list-item routerLink="/dashboard" routerLinkActive="active">
             <mat-icon aria-label="dashboard">dashboard</mat-icon>
             <span>Escritorio</span>

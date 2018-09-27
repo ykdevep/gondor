@@ -6,6 +6,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { IndexComponent } from './index/index.component';
 import { RoleGuard } from '@app/core/guard/role.guard';
 import { CountEntityComponent } from './count-entity/count-entity.component';
+import { ChartTestComponent } from './chart-test/chart-test.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [IndexComponent, CountEntityComponent]
+  declarations: [IndexComponent, CountEntityComponent, ChartTestComponent]
 })
 export class DashboardModule { }

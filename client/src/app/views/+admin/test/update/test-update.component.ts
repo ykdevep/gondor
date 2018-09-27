@@ -55,7 +55,7 @@ const testQuery = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="text" placeholder="Describa el cuestionario" formControlName="description">
+                  <textarea matInput placeholder="Describe el cuestionario" formControlName="description"></textarea>
                 </mat-form-field>
 
                 <div class="full-width">

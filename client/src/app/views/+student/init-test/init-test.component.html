@@ -15,7 +15,7 @@
         <span class="spacer"></span>
         <h2>{{name}} </h2>
         <span> -- </span>
-        <h3>{{age}} años</h3>
+        <h3>{{age}} años </h3>
       </mat-toolbar>
 
       <mat-vertical-stepper linear="true" #stepper>
@@ -52,8 +52,60 @@
         <mat-step>
           <ng-template matStepLabel>Cuestionario</ng-template>
 
+          <div [ngSwitch]="level.toString()">
+
+              <h3 *ngSwitchCase="0">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="1">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="2">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="3">
+                  Se le recomienda realizar ejercicios de atención enfocada en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="4">
+                  Se le recomienda realizar ejercicios de atención sostenida en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="5">
+                  Se le recomienda realizar ejercicios de atención sostenida en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="6">
+                  Se le recomienda realizar ejercicios de atención sostenida en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="7">
+                  Se le recomienda realizar ejercicios de atención selectiva en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="8">
+                  Se le recomienda realizar ejercicios de atención selectiva en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="9">
+                  Se le recomienda realizar ejercicios de atención selectiva en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="10">
+                  Se le recomienda realizar ejercicios de atención alternada en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="11">
+                  Se le recomienda realizar ejercicios de atención alternada en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="12">
+                  Se le recomienda realizar ejercicios de atención alternada en nivel avanzado
+              </h3>
+              <h3 *ngSwitchCase="13">
+                  Se le recomienda realizar ejercicios de atención dividida en nivel inicial
+              </h3>
+              <h3 *ngSwitchCase="14">
+                  Se le recomienda realizar ejercicios de atención dividida en nivel medio
+              </h3>
+              <h3 *ngSwitchCase="15">
+                  Se le recomienda realizar ejercicios de atención dividida en nivel avanzado
+              </h3>
+          </div>
+
           <div *ngIf="testData">
-            <h2 mat-h2>Usted a terminado el cuestionario Inicial. Para hacer permanentes los cambios presione el boton Guardar Cuestionario</h2>
+            <h4 class="mat-h4">Usted a terminado el cuestionario Inicial. Para hacer permanentes los cambios presione el botón Guardar Cuestionario</h4>
           </div>
 
           <div>

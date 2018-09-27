@@ -52,7 +52,11 @@ const createExercise = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="text" placeholder="Descripción" formControlName="description">
+                  <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="Puntos" formControlName="point">
                 </mat-form-field>
 
               </mat-card-content>
@@ -97,6 +101,7 @@ export class ExerciseCreateComponent implements OnInit {
 
     this.createExerciseForm = this.formBuilder.group({
       code: ['', Validators.required],
+      point: ['', Validators.required],
       description: ['']
     });
   }
@@ -113,6 +118,7 @@ export class ExerciseCreateComponent implements OnInit {
         variables: {
           data: {
             'code': this.createExerciseForm.value.code,
+            'point': this.createExerciseForm.value.point,
             'description': this.createExerciseForm.value.description,
           }
         }

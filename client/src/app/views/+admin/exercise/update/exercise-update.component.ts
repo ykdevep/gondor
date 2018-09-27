@@ -22,6 +22,7 @@ const exerciseQuery = gql`
     exercise(id: $id) {
       id
       code
+      point
       description
     }
   }
@@ -62,7 +63,11 @@ const exerciseQuery = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="text" placeholder="Descripción" formControlName="description">
+                  <textarea matInput type="text" placeholder="Descripción" formControlName="description"></textarea>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                  <input matInput type="number" placeholder="Puntos" formControlName="point">
                 </mat-form-field>
 
               </mat-card-content>
@@ -111,6 +116,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateExerciseForm = this.formBuilder.group({
       code: ['', Validators.required],
+      point: ['', Validators.required],
       description: ['']
     });
 
@@ -134,7 +140,8 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
 
           this.updateExerciseForm.patchValue({
             code: this.exerciseData.code,
-            description: this.exerciseData.description
+            description: this.exerciseData.description,
+            point: this.exerciseData.point,
           });
         }
       }, (error) => {
@@ -156,6 +163,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
             data:  {
               'code': this.updateExerciseForm.value.code,
               'description': this.updateExerciseForm.value.description,
+              'point': this.updateExerciseForm.value.point
             },
             where : {
               id: this.exerciseId

@@ -4,15 +4,15 @@ import gql from 'graphql-tag';
 import { Subscription, Observable } from 'rxjs';
 import { Test } from '@app/core/model/test.model';
 import { MatSnackBar } from '@angular/material';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '@app/core/services/auth.service';
 import { User } from '@app/core/model/user.model';
 import { TestData } from '@app/core/model/testData.model';
 
 
 const initTestQuery = gql`
-  query test($id: String!) {
-    test(id: $id) {
+  query tests($where: TestWhereInput, $first: Int!) {
+    tests(where: $where, first: $first) {
       id
       type
       description
@@ -24,12 +24,14 @@ const initTestQuery = gql`
         exercises {
           id
           code
+          point
           description
         }
       }
     }
   }
 `;
+
 
 const createTestData = gql`
   mutation createTestData($data: TestDataCreateInput!) {
@@ -64,7 +66,6 @@ const createTestData = gql`
 export class InitTestComponent implements OnInit, OnDestroy {
 
   test: Test;
-  testId: string;
   loading = false;
 
   testQuerySubscription: Subscription;
@@ -77,11 +78,14 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
   flagFinishTest = false;
 
+  points = 1;
+  level = 0;
+  countPoints = 0;
+
   multiple: boolean[][] = [];
   steps: boolean[];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private apollo: Apollo,
     private router: Router,
@@ -91,7 +95,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit() {
-    this.testId = this.activatedRoute.snapshot.params['id'];
     this.loading = true;
 
     this.currentUser = this.authService.getAsyncUser();
@@ -115,23 +118,28 @@ export class InitTestComponent implements OnInit, OnDestroy {
       .watchQuery<any>({
         query: initTestQuery,
         variables: {
-          id: this.testId
+          where: {
+            'type': 'INITIAL',
+            'enable': true
+          },
+          first: 1
         }
       })
       .valueChanges.subscribe(
         ({ data, loading }) => {
           if (!loading) {
-            this.test = data.test;
 
-            console.log(data.test);
-            this.steps = new Array<boolean>(this.test.sections.length);
-            for (let i = 0; i < this.test.sections.length; i++) {
-              this.multiple.push([]);
-              for (let g = 0; g < this.test.sections[i].exercises.length; g++) {
-                this.multiple[i][g] = false;
+            if (data.tests.length > 0) {
+              this.test = data.tests[0];
+              this.steps = new Array<boolean>(this.test.sections.length);
+              for (let i = 0; i < this.test.sections.length; i++) {
+                this.multiple.push([]);
+                for (let g = 0; g < this.test.sections[i].exercises.length; g++) {
+                  this.multiple[i][g] = false;
+                  this.points += this.test.sections[i].exercises[g].point;
+                }
               }
             }
-            console.log(this.multiple);
             this.loading = false;
           }
         },
@@ -150,9 +158,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
   saveTest(): void {
 
     if (this.testData) {
-
       this.flagFinishTest = true;
-
       this.apollo.mutate({
         mutation: createTestData,
         variables: {
@@ -204,6 +210,11 @@ export class InitTestComponent implements OnInit, OnDestroy {
       this.steps[i] = true;
     }
 
-    console.log(this.multiple);
+    if ($datas.point) {
+      this.countPoints += $datas.point;
+    }
+
+    this.level = Math.round(15 * (this.countPoints / this.points));
+
   }
 }

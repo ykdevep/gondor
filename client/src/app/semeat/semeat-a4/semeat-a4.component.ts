@@ -75,7 +75,6 @@ export class SemeatA4Component implements OnInit {
       let i = 1;
 
       for (const number of numbers) {
-        console.log(i, number);
         if ((20 - (3 * i)).toString() === number) {
           this.hit += 1;
           this.point += 1;

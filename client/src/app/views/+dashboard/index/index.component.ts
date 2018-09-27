@@ -5,13 +5,26 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { Test } from '@app/core/model/test.model';
 import { MatSnackBar } from '@angular/material';
+import { TestData } from '@app/core/model/testData.model';
 
 
-const initTestQuery = gql`
-  query test($where: TestWhereInput!) {
-    tests (where: $where)  {
+const testDataQuery = gql`
+  query testData($where: TestDataWhereInput!, $first: Int) {
+    testDatas (where: $where, first: $first)  {
       id
-      description
+      type
+      createdBy {
+        firstname
+      }
+      initAt
+      finalAt
+      exerciseDatas {
+        hit
+        fault
+        omit
+        error
+        point
+      }
     }
   }
 `;
@@ -27,8 +40,8 @@ export class IndexComponent implements OnInit, OnDestroy {
   isSpecialist: Observable<boolean>;
   isStudent: Observable<boolean>;
 
-  initTestData: Test[];
-  testQuerySubcription: Subscription;
+  testData: TestData[];
+  testDataQuerySubcription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -43,35 +56,41 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.isStudent.subscribe(flag => {
       if (flag) {
-        this.testQuerySubcription = this.apollo
-          .watchQuery<any>({
-            query: initTestQuery,
-            variables: {
-              where: {
-                'type': 'INITIAL',
-                'enable': true
-              }
-            }
-          })
-          .valueChanges.subscribe(
-            ({ data, loading }) => {
-              if (!loading) {
-                this.initTestData = data.tests;
+
+        this.testDataQuerySubcription = this.apollo
+        .watchQuery<any>({
+          query: testDataQuery,
+          variables: {
+            where: {
+              'type': 'INITIAL',
+              'createdBy': {
+                'id': this.authService.getUser().id
               }
             },
-            (error) => {
-              this.snackBar.open(error.message, 'X', {
-                duration: 3000
-              });
+            first: 1
+          }
+        })
+        .valueChanges.subscribe(
+          ({ data, loading }) => {
+            if (!loading) {
+              if (data.testDatas.length > 0) {
+                this.testData = data.testDatas[0];
+              }
             }
-          );
-      }
+          },
+          (error) => {
+            this.snackBar.open(error.message, 'X', {
+              duration: 3000
+            });
+          }
+        );
+        }
     });
   }
 
   ngOnDestroy(): void {
-    if (this.testQuerySubcription) {
-      this.testQuerySubcription.unsubscribe();
+    if (this.testDataQuerySubcription) {
+      this.testDataQuerySubcription.unsubscribe();
     }
   }
 

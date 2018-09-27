@@ -71,7 +71,7 @@ mutation {
               {
                 code: A2
                 description: "Dígitos en regresión"
-                point: 6
+                point: 5
               },
               {
                 code: A3
