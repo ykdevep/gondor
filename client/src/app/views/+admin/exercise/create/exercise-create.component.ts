@@ -42,6 +42,12 @@ const createExercise = gql`
                   <mat-select placeholder="Código del ejercicio (A1, A2, A3...)" formControlName="code">
                     <mat-option value="A0">Datos generales</mat-option>
                     <mat-option value="A1">Orientación</mat-option>
+
+                    <mat-option value="A2">Dígitos en regresión</mat-option>
+                    <mat-option value="A3">Detención visual</mat-option>
+                    <mat-option value="A4">20-3</mat-option>
+                    <mat-option value="A5">Memoria verbal espontánea</mat-option>
+
                   </mat-select>
                 </mat-form-field>
 

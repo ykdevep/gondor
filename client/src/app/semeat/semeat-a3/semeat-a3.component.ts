@@ -23,9 +23,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
           <div class="buttons" [hidden]="!flagStart">
             <mat-grid-list cols="6" rowHeight="6:2">
-              <mat-grid-tile *ngFor="let ico of data">
-                <button hideButton mat-raised-button type="button" [disabled]="!flagQuestion || flagFinish" (click)="validQuestion(ico)">
-                    <mat-icon>{{ico}}</mat-icon>
+              <mat-grid-tile *ngFor="let icon of icons">
+                <button hideButton mat-raised-button type="button" [disabled]="!flagQuestion || flagFinish" (click)="validQuestion(icon)">
+                    <mat-icon>{{icon}}</mat-icon>
                 </button>
               </mat-grid-tile>
             </mat-grid-list>
@@ -69,7 +69,7 @@ export class SemeatA3Component implements OnInit {
   hit = 0;
   point = 0;
   fault = 0;
-  omit = 0;
+  omit = 4;
 
   exercise: any;
   create: any[] = [];
@@ -78,15 +78,24 @@ export class SemeatA3Component implements OnInit {
     'account_box',
     'person',
     'account_circle',
+    'account_box',
     'android',
     'face',
     'grade',
     'record_voice_over',
+    'account_box',
+    'sentiment_very_dissatisfied',
+    'android',
+    'sentiment_very_satisfied',
     'supervisor_account',
     'people_outline',
     'people',
     'sentiment_dissatisfied',
+    'android',
+    'person',
+    'face',
     'sentiment_neutral',
+    'account_box',
     'sentiment_satisfied',
     'sentiment_very_dissatisfied',
     'sentiment_very_satisfied',
@@ -107,24 +116,6 @@ export class SemeatA3Component implements OnInit {
     this.exerciseForm = this.formBuilder.group({
       flagFormControl: ['', Validators.required]
     });
-
-    const q = this.icons[Math.round(Math.random() * (this.icons.length - 1))];
-
-    this.question = {
-      name: q,
-      value: q,
-    };
-
-    for (let i = 0; i < this.icons.length * 4; i++) {
-
-      const question = this.icons[Math.round(Math.random() * (this.icons.length - 1))];
-      this.data.push(question);
-
-      if (question === this.question.name) {
-        this.omit += 1;
-      }
-
-    }
   }
 
   start(): void {
