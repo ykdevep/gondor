@@ -58,6 +58,7 @@ mutation {
               {
                 code: A1
                 description: "Ejercicios de Orientación"
+                point: 4
               }
             ]
           }
@@ -70,14 +71,17 @@ mutation {
               {
                 code: A2
                 description: "Dígitos en regresión"
+                point: 6
               },
               {
                 code: A3
                 description: "Detención visual"
+                point: 4
               },
               {
                 code: A4
                 description: "20-3"
+                point: 5
               }
             ]
           }
@@ -90,6 +94,7 @@ mutation {
               {
                 code: A5
                 description: "Memoria verbal espontánea"
+                point: 18
               }
             ]
           }

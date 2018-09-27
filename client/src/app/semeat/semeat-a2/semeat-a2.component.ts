@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { trigger, style, state, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-semeat-a2',
@@ -14,11 +15,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
          <button mat-mini-fab color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
         </span>
 
-        <h2 mat-h2 [hidden]="flagQuestion">{{question}}</h2>
+        <h2 [@state]="state" mat-h2 [hidden]="flagQuestion">{{question}}</h2>
 
         <form [formGroup]="exerciseForm" #f="ngForm" (ngSubmit)="saveForm()">
 
-          <div class="item" [hidden]="!flagQuestion || !flagStart">
+          <div class="item" [@state]="state" [hidden]="!flagQuestion || !flagStart">
             <mat-form-field class="half-width">
               <input matInput type="text" placeholder="Introduce la serie en orden regresivo" formControlName="response">
             </mat-form-field>
@@ -50,7 +51,29 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         width: 100%;
       }
     `
-  ]
+  ],
+  animations: [
+    trigger('state', [
+      state('inactive', style({transform: 'translateX(0) scale(0.9)'})),
+      state('active',   style({transform: 'translateX(0) scale(1.0)'})),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out')),
+      transition('void => inactive', [
+        style({transform: 'translateX(-100%) scale(1)'}),
+        animate(100)
+      ]),
+      transition('inactive => void', [
+        animate(100, style({transform: 'translateX(100%) scale(1)'}))
+      ]),
+      transition('void => active', [
+        style({transform: 'translateX(0) scale(0)'}),
+        animate(200)
+      ]),
+      transition('active => void', [
+        animate(200, style({transform: 'translateX(0) scale(0)'}))
+      ])
+    ]
+  )]
 })
 export class SemeatA2Component implements OnInit {
   exerciseForm: FormGroup;
@@ -58,6 +81,7 @@ export class SemeatA2Component implements OnInit {
   initAt: Date;
 
   question: string;
+  state = 'active';
 
   flagStart = false;
   flagFinish = true;
@@ -134,10 +158,16 @@ export class SemeatA2Component implements OnInit {
     this.initAt = new Date();
 
     this.question = this.data[this.series][this.count].question;
+    this.setState();
 
     setTimeout(() => {
+      this.setState();
       this.flagQuestion = true;
     }, (this.count + 2) * 1000);
+  }
+
+  setState(): void {
+    this.state = (this.state !== 'active') ? 'active' : 'inactive';
   }
 
   saveForm(): void {
@@ -172,7 +202,10 @@ export class SemeatA2Component implements OnInit {
         this.question = this.data[this.series][this.count].question;
         this.flagQuestion = false;
 
+        this.setState();
+
         setTimeout(() => {
+          this.setState();
           this.flagQuestion = true;
         }, (this.count + 2) * 1000);
       }

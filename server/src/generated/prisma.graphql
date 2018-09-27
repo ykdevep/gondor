@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Mon Sep 24 2018 14:46:44 GMT-0400 (EDT)
+# timestamp: Thu Sep 27 2018 09:36:01 GMT-0400 (EDT)
 
 type AggregateExercise {
   count: Int!
@@ -70,6 +70,7 @@ scalar DateTime
 type Exercise implements Node {
   id: ID!
   code: Codes!
+  point: Int!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
 }
@@ -86,6 +87,7 @@ type ExerciseConnection {
 
 input ExerciseCreateInput {
   code: Codes!
+  point: Int
   description: String
   sections: SectionCreateManyInput
 }
@@ -512,6 +514,8 @@ enum ExerciseOrderByInput {
   id_DESC
   code_ASC
   code_DESC
+  point_ASC
+  point_DESC
   description_ASC
   description_DESC
   updatedAt_ASC
@@ -523,6 +527,7 @@ enum ExerciseOrderByInput {
 type ExercisePreviousValues {
   id: ID!
   code: Codes!
+  point: Int!
   description: String
 }
 
@@ -567,12 +572,14 @@ input ExerciseSubscriptionWhereInput {
 
 input ExerciseUpdateDataInput {
   code: Codes
+  point: Int
   description: String
   sections: SectionUpdateManyInput
 }
 
 input ExerciseUpdateInput {
   code: Codes
+  point: Int
   description: String
   sections: SectionUpdateManyInput
 }
@@ -656,6 +663,28 @@ input ExerciseWhereInput {
 
   """All values that are not contained in given list."""
   code_not_in: [Codes!]
+  point: Int
+
+  """All values that are not equal to given value."""
+  point_not: Int
+
+  """All values that are contained in given list."""
+  point_in: [Int!]
+
+  """All values that are not contained in given list."""
+  point_not_in: [Int!]
+
+  """All values less than the given value."""
+  point_lt: Int
+
+  """All values less than or equal the given value."""
+  point_lte: Int
+
+  """All values greater than the given value."""
+  point_gt: Int
+
+  """All values greater than or equal the given value."""
+  point_gte: Int
   description: String
 
   """All values that are not equal to given value."""
@@ -1708,6 +1737,7 @@ type Section implements Node {
   id: ID!
   name: String!
   description: String
+  enable: Boolean!
   exercises(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Exercise!]
   tests(where: TestWhereInput, orderBy: TestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Test!]
 }
@@ -1725,6 +1755,7 @@ type SectionConnection {
 input SectionCreateInput {
   name: String!
   description: String
+  enable: Boolean
   exercises: ExerciseCreateManyInput
   tests: TestCreateManyInput
 }
@@ -1750,6 +1781,8 @@ enum SectionOrderByInput {
   name_DESC
   description_ASC
   description_DESC
+  enable_ASC
+  enable_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1760,6 +1793,7 @@ type SectionPreviousValues {
   id: ID!
   name: String!
   description: String
+  enable: Boolean!
 }
 
 type SectionSubscriptionPayload {
@@ -1804,6 +1838,7 @@ input SectionSubscriptionWhereInput {
 input SectionUpdateDataInput {
   name: String
   description: String
+  enable: Boolean
   exercises: ExerciseUpdateManyInput
   tests: TestUpdateManyInput
 }
@@ -1811,6 +1846,7 @@ input SectionUpdateDataInput {
 input SectionUpdateInput {
   name: String
   description: String
+  enable: Boolean
   exercises: ExerciseUpdateManyInput
   tests: TestUpdateManyInput
 }
@@ -1964,6 +2000,10 @@ input SectionWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
+  enable: Boolean
+
+  """All values that are not equal to given value."""
+  enable_not: Boolean
   exercises_every: ExerciseWhereInput
   exercises_some: ExerciseWhereInput
   exercises_none: ExerciseWhereInput

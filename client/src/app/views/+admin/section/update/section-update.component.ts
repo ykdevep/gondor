@@ -22,6 +22,7 @@ const sectionQuery = gql`
     section(id: $id) {
       id
       name
+      enable
       description
       exercises {
         code
@@ -60,6 +61,10 @@ const sectionQuery = gql`
                 <mat-form-field class="full-width">
                   <textarea matInput type="text" placeholder="Describe la sección" formControlName="description"></textarea>
                 </mat-form-field>
+
+                <div class="full-width">
+                  <mat-checkbox formControlName="enable">Habilitar</mat-checkbox>
+                </div>
 
               </mat-card-content>
               <mat-card-actions>
@@ -107,6 +112,7 @@ export class SectionUpdateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateSectionForm = this.formBuilder.group({
       name: ['', Validators.required],
+      enable: [''],
       description: ['']
     });
 
@@ -130,6 +136,7 @@ export class SectionUpdateComponent implements OnInit, OnDestroy {
 
           this.updateSectionForm.patchValue({
             name: this.sectionData.name,
+            enable: this.sectionData.enable,
             description: this.sectionData.description
           });
         }
@@ -152,6 +159,7 @@ export class SectionUpdateComponent implements OnInit, OnDestroy {
             data:  {
               'name': this.updateSectionForm.value.name,
               'description': this.updateSectionForm.value.description,
+              'enable': this.updateSectionForm.value.enable,
             },
             where : {
               id: this.sectionId

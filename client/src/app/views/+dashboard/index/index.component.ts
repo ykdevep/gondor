@@ -41,32 +41,38 @@ export class IndexComponent implements OnInit, OnDestroy {
     this.isSpecialist = this.authService.isSpecialist();
     this.isStudent = this.authService.isStudent();
 
-    this.testQuerySubcription = this.apollo
-      .watchQuery<any>({
-        query: initTestQuery,
-        variables: {
-          where: {
-            'type': 'INITIAL',
-            'enable': true
-          }
-        }
-      })
-      .valueChanges.subscribe(
-        ({ data, loading }) => {
-          if (!loading) {
-            this.initTestData = data.tests;
-          }
-        },
-        (error) => {
-          this.snackBar.open(error.message, 'X', {
-            duration: 3000
-          });
-        }
-      );
+    this.isStudent.subscribe(flag => {
+      if (flag) {
+        this.testQuerySubcription = this.apollo
+          .watchQuery<any>({
+            query: initTestQuery,
+            variables: {
+              where: {
+                'type': 'INITIAL',
+                'enable': true
+              }
+            }
+          })
+          .valueChanges.subscribe(
+            ({ data, loading }) => {
+              if (!loading) {
+                this.initTestData = data.tests;
+              }
+            },
+            (error) => {
+              this.snackBar.open(error.message, 'X', {
+                duration: 3000
+              });
+            }
+          );
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    this.testQuerySubcription.unsubscribe();
+    if (this.testQuerySubcription) {
+      this.testQuerySubcription.unsubscribe();
+    }
   }
 
 }

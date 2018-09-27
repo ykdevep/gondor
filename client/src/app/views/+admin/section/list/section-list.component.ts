@@ -28,6 +28,7 @@ const sectionList = gql`
       id
       name
       description
+      enable
       exercises {
         id
         code
@@ -121,6 +122,15 @@ const deleteManySections = gql`
                   <mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
                 </ng-container>
 
+                <!-- Enable Column -->
+                <ng-container matColumnDef="enable">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Habilitado</mat-header-cell>
+                  <mat-cell *matCellDef="let row">
+                    <mat-icon *ngIf="row.enable" color="primary">done</mat-icon>
+                    <mat-icon *ngIf="!row.enable" color="warn">close</mat-icon>
+                  </mat-cell>
+                </ng-container>
+
                 <!-- Add Column -->
                 <ng-container matColumnDef="add">
                   <mat-header-cell fxFlex="7" *matHeaderCellDef>
@@ -212,7 +222,7 @@ export class SectionListComponent implements OnInit, AfterViewInit, OnDestroy {
   selection = new SelectionModel<Section>(true, []);
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['select', 'name', 'description', 'add', 'details', 'edit', 'delete'];
+  displayedColumns = ['select', 'name', 'enable', 'description', 'add', 'details', 'edit', 'delete'];
 
   loading: boolean;
   private querySubscription: Subscription;

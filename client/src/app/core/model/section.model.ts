@@ -4,5 +4,6 @@ export interface Section {
   id: string;
   name: string;
   description: string;
+  enable: boolean;
   exercises: Exercise[];
 }

@@ -11,6 +11,7 @@ const sectionQuery = gql`
     section(id: $id) {
       id
       name
+      enable
       description
       exercises {
         code
@@ -47,6 +48,11 @@ const sectionQuery = gql`
                     <mat-grid-tile><h3> {{sectionData.id}}</h3></mat-grid-tile>
                     <mat-grid-tile><h3>Nombre:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{sectionData.name}}</h3></mat-grid-tile>
+                    <mat-grid-tile><h3>Habilitado:</h3></mat-grid-tile>
+                    <mat-grid-tile>
+                      <mat-icon *ngIf="sectionData.enable" color="primary">done</mat-icon>
+                      <mat-icon *ngIf="!sectionData.enable" color="warn">close</mat-icon>
+                    </mat-grid-tile>
                     <mat-grid-tile><h3>Descripción:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{sectionData.description}}</h3></mat-grid-tile>
 

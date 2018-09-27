@@ -1,7 +1,6 @@
 <div class="grid-container">
   <h1 class="mat-h1">Escritorio</h1>
 
-
   <div class="container mat-elevation-z8" *ngIf="(isStudent | async) && initTestData" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
     <div class="item" fxFlex="33%" fxFlex.xs="90%" fxFlex.md="90%" *ngFor="let test of initTestData">
         <mat-card class="dashboard-card"  routerLink="/student/init-test/{{test.id}}">

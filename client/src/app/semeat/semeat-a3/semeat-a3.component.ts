@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { trigger, style, state, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-semeat-a3',
@@ -15,13 +16,15 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
           <button mat-mini-fab color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
         </span>
 
-        <h2 mat-h2 [hidden]="flagQuestion"><mat-icon>{{question.value}}</mat-icon></h2>
+        <div class="question" [@state]="state" [hidden]="flagQuestion"><mat-icon>{{question.value}}</mat-icon></div>
+
+        <br />
 
         <form [formGroup]="exerciseForm" #f="ngForm" (ngSubmit)="saveForm()">
 
           <input formControlName="flagFormControl" type="hidden">
 
-          <div class="buttons" [hidden]="!flagStart">
+          <div class="buttons" [@state]="state" [hidden]="!flagStart || !flagQuestion">
             <mat-grid-list cols="6" rowHeight="6:2">
               <mat-grid-tile *ngFor="let icon of icons">
                 <button hideButton mat-raised-button type="button" [disabled]="!flagQuestion || flagFinish" (click)="validQuestion(icon)">
@@ -29,22 +32,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
                 </button>
               </mat-grid-tile>
             </mat-grid-list>
-          </div>
-          <br />
-          <div class="button" [hidden]="!exerciseForm.valid && !flagFinish">
-            <button mat-raised-button color="accent" [disabled]="!exerciseForm.valid"
-                type="submit" aria-label="done">
-              <mat-icon>done</mat-icon>
-              <span>Hecho</span>
-            </button>
+            <br />
+            <div class="button" [hidden]="!exerciseForm.valid && !flagFinish">
+              <button mat-raised-button color="accent" [disabled]="!exerciseForm.valid"
+                  type="submit" aria-label="done">
+                <mat-icon>done</mat-icon>
+                <span>Hecho</span>
+              </button>
+            </div>
           </div>
         </form>
       </div>
     </div>
 
   `,
-  styles: [
-    `
+  styles: [    `
       .full-width {
         width: 100%;
       }
@@ -54,8 +56,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
       .hide {
         display: none!important;
       }
+      .question > mat-icon {
+        font-size: 35px;
+        height: 35px;
+        width: 35px;
+      }
     `
-  ]
+  ],
+  animations: [
+    trigger('state', [
+      state('inactive', style({transform: 'translateX(0) scale(0.9)'})),
+      state('active',   style({transform: 'translateX(0) scale(1.0)'})),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out')),
+      transition('void => inactive', [
+        style({transform: 'translateX(-100%) scale(1)'}),
+        animate(100)
+      ]),
+      transition('inactive => void', [
+        animate(100, style({transform: 'translateX(100%) scale(1)'}))
+      ]),
+      transition('void => active', [
+        style({transform: 'translateX(0) scale(0)'}),
+        animate(200)
+      ]),
+      transition('active => void', [
+        animate(200, style({transform: 'translateX(0) scale(0)'}))
+      ])
+    ]
+  )]
 })
 export class SemeatA3Component implements OnInit {
   exerciseForm: FormGroup;
@@ -65,6 +94,8 @@ export class SemeatA3Component implements OnInit {
   flagStart = false;
   flagFinish = false;
   flagQuestion = true;
+
+  state = 'active';
 
   hit = 0;
   point = 0;
@@ -121,8 +152,10 @@ export class SemeatA3Component implements OnInit {
   start(): void {
     this.flagStart = true;
     this.flagQuestion = false;
+    this.state = (this.state !== 'active') ? 'active' : 'inactive';
     setTimeout(() => {
       this.flagQuestion = true;
+      this.state = (this.state !== 'active') ? 'active' : 'inactive';
       this.exerciseForm.setValue({flagFormControl: 'true'});
     }, 3000);
 

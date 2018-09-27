@@ -17,7 +17,7 @@ const initTestQuery = gql`
       type
       description
       enable
-      sections {
+      sections(where: {enable: true}) {
         id
         name
         description
@@ -120,6 +120,8 @@ export class InitTestComponent implements OnInit, OnDestroy {
         ({ data, loading }) => {
           if (!loading) {
             this.test = data.test;
+
+            console.log(data.test);
             this.steps = new Array<boolean>(this.test.sections.length);
             for (let i = 0; i < this.test.sections.length; i++) {
               this.multiple.push([]);

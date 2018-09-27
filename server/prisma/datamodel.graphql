@@ -54,6 +54,7 @@ type Section {
 type Exercise {
   id: ID! @unique
   code: Codes! @unique
+  point: Int! @default(value: 0)
   description: String
   sections: [Section!]! @relation(name: "R6")  
 }

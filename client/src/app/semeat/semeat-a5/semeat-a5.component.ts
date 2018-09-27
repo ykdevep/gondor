@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@angular/forms';
+import { trigger, style, state, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-semeat-a5',
@@ -14,11 +15,11 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
           <button mat-mini-fab color="accent" [disabled]="flagStart" (click)="start()"><mat-icon>alarm</mat-icon></button>
         </span>
 
-        <h2 mat-h2 [hidden]="flagQuestion">{{question.toString()}}</h2>
+        <h2 [@state]="state" mat-h2 [hidden]="flagQuestion">{{question.toString()}}</h2>
 
         <form [formGroup]="exerciseForm" #f="ngForm" (ngSubmit)="saveForm()">
 
-          <div class="questions" [hidden]="!flagQuestion || !flagStart">
+          <div [@state]="state" class="questions" [hidden]="!flagQuestion || !flagStart">
             <mat-list>
               <mat-list-item *ngFor="let word of data" class="word">
                 <mat-checkbox formControlName="word" (change)="onChange(word, $event)">{{word.name}}</mat-checkbox>
@@ -27,7 +28,7 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
           </div>
 
           <br />
-          <div class="button" [hidden]="!exerciseForm.valid || !flagQuestion || !flagStart || flagFinish">
+          <div [@state]="state" class="button" [hidden]="!exerciseForm.valid || !flagQuestion || !flagStart || flagFinish">
             <button mat-raised-button color="accent" [disabled]="!exerciseForm.valid"
                 type="submit" aria-label="done">
               <span>Evaluar</span>
@@ -63,7 +64,29 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
         float: left;
       }
     `
-  ]
+  ],
+  animations: [
+    trigger('state', [
+      state('inactive', style({transform: 'translateX(0) scale(0.9)'})),
+      state('active',   style({transform: 'translateX(0) scale(1.0)'})),
+      transition('inactive => active', animate('100ms ease-in')),
+      transition('active => inactive', animate('100ms ease-out')),
+      transition('void => inactive', [
+        style({transform: 'translateX(-100%) scale(1)'}),
+        animate(100)
+      ]),
+      transition('inactive => void', [
+        animate(100, style({transform: 'translateX(100%) scale(1)'}))
+      ]),
+      transition('void => active', [
+        style({transform: 'translateX(0) scale(0)'}),
+        animate(200)
+      ]),
+      transition('active => void', [
+        animate(200, style({transform: 'translateX(0) scale(0)'}))
+      ])
+    ]
+  )]
 })
 export class SemeatA5Component implements OnInit {
   exerciseForm: FormGroup;
@@ -82,6 +105,7 @@ export class SemeatA5Component implements OnInit {
 
   index = 1;
   question: string[];
+  state = 'active';
 
   exercise: any;
   create: any[] = [];
@@ -203,10 +227,16 @@ export class SemeatA5Component implements OnInit {
     }
   }
 
+  setState(): void {
+    this.state = (this.state !== 'active') ? 'active' : 'inactive';
+  }
+
   start(): void {
     this.flagStart = true;
     this.flagQuestion = false;
+    this.setState();
     setTimeout(() => {
+      this.setState();
       this.flagQuestion = true;
     }, 5000);
   }
@@ -229,7 +259,9 @@ export class SemeatA5Component implements OnInit {
                     .filter(p => p.value === this.index)
                     .map(p => p.name);
         this.flagQuestion = false;
+        this.setState();
         setTimeout(() => {
+          this.setState();
           this.flagQuestion = true;
         }, 5000);
 

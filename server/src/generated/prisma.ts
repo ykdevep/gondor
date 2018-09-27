@@ -206,6 +206,7 @@ scalar DateTime
 type Exercise implements Node {
   id: ID!
   code: Codes!
+  point: Int!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
 }
@@ -222,6 +223,7 @@ type ExerciseConnection {
 
 input ExerciseCreateInput {
   code: Codes!
+  point: Int
   description: String
   sections: SectionCreateManyInput
 }
@@ -648,6 +650,8 @@ enum ExerciseOrderByInput {
   id_DESC
   code_ASC
   code_DESC
+  point_ASC
+  point_DESC
   description_ASC
   description_DESC
   updatedAt_ASC
@@ -659,6 +663,7 @@ enum ExerciseOrderByInput {
 type ExercisePreviousValues {
   id: ID!
   code: Codes!
+  point: Int!
   description: String
 }
 
@@ -703,12 +708,14 @@ input ExerciseSubscriptionWhereInput {
 
 input ExerciseUpdateDataInput {
   code: Codes
+  point: Int
   description: String
   sections: SectionUpdateManyInput
 }
 
 input ExerciseUpdateInput {
   code: Codes
+  point: Int
   description: String
   sections: SectionUpdateManyInput
 }
@@ -792,6 +799,28 @@ input ExerciseWhereInput {
 
   """All values that are not contained in given list."""
   code_not_in: [Codes!]
+  point: Int
+
+  """All values that are not equal to given value."""
+  point_not: Int
+
+  """All values that are contained in given list."""
+  point_in: [Int!]
+
+  """All values that are not contained in given list."""
+  point_not_in: [Int!]
+
+  """All values less than the given value."""
+  point_lt: Int
+
+  """All values less than or equal the given value."""
+  point_lte: Int
+
+  """All values greater than the given value."""
+  point_gt: Int
+
+  """All values greater than or equal the given value."""
+  point_gte: Int
   description: String
 
   """All values that are not equal to given value."""
@@ -1844,6 +1873,7 @@ type Section implements Node {
   id: ID!
   name: String!
   description: String
+  enable: Boolean!
   exercises(where: ExerciseWhereInput, orderBy: ExerciseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Exercise!]
   tests(where: TestWhereInput, orderBy: TestOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Test!]
 }
@@ -1861,6 +1891,7 @@ type SectionConnection {
 input SectionCreateInput {
   name: String!
   description: String
+  enable: Boolean
   exercises: ExerciseCreateManyInput
   tests: TestCreateManyInput
 }
@@ -1886,6 +1917,8 @@ enum SectionOrderByInput {
   name_DESC
   description_ASC
   description_DESC
+  enable_ASC
+  enable_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -1896,6 +1929,7 @@ type SectionPreviousValues {
   id: ID!
   name: String!
   description: String
+  enable: Boolean!
 }
 
 type SectionSubscriptionPayload {
@@ -1940,6 +1974,7 @@ input SectionSubscriptionWhereInput {
 input SectionUpdateDataInput {
   name: String
   description: String
+  enable: Boolean
   exercises: ExerciseUpdateManyInput
   tests: TestUpdateManyInput
 }
@@ -1947,6 +1982,7 @@ input SectionUpdateDataInput {
 input SectionUpdateInput {
   name: String
   description: String
+  enable: Boolean
   exercises: ExerciseUpdateManyInput
   tests: TestUpdateManyInput
 }
@@ -2100,6 +2136,10 @@ input SectionWhereInput {
 
   """All values not ending with the given string."""
   description_not_ends_with: String
+  enable: Boolean
+
+  """All values that are not equal to given value."""
+  enable_not: Boolean
   exercises_every: ExerciseWhereInput
   exercises_some: ExerciseWhereInput
   exercises_none: ExerciseWhereInput
@@ -3172,6 +3212,8 @@ export type SectionOrderByInput =   'id_ASC' |
   'name_DESC' |
   'description_ASC' |
   'description_DESC' |
+  'enable_ASC' |
+  'enable_DESC' |
   'updatedAt_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
@@ -3181,6 +3223,8 @@ export type ExerciseOrderByInput =   'id_ASC' |
   'id_DESC' |
   'code_ASC' |
   'code_DESC' |
+  'point_ASC' |
+  'point_DESC' |
   'description_ASC' |
   'description_DESC' |
   'updatedAt_ASC' |
@@ -3351,6 +3395,7 @@ export interface UserUpdateManyInput {
 export interface SectionUpdateInput {
   name?: String
   description?: String
+  enable?: Boolean
   exercises?: ExerciseUpdateManyInput
   tests?: TestUpdateManyInput
 }
@@ -3462,45 +3507,15 @@ export interface ExerciseDataUpsertWithWhereUniqueNestedInput {
   create: ExerciseDataCreateInput
 }
 
-export interface ExerciseWhereInput {
-  AND?: ExerciseWhereInput[] | ExerciseWhereInput
-  OR?: ExerciseWhereInput[] | ExerciseWhereInput
-  NOT?: ExerciseWhereInput[] | ExerciseWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  code?: Codes
-  code_not?: Codes
-  code_in?: Codes[] | Codes
-  code_not_in?: Codes[] | Codes
-  description?: String
-  description_not?: String
-  description_in?: String[] | String
-  description_not_in?: String[] | String
-  description_lt?: String
-  description_lte?: String
-  description_gt?: String
-  description_gte?: String
-  description_contains?: String
-  description_not_contains?: String
-  description_starts_with?: String
-  description_not_starts_with?: String
-  description_ends_with?: String
-  description_not_ends_with?: String
-  sections_every?: SectionWhereInput
-  sections_some?: SectionWhereInput
-  sections_none?: SectionWhereInput
+export interface ResultSubscriptionWhereInput {
+  AND?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
+  OR?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
+  NOT?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: ResultWhereInput
 }
 
 export interface ResultUpsertWithWhereUniqueNestedInput {
@@ -3509,10 +3524,10 @@ export interface ResultUpsertWithWhereUniqueNestedInput {
   create: ResultCreateInput
 }
 
-export interface TestWhereInput {
-  AND?: TestWhereInput[] | TestWhereInput
-  OR?: TestWhereInput[] | TestWhereInput
-  NOT?: TestWhereInput[] | TestWhereInput
+export interface TestDataWhereInput {
+  AND?: TestDataWhereInput[] | TestDataWhereInput
+  OR?: TestDataWhereInput[] | TestDataWhereInput
+  NOT?: TestDataWhereInput[] | TestDataWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -3531,25 +3546,26 @@ export interface TestWhereInput {
   type_not?: Types
   type_in?: Types[] | Types
   type_not_in?: Types[] | Types
-  description?: String
-  description_not?: String
-  description_in?: String[] | String
-  description_not_in?: String[] | String
-  description_lt?: String
-  description_lte?: String
-  description_gt?: String
-  description_gte?: String
-  description_contains?: String
-  description_not_contains?: String
-  description_starts_with?: String
-  description_not_starts_with?: String
-  description_ends_with?: String
-  description_not_ends_with?: String
-  enable?: Boolean
-  enable_not?: Boolean
-  sections_every?: SectionWhereInput
-  sections_some?: SectionWhereInput
-  sections_none?: SectionWhereInput
+  initAt?: DateTime
+  initAt_not?: DateTime
+  initAt_in?: DateTime[] | DateTime
+  initAt_not_in?: DateTime[] | DateTime
+  initAt_lt?: DateTime
+  initAt_lte?: DateTime
+  initAt_gt?: DateTime
+  initAt_gte?: DateTime
+  finalAt?: DateTime
+  finalAt_not?: DateTime
+  finalAt_in?: DateTime[] | DateTime
+  finalAt_not_in?: DateTime[] | DateTime
+  finalAt_lt?: DateTime
+  finalAt_lte?: DateTime
+  finalAt_gt?: DateTime
+  finalAt_gte?: DateTime
+  createdBy?: UserWhereInput
+  exerciseDatas_every?: ExerciseDataWhereInput
+  exerciseDatas_some?: ExerciseDataWhereInput
+  exerciseDatas_none?: ExerciseDataWhereInput
 }
 
 export interface ResultUpdateDataInput {
@@ -3653,6 +3669,7 @@ export interface RoleUpsertWithWhereUniqueNestedInput {
 
 export interface ExerciseUpdateInput {
   code?: Codes
+  point?: Int
   description?: String
   sections?: SectionUpdateManyInput
 }
@@ -3722,6 +3739,7 @@ export interface RoleCreateManyInput {
 
 export interface ExerciseUpdateDataInput {
   code?: Codes
+  point?: Int
   description?: String
   sections?: SectionUpdateManyInput
 }
@@ -3765,10 +3783,10 @@ export interface ExerciseDataCreateManyInput {
   connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
 }
 
-export interface TestDataWhereInput {
-  AND?: TestDataWhereInput[] | TestDataWhereInput
-  OR?: TestDataWhereInput[] | TestDataWhereInput
-  NOT?: TestDataWhereInput[] | TestDataWhereInput
+export interface ExerciseWhereInput {
+  AND?: ExerciseWhereInput[] | ExerciseWhereInput
+  OR?: ExerciseWhereInput[] | ExerciseWhereInput
+  NOT?: ExerciseWhereInput[] | ExerciseWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -3783,30 +3801,35 @@ export interface TestDataWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
-  type?: Types
-  type_not?: Types
-  type_in?: Types[] | Types
-  type_not_in?: Types[] | Types
-  initAt?: DateTime
-  initAt_not?: DateTime
-  initAt_in?: DateTime[] | DateTime
-  initAt_not_in?: DateTime[] | DateTime
-  initAt_lt?: DateTime
-  initAt_lte?: DateTime
-  initAt_gt?: DateTime
-  initAt_gte?: DateTime
-  finalAt?: DateTime
-  finalAt_not?: DateTime
-  finalAt_in?: DateTime[] | DateTime
-  finalAt_not_in?: DateTime[] | DateTime
-  finalAt_lt?: DateTime
-  finalAt_lte?: DateTime
-  finalAt_gt?: DateTime
-  finalAt_gte?: DateTime
-  createdBy?: UserWhereInput
-  exerciseDatas_every?: ExerciseDataWhereInput
-  exerciseDatas_some?: ExerciseDataWhereInput
-  exerciseDatas_none?: ExerciseDataWhereInput
+  code?: Codes
+  code_not?: Codes
+  code_in?: Codes[] | Codes
+  code_not_in?: Codes[] | Codes
+  point?: Int
+  point_not?: Int
+  point_in?: Int[] | Int
+  point_not_in?: Int[] | Int
+  point_lt?: Int
+  point_lte?: Int
+  point_gt?: Int
+  point_gte?: Int
+  description?: String
+  description_not?: String
+  description_in?: String[] | String
+  description_not_in?: String[] | String
+  description_lt?: String
+  description_lte?: String
+  description_gt?: String
+  description_gte?: String
+  description_contains?: String
+  description_not_contains?: String
+  description_starts_with?: String
+  description_not_starts_with?: String
+  description_ends_with?: String
+  description_not_ends_with?: String
+  sections_every?: SectionWhereInput
+  sections_some?: SectionWhereInput
+  sections_none?: SectionWhereInput
 }
 
 export interface ExerciseDataCreateInput {
@@ -3857,6 +3880,7 @@ export interface RoleWhereUniqueInput {
 export interface SectionCreateInput {
   name: String
   description?: String
+  enable?: Boolean
   exercises?: ExerciseCreateManyInput
   tests?: TestCreateManyInput
 }
@@ -3879,6 +3903,7 @@ export interface ExerciseUpsertWithWhereUniqueNestedInput {
 
 export interface ExerciseCreateInput {
   code: Codes
+  point?: Int
   description?: String
   sections?: SectionCreateManyInput
 }
@@ -4087,15 +4112,47 @@ export interface TestCreateInput {
   sections?: SectionCreateManyInput
 }
 
-export interface ResultSubscriptionWhereInput {
-  AND?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
-  OR?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
-  NOT?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: ResultWhereInput
+export interface TestWhereInput {
+  AND?: TestWhereInput[] | TestWhereInput
+  OR?: TestWhereInput[] | TestWhereInput
+  NOT?: TestWhereInput[] | TestWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  type?: Types
+  type_not?: Types
+  type_in?: Types[] | Types
+  type_not_in?: Types[] | Types
+  description?: String
+  description_not?: String
+  description_in?: String[] | String
+  description_not_in?: String[] | String
+  description_lt?: String
+  description_lte?: String
+  description_gt?: String
+  description_gte?: String
+  description_contains?: String
+  description_not_contains?: String
+  description_starts_with?: String
+  description_not_starts_with?: String
+  description_ends_with?: String
+  description_not_ends_with?: String
+  enable?: Boolean
+  enable_not?: Boolean
+  sections_every?: SectionWhereInput
+  sections_some?: SectionWhereInput
+  sections_none?: SectionWhereInput
 }
 
 export interface FileUpdateInput {
@@ -4139,6 +4196,7 @@ export interface UserUpdateOneInput {
 export interface SectionUpdateDataInput {
   name?: String
   description?: String
+  enable?: Boolean
   exercises?: ExerciseUpdateManyInput
   tests?: TestUpdateManyInput
 }
@@ -4246,6 +4304,8 @@ export interface SectionWhereInput {
   description_not_starts_with?: String
   description_ends_with?: String
   description_not_ends_with?: String
+  enable?: Boolean
+  enable_not?: Boolean
   exercises_every?: ExerciseWhereInput
   exercises_some?: ExerciseWhereInput
   exercises_none?: ExerciseWhereInput
@@ -4418,6 +4478,7 @@ export interface ResultEdge {
 export interface Exercise extends Node {
   id: ID_Output
   code: Codes
+  point: Int
   description?: String
   sections?: Section[]
 }
@@ -4514,6 +4575,7 @@ export interface Section extends Node {
   id: ID_Output
   name: String
   description?: String
+  enable: Boolean
   exercises?: Exercise[]
   tests?: Test[]
 }
@@ -4646,6 +4708,7 @@ export interface RoleEdge {
 export interface ExercisePreviousValues {
   id: ID_Output
   code: Codes
+  point: Int
   description?: String
 }
 
@@ -4667,6 +4730,7 @@ export interface SectionPreviousValues {
   id: ID_Output
   name: String
   description?: String
+  enable: Boolean
 }
 
 /*

@@ -53,18 +53,13 @@
           <ng-template matStepLabel>Cuestionario</ng-template>
 
           <div *ngIf="testData">
-            <span>Guarde todos los cambios hechos por usted {{testData.createdBy.firstname}}.</span>
-
-            <code>
-              {{
-                testData | json
-              }}
-            </code>
+            <h2 mat-h2>Usted a terminado el cuestionario Inicial. Para hacer permanentes los cambios presione el boton Guardar Cuestionario</h2>
           </div>
+
           <div>
             <button mat-raised-button color="primary" (click)="saveTest()">
               <mat-icon>done</mat-icon>
-              <span>Guardar</span>
+              <span>Guardar Cuestionario</span>
             </button>
           </div>
         </mat-step>
