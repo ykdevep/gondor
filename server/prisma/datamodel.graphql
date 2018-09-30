@@ -74,7 +74,8 @@ type ExerciseData {
   initAt: DateTime!
   finalAt: DateTime!
   result: [Result!]! @relation(name: "R8") 
-  level: String! @default(value: NINGUNO)
+  level: Levels! @default(value: NINGUNO)
+  dificulty: Dificulty! @default(value: NINGUNO)
   hit: Int @default(value: 0)
   fault: Int @default(value: 0)
   omit: Int @default(value: 0)
@@ -104,6 +105,13 @@ enum Levels {
   SELECTIVA
   ALTERNADA
   DIVIDIDA
+}
+
+enum Dificulty {
+  NINGUNO
+  INICIAL
+  MEDIA
+  AVANZADA
 }
 
 enum Codes {
