@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'init-test',
     component: InitTestComponent,
-    data: {title: 'Cuestionario Inicial', expectedRole: 'Estudiante'},
+    data: {title: 'Cuestionario Inicial', expectedRole: ['Estudiante']},
     canActivate: [RoleGuard]
   }
 ];

@@ -12,7 +12,7 @@ const routes: Routes = [
   {
     path: '',
     component: IndexComponent,
-    data: {title: 'Escritorio', expectedRole: 'Administrador'},
+    data: {title: 'Escritorio', expectedRole: ['Administrador', 'Especialista', 'Estudiante', 'Visitante']},
     canActivate: [RoleGuard]
   }
 ];

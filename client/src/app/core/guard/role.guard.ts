@@ -19,8 +19,8 @@ export class RoleGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | Observable<boolean> | Promise<boolean> {
     // this will be passed from the route config
     // on the data property
-    const expectedRole = route.data.expectedRole;
-    const roles: any = this.authService.getRoles();
+    const expectedRole: any[] = route.data.expectedRole;
+    const roles: any[] = this.authService.getRoles();
 
     if (!roles) {
       this.authService.logout();
@@ -29,9 +29,10 @@ export class RoleGuard implements CanActivate {
       return false;
     }
 
-    if (!this.authService.isLoggedIn() || !roles.find(p => p.name === expectedRole)) {
+    if (!this.authService.isLoggedIn() || (!expectedRole.some(role => roles.some(p => p.name === role)))) {
       this.authService.logout();
       this.router.navigate(['auth/login']);
+      this.snackBar.open('Role not found...', 'X', {duration: 3000});
       return false;
     }
     return true;

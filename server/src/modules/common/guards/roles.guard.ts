@@ -17,6 +17,7 @@ export class RolesGuard implements CanActivate {
     if (!roles) {
       return true;
     }
+
     const ctx = GqlExecutionContext.create(context);
     const user = this.authService.getUser(ctx.getContext().token, APP_SECRET);
 

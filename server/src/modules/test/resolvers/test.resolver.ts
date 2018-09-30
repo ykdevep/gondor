@@ -20,7 +20,7 @@ export class TestResolver {
   ) {}
 
   @Query('tests')
-  @Roles('Especialista')
+  @Roles('Especialista', 'Estudiante')
   @UseGuards(RolesGuard)
   async tests(
     @Args() args: any,
@@ -30,7 +30,7 @@ export class TestResolver {
   }
 
   @Query('test')
-  @Roles('Especialista')
+  @Roles('Especialista', 'Estudiante')
   @UseGuards(RolesGuard)
   async test(
     @Args('id') id: string,
