@@ -10,13 +10,11 @@ import { Roles } from '../../common/decorators/roles.decorator';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { AuthGuard } from '../../common/guards/auth.guard';
 
-const APP_SECRET: string = process.env.APP_SECRET;
 
 @Resolver('User')
 export class UserResolver {
 
   constructor(
-    private authService: AuthService,
     private readonly prisma: Prisma,
   ) { }
 

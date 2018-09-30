@@ -52,6 +52,19 @@ const createExercise = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
+                  <mat-select placeholder="Nivel de Atención" formControlName="level">
+                    <mat-option value="NINGUNO">No tiene nivel</mat-option>
+                    <mat-option value="ENFOCADA">Enfocada</mat-option>
+
+                    <mat-option value="SOSTENIDA">Sostenida</mat-option>
+                    <mat-option value="SELECTIVA">Selectiva</mat-option>
+                    <mat-option value="ALTERNADA">Alternada</mat-option>
+                    <mat-option value="DIVIDIDA">Dividida</mat-option>
+
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
                   <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
                 </mat-form-field>
 
@@ -102,6 +115,7 @@ export class ExerciseCreateComponent implements OnInit {
     this.createExerciseForm = this.formBuilder.group({
       code: ['', Validators.required],
       point: ['', Validators.required],
+      level: ['', Validators.required],
       description: ['']
     });
   }
@@ -118,6 +132,7 @@ export class ExerciseCreateComponent implements OnInit {
         variables: {
           data: {
             'code': this.createExerciseForm.value.code,
+            'level': this.createExerciseForm.value.level,
             'point': this.createExerciseForm.value.point,
             'description': this.createExerciseForm.value.description,
           }

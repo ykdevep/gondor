@@ -23,6 +23,7 @@ const exerciseQuery = gql`
       id
       code
       point
+      level
       description
     }
   }
@@ -59,6 +60,19 @@ const exerciseQuery = gql`
                     <mat-option value="A3">Detención visual</mat-option>
                     <mat-option value="A4">20-3</mat-option>
                     <mat-option value="A5">Memoria verbal espontánea</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="full-width">
+                  <mat-select placeholder="Nivel de Atención" formControlName="level">
+                    <mat-option value="NINGUNO">No tiene nivel</mat-option>
+                    <mat-option value="ENFOCADA">Enfocada</mat-option>
+
+                    <mat-option value="SOSTENIDA">Sostenida</mat-option>
+                    <mat-option value="SELECTIVA">Selectiva</mat-option>
+                    <mat-option value="ALTERNADA">Alternada</mat-option>
+                    <mat-option value="DIVIDIDA">Dividida</mat-option>
+
                   </mat-select>
                 </mat-form-field>
 
@@ -116,6 +130,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.updateExerciseForm = this.formBuilder.group({
       code: ['', Validators.required],
+      level: ['', Validators.required],
       point: ['', Validators.required],
       description: ['']
     });
@@ -142,6 +157,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
             code: this.exerciseData.code,
             description: this.exerciseData.description,
             point: this.exerciseData.point,
+            level: this.exerciseData.level,
           });
         }
       }, (error) => {
@@ -163,7 +179,8 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
             data:  {
               'code': this.updateExerciseForm.value.code,
               'description': this.updateExerciseForm.value.description,
-              'point': this.updateExerciseForm.value.point
+              'point': this.updateExerciseForm.value.point,
+              'level': this.updateExerciseForm.value.level
             },
             where : {
               id: this.exerciseId
@@ -178,7 +195,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
             if (data) {
               this.snackBar.open(
                 `Ejercicio ${
-                  data.updateExercise.name
+                  data.updateExercise.code
                 } editado correctamente`,
                 'X',
                 { duration: 3000 }

@@ -216,5 +216,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
     this.level = Math.round(15 * (this.countPoints / this.points));
 
+
   }
 }

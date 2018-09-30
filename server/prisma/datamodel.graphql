@@ -55,6 +55,7 @@ type Exercise {
   id: ID! @unique
   code: Codes! @unique
   point: Int! @default(value: 0)
+  level: Levels! @default(value: NINGUNO)
   description: String
   sections: [Section!]! @relation(name: "R6")  
 }
@@ -89,6 +90,15 @@ type Result {
 
 enum Types {
   INITIAL
+}
+
+enum Levels {
+  NINGUNO
+  ENFOCADA
+  SOSTENIDA
+  SELECTIVA
+  ALTERNADA
+  DIVIDIDA
 }
 
 enum Codes {

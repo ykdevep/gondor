@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Thu Sep 27 2018 09:36:01 GMT-0400 (EDT)
+# timestamp: Sun Sep 30 2018 11:11:53 GMT-0400 (EDT)
 
 type AggregateExercise {
   count: Int!
@@ -71,6 +71,7 @@ type Exercise implements Node {
   id: ID!
   code: Codes!
   point: Int!
+  level: Levels!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
 }
@@ -88,6 +89,7 @@ type ExerciseConnection {
 input ExerciseCreateInput {
   code: Codes!
   point: Int
+  level: Levels
   description: String
   sections: SectionCreateManyInput
 }
@@ -516,6 +518,8 @@ enum ExerciseOrderByInput {
   code_DESC
   point_ASC
   point_DESC
+  level_ASC
+  level_DESC
   description_ASC
   description_DESC
   updatedAt_ASC
@@ -528,6 +532,7 @@ type ExercisePreviousValues {
   id: ID!
   code: Codes!
   point: Int!
+  level: Levels!
   description: String
 }
 
@@ -573,6 +578,7 @@ input ExerciseSubscriptionWhereInput {
 input ExerciseUpdateDataInput {
   code: Codes
   point: Int
+  level: Levels
   description: String
   sections: SectionUpdateManyInput
 }
@@ -580,6 +586,7 @@ input ExerciseUpdateDataInput {
 input ExerciseUpdateInput {
   code: Codes
   point: Int
+  level: Levels
   description: String
   sections: SectionUpdateManyInput
 }
@@ -685,6 +692,16 @@ input ExerciseWhereInput {
 
   """All values greater than or equal the given value."""
   point_gte: Int
+  level: Levels
+
+  """All values that are not equal to given value."""
+  level_not: Levels
+
+  """All values that are contained in given list."""
+  level_in: [Levels!]
+
+  """All values that are not contained in given list."""
+  level_not_in: [Levels!]
   description: String
 
   """All values that are not equal to given value."""
@@ -1081,6 +1098,15 @@ input FileWhereInput {
 
 input FileWhereUniqueInput {
   id: ID
+}
+
+enum Levels {
+  NINGUNO
+  ENFOCADA
+  SOSTENIDA
+  SELECTIVA
+  ALTERNADA
+  DIVIDIDA
 }
 
 """

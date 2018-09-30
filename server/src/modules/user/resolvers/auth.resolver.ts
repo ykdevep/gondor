@@ -7,7 +7,6 @@ import { ApolloError } from 'apollo-server-core';
 import { GraphQLResolveInfo } from 'graphql';
 import { AuthService } from '../../common/services/auth.service';
 import { AuthGuard } from '../../common/guards/auth.guard';
-import { Roles } from '../../common/decorators/roles.decorator';
 import { UseGuards } from '@nestjs/common';
 
 const APP_SECRET: string = process.env.APP_SECRET;

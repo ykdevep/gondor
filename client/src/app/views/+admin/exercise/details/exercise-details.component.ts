@@ -11,6 +11,8 @@ const exerciseQuery = gql`
     exercise(id: $id) {
       id
       code
+      point
+      level
       description
     }
   }
@@ -43,6 +45,10 @@ const exerciseQuery = gql`
                     <mat-grid-tile><h3> {{exerciseData.id}}</h3></mat-grid-tile>
                     <mat-grid-tile><h3>Código:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{exerciseData.code}}</h3></mat-grid-tile>
+                    <mat-grid-tile><h3>Puntos:</h3></mat-grid-tile>
+                    <mat-grid-tile><h3> {{exerciseData.point}}</h3></mat-grid-tile>
+                    <mat-grid-tile><h3>Nivel de Atención:</h3></mat-grid-tile>
+                    <mat-grid-tile><h3> {{exerciseData.level}}</h3></mat-grid-tile>
                     <mat-grid-tile><h3>Descripción:</h3></mat-grid-tile>
                     <mat-grid-tile><h3> {{exerciseData.description}}</h3></mat-grid-tile>
 
