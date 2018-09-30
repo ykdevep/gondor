@@ -33,7 +33,7 @@ mutation {
   }
 
   create_TI: createTest(data: {
-    type: INITIAL
+    type: INICIAL
     description: "Cuestionario Inicial por defecto"
     enable: true
     sections: {

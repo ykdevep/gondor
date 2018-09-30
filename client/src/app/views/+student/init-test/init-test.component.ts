@@ -108,7 +108,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
           createdBy: user,
           initAt: this.today,
           finalAt: new Date(),
-          type: 'INITIAL',
+          type: 'INICIAL',
           exerciseDatas: []
         };
       }
@@ -119,7 +119,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
         query: initTestQuery,
         variables: {
           where: {
-            'type': 'INITIAL',
+            'type': 'INICIAL',
             'enable': true
           },
           first: 1

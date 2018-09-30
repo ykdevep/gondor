@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Sep 30 2018 11:11:53 GMT-0400 (EDT)
+# timestamp: Sun Sep 30 2018 17:31:39 GMT-0400 (EDT)
 
 type AggregateExercise {
   count: Int!
@@ -104,7 +104,7 @@ type ExerciseData implements Node {
   initAt: DateTime!
   finalAt: DateTime!
   result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
-  level: Int
+  level: String!
   hit: Int
   fault: Int
   omit: Int
@@ -125,7 +125,7 @@ type ExerciseDataConnection {
 input ExerciseDataCreateInput {
   initAt: DateTime!
   finalAt: DateTime!
-  level: Int
+  level: String
   hit: Int
   fault: Int
   omit: Int
@@ -177,7 +177,7 @@ type ExerciseDataPreviousValues {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  level: Int
+  level: String!
   hit: Int
   fault: Int
   omit: Int
@@ -227,7 +227,7 @@ input ExerciseDataSubscriptionWhereInput {
 input ExerciseDataUpdateDataInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Int
+  level: String
   hit: Int
   fault: Int
   omit: Int
@@ -239,7 +239,7 @@ input ExerciseDataUpdateDataInput {
 input ExerciseDataUpdateInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Int
+  level: String
   hit: Int
   fault: Int
   omit: Int
@@ -361,28 +361,46 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   finalAt_gte: DateTime
-  level: Int
+  level: String
 
   """All values that are not equal to given value."""
-  level_not: Int
+  level_not: String
 
   """All values that are contained in given list."""
-  level_in: [Int!]
+  level_in: [String!]
 
   """All values that are not contained in given list."""
-  level_not_in: [Int!]
+  level_not_in: [String!]
 
   """All values less than the given value."""
-  level_lt: Int
+  level_lt: String
 
   """All values less than or equal the given value."""
-  level_lte: Int
+  level_lte: String
 
   """All values greater than the given value."""
-  level_gt: Int
+  level_gt: String
 
   """All values greater than or equal the given value."""
-  level_gte: Int
+  level_gte: String
+
+  """All values containing the given string."""
+  level_contains: String
+
+  """All values not containing the given string."""
+  level_not_contains: String
+
+  """All values starting with the given string."""
+  level_starts_with: String
+
+  """All values not starting with the given string."""
+  level_not_starts_with: String
+
+  """All values ending with the given string."""
+  level_ends_with: String
+
+  """All values not ending with the given string."""
+  level_not_ends_with: String
   hit: Int
 
   """All values that are not equal to given value."""
@@ -2525,7 +2543,12 @@ input TestWhereUniqueInput {
 }
 
 enum Types {
-  INITIAL
+  INICIAL
+  ENFOCADA
+  SOSTENIDA
+  SELECTIVA
+  ALTERNADA
+  DIVIDIDA
 }
 
 type User implements Node {

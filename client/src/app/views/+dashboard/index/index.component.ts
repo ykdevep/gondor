@@ -62,7 +62,7 @@ export class IndexComponent implements OnInit, OnDestroy {
           query: testDataQuery,
           variables: {
             where: {
-              'type': 'INITIAL',
+              'type': 'INICIAL',
               'createdBy': {
                 'id': this.authService.getUser().id
               }

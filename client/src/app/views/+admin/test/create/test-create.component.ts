@@ -40,7 +40,7 @@ const createTest = gql`
 
                 <mat-form-field class="full-width">
                   <mat-select placeholder="Tipo de cuestionario" formControlName="type">
-                    <mat-option value="INITIAL">Cuestionario Inicial</mat-option>
+                    <mat-option value="INICIAL">Cuestionario Inicial</mat-option>
                   </mat-select>
                 </mat-form-field>
 

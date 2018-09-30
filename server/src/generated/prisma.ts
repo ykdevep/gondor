@@ -240,7 +240,7 @@ type ExerciseData implements Node {
   initAt: DateTime!
   finalAt: DateTime!
   result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
-  level: Int
+  level: String!
   hit: Int
   fault: Int
   omit: Int
@@ -261,7 +261,7 @@ type ExerciseDataConnection {
 input ExerciseDataCreateInput {
   initAt: DateTime!
   finalAt: DateTime!
-  level: Int
+  level: String
   hit: Int
   fault: Int
   omit: Int
@@ -313,7 +313,7 @@ type ExerciseDataPreviousValues {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  level: Int
+  level: String!
   hit: Int
   fault: Int
   omit: Int
@@ -363,7 +363,7 @@ input ExerciseDataSubscriptionWhereInput {
 input ExerciseDataUpdateDataInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Int
+  level: String
   hit: Int
   fault: Int
   omit: Int
@@ -375,7 +375,7 @@ input ExerciseDataUpdateDataInput {
 input ExerciseDataUpdateInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Int
+  level: String
   hit: Int
   fault: Int
   omit: Int
@@ -497,28 +497,46 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   finalAt_gte: DateTime
-  level: Int
+  level: String
 
   """All values that are not equal to given value."""
-  level_not: Int
+  level_not: String
 
   """All values that are contained in given list."""
-  level_in: [Int!]
+  level_in: [String!]
 
   """All values that are not contained in given list."""
-  level_not_in: [Int!]
+  level_not_in: [String!]
 
   """All values less than the given value."""
-  level_lt: Int
+  level_lt: String
 
   """All values less than or equal the given value."""
-  level_lte: Int
+  level_lte: String
 
   """All values greater than the given value."""
-  level_gt: Int
+  level_gt: String
 
   """All values greater than or equal the given value."""
-  level_gte: Int
+  level_gte: String
+
+  """All values containing the given string."""
+  level_contains: String
+
+  """All values not containing the given string."""
+  level_not_contains: String
+
+  """All values starting with the given string."""
+  level_starts_with: String
+
+  """All values not starting with the given string."""
+  level_not_starts_with: String
+
+  """All values ending with the given string."""
+  level_ends_with: String
+
+  """All values not ending with the given string."""
+  level_not_ends_with: String
   hit: Int
 
   """All values that are not equal to given value."""
@@ -2661,7 +2679,12 @@ input TestWhereUniqueInput {
 }
 
 enum Types {
-  INITIAL
+  INICIAL
+  ENFOCADA
+  SOSTENIDA
+  SELECTIVA
+  ALTERNADA
+  DIVIDIDA
 }
 
 type User implements Node {
@@ -3095,7 +3118,12 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDe
  * Types
 */
 
-export type Types =   'INITIAL'
+export type Types =   'INICIAL' |
+  'ENFOCADA' |
+  'SOSTENIDA' |
+  'SELECTIVA' |
+  'ALTERNADA' |
+  'DIVIDIDA'
 
 export type TestDataOrderByInput =   'id_ASC' |
   'id_DESC' |
@@ -3559,7 +3587,7 @@ export interface UserWhereInput {
 export interface ExerciseDataUpdateInput {
   initAt?: DateTime
   finalAt?: DateTime
-  level?: Int
+  level?: String
   hit?: Int
   fault?: Int
   omit?: Int
@@ -3781,7 +3809,7 @@ export interface FileWhereUniqueInput {
 export interface ExerciseDataUpdateDataInput {
   initAt?: DateTime
   finalAt?: DateTime
-  level?: Int
+  level?: String
   hit?: Int
   fault?: Int
   omit?: Int
@@ -3951,14 +3979,20 @@ export interface ExerciseDataWhereInput {
   finalAt_lte?: DateTime
   finalAt_gt?: DateTime
   finalAt_gte?: DateTime
-  level?: Int
-  level_not?: Int
-  level_in?: Int[] | Int
-  level_not_in?: Int[] | Int
-  level_lt?: Int
-  level_lte?: Int
-  level_gt?: Int
-  level_gte?: Int
+  level?: String
+  level_not?: String
+  level_in?: String[] | String
+  level_not_in?: String[] | String
+  level_lt?: String
+  level_lte?: String
+  level_gt?: String
+  level_gte?: String
+  level_contains?: String
+  level_not_contains?: String
+  level_starts_with?: String
+  level_not_starts_with?: String
+  level_ends_with?: String
+  level_not_ends_with?: String
   hit?: Int
   hit_not?: Int
   hit_in?: Int[] | Int
@@ -4040,7 +4074,7 @@ export interface ResultSubscriptionWhereInput {
 export interface ExerciseDataCreateInput {
   initAt: DateTime
   finalAt: DateTime
-  level?: Int
+  level?: String
   hit?: Int
   fault?: Int
   omit?: Int
@@ -4431,7 +4465,7 @@ export interface ExerciseData extends Node {
   initAt: DateTime
   finalAt: DateTime
   result?: Result[]
-  level?: Int
+  level: String
   hit?: Int
   fault?: Int
   omit?: Int
@@ -4597,7 +4631,7 @@ export interface ExerciseDataPreviousValues {
   id: ID_Output
   initAt: DateTime
   finalAt: DateTime
-  level?: Int
+  level: String
   hit?: Int
   fault?: Int
   omit?: Int
