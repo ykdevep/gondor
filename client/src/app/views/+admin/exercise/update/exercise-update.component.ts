@@ -60,6 +60,14 @@ const exerciseQuery = gql`
                     <mat-option value="A3">Detención visual</mat-option>
                     <mat-option value="A4">20-3</mat-option>
                     <mat-option value="A5">Memoria verbal espontánea</mat-option>
+
+                    <mat-option value="A6">Detección de números grandes y chicos</mat-option>
+                    <mat-option value="A7">Rastreo Flechas</mat-option>
+
+                    <mat-option value="A8">Direccionalidad Derecha</mat-option>
+                    <mat-option value="A9">Direccionalidad Izquierda</mat-option>
+                    <mat-option value="B1">Direccionalidad Arriba</mat-option>
+                    <mat-option value="B2">Direccionalidad Abajo</mat-option>
                   </mat-select>
                 </mat-form-field>
 

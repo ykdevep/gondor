@@ -41,6 +41,12 @@ const createTest = gql`
                 <mat-form-field class="full-width">
                   <mat-select placeholder="Tipo de cuestionario" formControlName="type">
                     <mat-option value="INICIAL">Cuestionario Inicial</mat-option>
+
+                    <mat-option value="ENFOCADA">Atención Enfocada</mat-option>
+                    <mat-option value="SOSTENIDA">Atención Sostenida</mat-option>
+                    <mat-option value="SELECTIVA">Atención Selectiva</mat-option>
+                    <mat-option value="ALTERNADA">Atención Alternada</mat-option>
+                    <mat-option value="DIVIDIDA">Atención Dividida</mat-option>
                   </mat-select>
                 </mat-form-field>
 

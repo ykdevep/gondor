@@ -104,4 +104,49 @@ mutation {
   }) {
     id
   }
+
+  create_E1: createExercise(data: {
+    code: A6
+    description: "Detección de números grandes y chicos"
+    level: SELECTIVA
+  }) {
+    id
+  }
+
+  create_E2: createExercise(data: {
+    code: A7
+    description: "Rastreo Flechas"
+    level: SOSTENIDA
+  }) {
+    id
+  }
+
+  create_E3: createExercise(data: {
+    code: A8
+    description: "Direccionalidad Derecha"
+    level: ENFOCADA
+  }) {
+    id
+  }
+  create_E4: createExercise(data: {
+    code: A9
+    description: "Direccionalidad Izquierda"
+    level: ENFOCADA
+  }) {
+    id
+  }
+  create_E5: createExercise(data: {
+    code: B1
+    description: "Direccionalidad Abajo"
+    level: ENFOCADA
+  }) {
+    id
+  }
+  create_E6: createExercise(data: {
+    code: B2
+    description: "Direccionalidad Arriba"
+    level: ENFOCADA
+  }) {
+    id
+  }
 }

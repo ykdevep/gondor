@@ -77,8 +77,8 @@ export class TestResolver {
       throw new ApolloError(`Test not found`);
     }
 
-    if (args.data.enable) {
-      const enableTest = await this.prisma.exists.Test({id_not: args.where.id, enable: args.data.enable });
+    if (args.data.enable && args.data.type === 'INICIAL') {
+      const enableTest = await this.prisma.exists.Test({id_not: args.where.id, type: 'INICIAL', enable: args.data.enable });
 
       if (enableTest) {
         throw new ApolloError(`Only one enable test`);

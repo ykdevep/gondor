@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sun Sep 30 2018 17:31:39 GMT-0400 (EDT)
+# timestamp: Sun Sep 30 2018 18:07:50 GMT-0400 (EDT)
 
 type AggregateExercise {
   count: Int!
@@ -67,6 +67,13 @@ enum Codes {
 
 scalar DateTime
 
+enum Dificulty {
+  NINGUNO
+  INICIAL
+  MEDIA
+  AVANZADA
+}
+
 type Exercise implements Node {
   id: ID!
   code: Codes!
@@ -104,7 +111,8 @@ type ExerciseData implements Node {
   initAt: DateTime!
   finalAt: DateTime!
   result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
-  level: String!
+  level: Levels!
+  dificulty: Dificulty!
   hit: Int
   fault: Int
   omit: Int
@@ -125,7 +133,8 @@ type ExerciseDataConnection {
 input ExerciseDataCreateInput {
   initAt: DateTime!
   finalAt: DateTime!
-  level: String
+  level: Levels
+  dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
@@ -157,6 +166,8 @@ enum ExerciseDataOrderByInput {
   finalAt_DESC
   level_ASC
   level_DESC
+  dificulty_ASC
+  dificulty_DESC
   hit_ASC
   hit_DESC
   fault_ASC
@@ -177,7 +188,8 @@ type ExerciseDataPreviousValues {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  level: String!
+  level: Levels!
+  dificulty: Dificulty!
   hit: Int
   fault: Int
   omit: Int
@@ -227,7 +239,8 @@ input ExerciseDataSubscriptionWhereInput {
 input ExerciseDataUpdateDataInput {
   initAt: DateTime
   finalAt: DateTime
-  level: String
+  level: Levels
+  dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
@@ -239,7 +252,8 @@ input ExerciseDataUpdateDataInput {
 input ExerciseDataUpdateInput {
   initAt: DateTime
   finalAt: DateTime
-  level: String
+  level: Levels
+  dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
@@ -361,46 +375,26 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   finalAt_gte: DateTime
-  level: String
+  level: Levels
 
   """All values that are not equal to given value."""
-  level_not: String
+  level_not: Levels
 
   """All values that are contained in given list."""
-  level_in: [String!]
+  level_in: [Levels!]
 
   """All values that are not contained in given list."""
-  level_not_in: [String!]
+  level_not_in: [Levels!]
+  dificulty: Dificulty
 
-  """All values less than the given value."""
-  level_lt: String
+  """All values that are not equal to given value."""
+  dificulty_not: Dificulty
 
-  """All values less than or equal the given value."""
-  level_lte: String
+  """All values that are contained in given list."""
+  dificulty_in: [Dificulty!]
 
-  """All values greater than the given value."""
-  level_gt: String
-
-  """All values greater than or equal the given value."""
-  level_gte: String
-
-  """All values containing the given string."""
-  level_contains: String
-
-  """All values not containing the given string."""
-  level_not_contains: String
-
-  """All values starting with the given string."""
-  level_starts_with: String
-
-  """All values not starting with the given string."""
-  level_not_starts_with: String
-
-  """All values ending with the given string."""
-  level_ends_with: String
-
-  """All values not ending with the given string."""
-  level_not_ends_with: String
+  """All values that are not contained in given list."""
+  dificulty_not_in: [Dificulty!]
   hit: Int
 
   """All values that are not equal to given value."""
