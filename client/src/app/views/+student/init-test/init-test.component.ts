@@ -101,7 +101,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
     this.currentUser.subscribe(user => {
       if (user) {
-        this.age = Math.round((new Date().getTime() - new Date(user.birthdate).getTime()) / (60000 * 60 * 24 * 365.25));
+        this.age = parseInt(((new Date().getTime() - new Date(user.birthdate).getTime()) / (60000 * 60 * 24 * 365)).toString(), 10);
         this.name = user.firstname;
 
         this.testData = {
