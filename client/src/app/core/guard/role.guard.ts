@@ -25,14 +25,14 @@ export class RoleGuard implements CanActivate {
     if (!roles) {
       this.authService.logout();
       this.router.navigate(['auth/login']);
-      this.snackBar.open('Role not found', 'X', {duration: 3000});
+      this.snackBar.open('Rol no encontrado', 'X', {duration: 3000});
       return false;
     }
 
     if (!this.authService.isLoggedIn() || (!expectedRole.some(role => roles.some(p => p.name === role)))) {
       this.authService.logout();
       this.router.navigate(['auth/login']);
-      this.snackBar.open('Role not found...', 'X', {duration: 3000});
+      this.snackBar.open('No tiene permisos', 'X', {duration: 3000});
       return false;
     }
     return true;
