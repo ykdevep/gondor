@@ -1,11 +1,14 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Estudiante</h1>
+  <h1 *ngIf="(isStudent | async)" class="mat-h1">Estudiante</h1>
 
-  <div class="container mat-elevation-z8" *ngIf="(isStudent | async)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+  <div class="container mat-elevation-z8" *ngIf="(isStudent | async)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="start center">
     <div class="item" fxFlex="50%" fxFlex.xs="90%" *ngIf="testData && !loading" fxFlex.md="90%">
       <app-chart-test [testData]="testData"></app-chart-test>
     </div>
-
+    <mat-divider></mat-divider>
+    <div class="item" fxFlex="50%" fxFlex.xs="90%" *ngIf="testData && !loading" fxFlex.md="90%">
+      <app-exercises></app-exercises>
+    </div>
     <div class="item" fxFlex="33%" fxFlex.xs="90%" *ngIf="!testData && !loading" fxFlex.md="90%">
         <mat-card class="dashboard-card"  routerLink="/student/init-test">
           <mat-card-header>
@@ -21,10 +24,10 @@
   </div>
 
   <br />
-  <h1 class="mat-h1">Especialista</h1>
+  <h1 *ngIf="(isSpecialist | async)" class="mat-h1">Especialista</h1>
 
   <div class="container mat-elevation-z8" *ngIf="(isSpecialist | async)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
-    <div class="item" fxFlex="33%" fxFlex.xs="90%" fxFlex.md="90%">
+    <div class="item" fxFlex="33%" fxFlex.xs="100%" fxFlex.md="90%">
       <mat-card class="dashboard-card"  routerLink="/admin/exercise">
         <mat-card-header>
           <mat-card-title>
@@ -37,7 +40,7 @@
       </mat-card>
     </div>
     <div class="item" fxFlex="33%" fxFlex.xs="90%" fxFlex.md="90%">
-      <mat-card class="dashboard-card"  routerLink="/admin/exercise">
+      <mat-card class="dashboard-card"  routerLink="/admin/section">
         <mat-card-header>
           <mat-card-title>
             <h2 class="mat-h2">Secciones</h2>
@@ -63,7 +66,7 @@
   </div>
 
   <br />
-  <h1 class="mat-h1">Administrador</h1>
+  <h1 *ngIf="(isAdmin | async)" class="mat-h1">Administrador</h1>
 
   <div class="container mat-elevation-z8" *ngIf="(isAdmin | async)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
     <div class="item" fxFlex="33%" fxFlex.xs="90%" fxFlex.md="90%">

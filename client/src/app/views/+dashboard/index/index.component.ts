@@ -61,34 +61,34 @@ export class IndexComponent implements OnInit, OnDestroy {
         this.loading = false;
 
         this.testDataQuerySubcription = this.apollo
-        .watchQuery<any>({
-          query: testDataQuery,
-          variables: {
-            where: {
-              'type': 'INICIAL',
-              'createdBy': {
-                'id': this.authService.getUser().id
+          .watchQuery<any>({
+            query: testDataQuery,
+            variables: {
+              where: {
+                'type': 'INICIAL',
+                'createdBy': {
+                  'id': this.authService.getUser().id
+                }
+              },
+              first: 1
+            }
+          })
+          .valueChanges.subscribe(
+            ({ data, loading }) => {
+              this.loading = loading;
+              if (!loading) {
+                if (data.testDatas.length > 0) {
+                  this.testData = data.testDatas[0];
+                }
               }
             },
-            first: 1
-          }
-        })
-        .valueChanges.subscribe(
-          ({ data, loading }) => {
-            this.loading = loading;
-            if (!loading) {
-              if (data.testDatas.length > 0) {
-                this.testData = data.testDatas[0];
-              }
+            (error) => {
+              this.loading = false;
+              this.snackBar.open(error.message, 'X', {
+                duration: 3000
+              });
             }
-          },
-          (error) => {
-            this.loading = false;
-            this.snackBar.open(error.message, 'X', {
-              duration: 3000
-            });
-          }
-        );
+          );
         }
     });
   }

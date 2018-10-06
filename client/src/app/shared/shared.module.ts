@@ -34,6 +34,7 @@ import {
   MatPaginatorIntl,
   MatAutocompleteModule,
   MatStepperModule,
+  MatRippleModule,
 
 } from '@angular/material';
 
@@ -53,6 +54,7 @@ import { HideButtonDirective } from '@app/shared/directives/hide-button.directiv
   imports: [
     CommonModule,
     LayoutModule,
+    MatRippleModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -93,6 +95,7 @@ import { HideButtonDirective } from '@app/shared/directives/hide-button.directiv
   exports: [
     LayoutModule,
     MatToolbarModule,
+    MatRippleModule,
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,

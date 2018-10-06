@@ -20,7 +20,7 @@ export class ExerciseResolver {
   ) {}
 
   @Query('exercises')
-  @Roles('Especialista')
+  @Roles('Especialista', 'Estudiante')
   @UseGuards(RolesGuard)
   async exercises(
     @Args() args: any,
