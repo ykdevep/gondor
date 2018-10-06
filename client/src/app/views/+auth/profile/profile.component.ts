@@ -91,7 +91,7 @@ const meQuery = gql`
                 <button mat-raised-button color="accent" type="button"
                    routerLink="/dashboard" routerLinkActive="active"
                    aria-label="dashboard">
-                  <mat-icon>home</mat-icon>
+                  <mat-icon>dashboard</mat-icon>
                   <span>Escritorio</span>
                 </button>
               </mat-card-actions>

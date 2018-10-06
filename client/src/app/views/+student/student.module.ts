@@ -8,6 +8,7 @@ import { SharedModule } from '@app/shared/shared.module';
 import { RoleGuard } from '@app/core/guard/role.guard';
 import { InitTestComponent } from './init-test/init-test.component';
 import { SemeatModule } from '@app/semeat/semeat.module';
+import { ExerciseViewerComponent } from './exercise-viewer/exercise-viewer.component';
 
 
 const routes: Routes = [
@@ -15,6 +16,12 @@ const routes: Routes = [
     path: 'init-test',
     component: InitTestComponent,
     data: {title: 'Cuestionario Inicial', expectedRole: ['Estudiante']},
+    canActivate: [RoleGuard]
+  },
+  {
+    path: 'exercise_viewer/:id/:dificulty',
+    component: ExerciseViewerComponent,
+    data: {title: 'Visor de Ejercicios', expectedRole: ['Estudiante']},
     canActivate: [RoleGuard]
   }
 ];
@@ -28,6 +35,6 @@ const routes: Routes = [
     SemeatModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [InitTestComponent]
+  declarations: [InitTestComponent, ExerciseViewerComponent]
 })
 export class StudentModule { }

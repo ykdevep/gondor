@@ -85,8 +85,13 @@ export class SemeatA4Component implements OnInit {
         if ((20 - (3 * i)).toString() === number) {
           this.hit += 1;
           this.score += 1;
-          this.omit -= 1;
+          if (this.omit > 0) {
+            this.omit -= 1;
+          }
         } else {
+          if (this.omit > 0) {
+            this.omit -= 1;
+          }
           this.fault += 1;
         }
 

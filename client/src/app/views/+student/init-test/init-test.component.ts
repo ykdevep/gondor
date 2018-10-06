@@ -96,7 +96,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.loading = true;
-
     this.currentUser = this.authService.getAsyncUser();
 
     this.currentUser.subscribe(user => {
@@ -213,8 +212,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
     if ($datas.score) {
       this.score += $datas.score;
     }
-
     this.level = Math.round(15 * (this.score / this.points));
-
   }
 }

@@ -10,6 +10,7 @@ const exerciseQuery = gql`
   query exercises {
     exercises(where: {level_not: NINGUNO}) {
       level
+      id
       description
     }
   }
@@ -21,26 +22,14 @@ const exerciseQuery = gql`
     <div class="table-container mat-elevation-z8">
       <mat-form-field class="full-width">
         <mat-icon matPrefix>search</mat-icon>
-        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrado por nivel de atención o descripción">
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrado por código, nivel de atención o descripción">
       </mat-form-field>
       <table mat-table [dataSource]="dataSource">
-
-        <!-- Code Column -->
-        <ng-container matColumnDef="code">
-          <th mat-header-cell *matHeaderCellDef> Código </th>
-          <td mat-cell *matCellDef="let element"> {{element.code}} </td>
-        </ng-container>
 
         <!-- Level Column -->
         <ng-container matColumnDef="level">
           <th mat-header-cell *matHeaderCellDef> Nivel de atención </th>
           <td mat-cell *matCellDef="let element"> {{element.level}} </td>
-        </ng-container>
-
-        <!-- Point Column -->
-        <ng-container matColumnDef="point">
-          <th mat-header-cell *matHeaderCellDef> Puntos </th>
-          <td mat-cell *matCellDef="let element"> {{element.point}} </td>
         </ng-container>
 
         <!-- Description Column -->
@@ -51,9 +40,10 @@ const exerciseQuery = gql`
 
         <!-- Basic Column -->
         <ng-container matColumnDef="basic">
-          <th mat-header-cell *matHeaderCellDef> Básico </th>
+          <th class="header-level" mat-header-cell *matHeaderCellDef> Básico </th>
           <td mat-cell *matCellDef="let element">
-            <a class="level">
+            <a class="level" mat-button matTooltip="Nivel de dificultad"
+                    [routerLink]="['/student', 'exercise_viewer', element.id, 'basic']">
               <mat-icon color="accent">start</mat-icon>
             </a>
           </td>
@@ -61,9 +51,10 @@ const exerciseQuery = gql`
 
         <!-- Half Column -->
         <ng-container matColumnDef="half">
-          <th mat-header-cell *matHeaderCellDef> Medio </th>
+          <th class="header-level" mat-header-cell *matHeaderCellDef> Medio </th>
           <td mat-cell *matCellDef="let element">
-            <a class="level">
+            <a class="level" mat-button matTooltip="Nivel de dificultad"
+                [routerLink]="['/student', 'exercise_viewer', element.id, 'half']">
               <mat-icon color="primary">start</mat-icon>
               <mat-icon color="primary">start</mat-icon>
             </a>
@@ -72,9 +63,10 @@ const exerciseQuery = gql`
 
         <!-- Advanced Column -->
         <ng-container matColumnDef="advanced">
-          <th mat-header-cell *matHeaderCellDef> Avanzado </th>
+          <th class="header-level" mat-header-cell *matHeaderCellDef> Avanzado </th>
           <td mat-cell *matCellDef="let element">
-            <a class="level">
+            <a class="level" mat-button matTooltip="Nivel de dificultad"
+                [routerLink]="['/student', 'exercise_viewer', element.id, 'advanced']">
               <mat-icon>start</mat-icon>
               <mat-icon>start</mat-icon>
               <mat-icon>start</mat-icon>
@@ -94,8 +86,12 @@ const exerciseQuery = gql`
       width: 100%;
     }
 
+    th.header-level {
+      text-align: center;
+    }
+
     .table-container {
-      height: 425px;
+      height: 430px;
       width: 100%;
       overflow: auto;
     }
@@ -113,7 +109,6 @@ const exerciseQuery = gql`
 export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
 
   exerciseQuerySubcription: Subscription;
-  exercise: Exercise[] = [];
 
   dataSource: MatTableDataSource<Exercise>;
   displayedColumns: string[] = ['level', 'description', 'basic', 'half', 'advanced'];
@@ -137,15 +132,13 @@ export class ExercisesComponent implements OnInit, OnDestroy, AfterViewInit {
               if (!loading) {
                 const datas: Exercise[] = data.exercises;
 
-                this.exercise.push(...datas.filter(d => d.level === 'ENFOCADA'));
-                this.exercise.push(...datas.filter(d => d.level === 'SOSTENIDA'));
-                this.exercise.push(...datas.filter(d => d.level === 'SELECTIVA'));
-                this.exercise.push(...datas.filter(d => d.level === 'ALTERNADA'));
-                this.exercise.push(...datas.filter(d => d.level === 'DIVIDIDA'));
-
-                this.dataSource.data = this.exercise;
-
-
+                this.dataSource.data = [
+                  ...datas.filter(d => d.level === 'ENFOCADA'),
+                  ...datas.filter(d => d.level === 'SOSTENIDA'),
+                  ...datas.filter(d => d.level === 'SELECTIVA'),
+                  ...datas.filter(d => d.level === 'ALTERNADA'),
+                  ...datas.filter(d => d.level === 'DIVIDIDA'),
+                ];
               }
             },
             (error) => {

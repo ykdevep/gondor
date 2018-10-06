@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material';
 import { Router, ActivatedRoute } from '@angular/router';
 import gql from 'graphql-tag';
 import { Subscription } from 'rxjs';
-import { User, Role } from '@app/core/model/user.model';
+import { User } from '@app/core/model/user.model';
 
 const updateUser = gql`
   mutation updateUser($data: UserUpdateInput!, $where: UserWhereUniqueInput!) {
