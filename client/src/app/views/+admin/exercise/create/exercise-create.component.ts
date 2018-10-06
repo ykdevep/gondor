@@ -74,11 +74,11 @@ const createExercise = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
+                  <input matInput type="number" placeholder="Puntos" formControlName="point">
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="number" placeholder="Puntos" formControlName="point">
+                  <textarea matInput placeholder="Descripción" formControlName="description"></textarea>
                 </mat-form-field>
 
               </mat-card-content>
