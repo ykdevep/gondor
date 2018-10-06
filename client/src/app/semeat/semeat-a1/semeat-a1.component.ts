@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '@app/core/model/user.model';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-semeat-a1',
@@ -142,12 +144,15 @@ export class SemeatA1Component implements OnInit {
   exercise: any;
 
   @Output() save = new EventEmitter();
-  @Input() age = 0;
+  @Input() user: User;
+  @Input() point = 0;
 
   initAt: Date;
+  age = 0;
 
   constructor(
     private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -161,6 +166,7 @@ export class SemeatA1Component implements OnInit {
     });
 
     this.initAt = new Date();
+    this.age = parseInt(((new Date().getTime() - new Date(this.user.birthdate).getTime()) / (60000 * 60 * 24 * 365)).toString(), 10);
   }
 
   saveForm(): void {
@@ -197,11 +203,17 @@ export class SemeatA1Component implements OnInit {
           },
           initAt: this.initAt,
           finalAt: new Date(),
+          createdBy: {
+            connect: {
+              id: this.user.id
+            }
+          },
+          point: this.point,
           hit: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
             (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
             (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
             (Number)(this.age === this.exerciseForm.value.age)),
-          point: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
+          score: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
             (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
             (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
             (Number)(this.age === this.exerciseForm.value.age)),
@@ -211,6 +223,7 @@ export class SemeatA1Component implements OnInit {
             (Number)(this.age !== this.exerciseForm.value.age)),
         };
       this.exerciseForm.disable();
+      this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
     }
     this.save.emit(this.exercise);
   }

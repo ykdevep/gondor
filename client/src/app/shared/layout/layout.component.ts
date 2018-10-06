@@ -125,7 +125,7 @@ import { User } from '@app/core/model/user.model';
         </mat-toolbar>
 
         <div class="layout">
-          <div class="router mat-elevation-z8">
+          <div class="router">
             <div class="item" [@routerTransition]="o.isActivated && o.activatedRoute.routeConfig.path">
               <router-outlet #o="outlet"></router-outlet>
             </div>

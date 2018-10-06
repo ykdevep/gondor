@@ -3,7 +3,6 @@ import { AuthService } from '@app/core/services/auth.service';
 import { Observable, Subscription } from 'rxjs';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
-import { Test } from '@app/core/model/test.model';
 import { MatSnackBar } from '@angular/material';
 import { TestData } from '@app/core/model/testData.model';
 
@@ -24,6 +23,7 @@ const testDataQuery = gql`
         omit
         error
         point
+        score
       }
     }
   }
@@ -42,6 +42,7 @@ export class IndexComponent implements OnInit, OnDestroy {
 
   testData: TestData[];
   testDataQuerySubcription: Subscription;
+  loading = false;
 
   constructor(
     private authService: AuthService,
@@ -56,6 +57,8 @@ export class IndexComponent implements OnInit, OnDestroy {
 
     this.isStudent.subscribe(flag => {
       if (flag) {
+
+        this.loading = false;
 
         this.testDataQuerySubcription = this.apollo
         .watchQuery<any>({
@@ -72,6 +75,7 @@ export class IndexComponent implements OnInit, OnDestroy {
         })
         .valueChanges.subscribe(
           ({ data, loading }) => {
+            this.loading = loading;
             if (!loading) {
               if (data.testDatas.length > 0) {
                 this.testData = data.testDatas[0];
@@ -79,6 +83,7 @@ export class IndexComponent implements OnInit, OnDestroy {
             }
           },
           (error) => {
+            this.loading = false;
             this.snackBar.open(error.message, 'X', {
               duration: 3000
             });

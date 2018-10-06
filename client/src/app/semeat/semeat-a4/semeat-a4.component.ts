@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { User } from '@app/core/model/user.model';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-semeat-a4',
@@ -46,16 +48,21 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SemeatA4Component implements OnInit {
   exerciseForm: FormGroup;
   @Output() save = new EventEmitter();
+  @Input() point = 0;
+  @Input() user: User;
   initAt: Date;
 
   hit = 0;
-  point = 0;
+  score = 0;
   fault = 0;
   omit = 5;
 
   exercise: any;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
+    ) {
     this.initAt = new Date();
   }
 
@@ -77,7 +84,7 @@ export class SemeatA4Component implements OnInit {
       for (const number of numbers) {
         if ((20 - (3 * i)).toString() === number) {
           this.hit += 1;
-          this.point += 1;
+          this.score += 1;
           this.omit -= 1;
         } else {
           this.fault += 1;
@@ -98,12 +105,20 @@ export class SemeatA4Component implements OnInit {
         },
         initAt: this.initAt,
         finalAt: new Date(),
+        createdBy: {
+          connect: {
+            id: this.user.id
+          }
+        },
         hit: this.hit,
         error: this.fault + this.omit,
         fault: this.fault,
         omit: this.omit,
-        point: this.hit
+        score: this.hit,
+        point: this.point,
       };
+
+      this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
 
       this.exerciseForm.disable();
       this.save.emit(this.exercise);

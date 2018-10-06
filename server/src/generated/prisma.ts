@@ -199,6 +199,56 @@ enum Codes {
   B7
   B8
   B9
+  C0
+  C1
+  C2
+  C3
+  C4
+  C5
+  C6
+  C7
+  C8
+  C9
+  D0
+  D1
+  D2
+  D3
+  D4
+  D5
+  D6
+  D7
+  D8
+  D9
+  E0
+  E1
+  E2
+  E3
+  E4
+  E5
+  E6
+  E7
+  E8
+  E9
+  H0
+  H1
+  H2
+  H3
+  H4
+  H5
+  H6
+  H7
+  H8
+  H9
+  G0
+  G1
+  G2
+  G3
+  G4
+  G5
+  G6
+  G7
+  G8
+  G9
 }
 
 scalar DateTime
@@ -246,6 +296,7 @@ type ExerciseData implements Node {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
+  createdBy(where: UserWhereInput): User!
   result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
   level: Levels!
   dificulty: Dificulty!
@@ -254,6 +305,7 @@ type ExerciseData implements Node {
   omit: Int
   error: Int
   point: Int
+  score: Int
 }
 
 """A connection to a list of items."""
@@ -276,6 +328,8 @@ input ExerciseDataCreateInput {
   omit: Int
   error: Int
   point: Int
+  score: Int
+  createdBy: UserCreateOneInput!
   result: ResultCreateManyInput
 }
 
@@ -314,6 +368,8 @@ enum ExerciseDataOrderByInput {
   error_DESC
   point_ASC
   point_DESC
+  score_ASC
+  score_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -331,6 +387,7 @@ type ExerciseDataPreviousValues {
   omit: Int
   error: Int
   point: Int
+  score: Int
 }
 
 type ExerciseDataSubscriptionPayload {
@@ -382,6 +439,8 @@ input ExerciseDataUpdateDataInput {
   omit: Int
   error: Int
   point: Int
+  score: Int
+  createdBy: UserUpdateOneInput
   result: ResultUpdateManyInput
 }
 
@@ -395,6 +454,8 @@ input ExerciseDataUpdateInput {
   omit: Int
   error: Int
   point: Int
+  score: Int
+  createdBy: UserUpdateOneInput
   result: ResultUpdateManyInput
 }
 
@@ -641,6 +702,29 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   point_gte: Int
+  score: Int
+
+  """All values that are not equal to given value."""
+  score_not: Int
+
+  """All values that are contained in given list."""
+  score_in: [Int!]
+
+  """All values that are not contained in given list."""
+  score_not_in: [Int!]
+
+  """All values less than the given value."""
+  score_lt: Int
+
+  """All values less than or equal the given value."""
+  score_lte: Int
+
+  """All values greater than the given value."""
+  score_gt: Int
+
+  """All values greater than or equal the given value."""
+  score_gte: Int
+  createdBy: UserWhereInput
   result_every: ResultWhereInput
   result_some: ResultWhereInput
   result_none: ResultWhereInput
@@ -3156,6 +3240,8 @@ export type ExerciseDataOrderByInput =   'id_ASC' |
   'error_DESC' |
   'point_ASC' |
   'point_DESC' |
+  'score_ASC' |
+  'score_DESC' |
   'updatedAt_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
@@ -3294,7 +3380,57 @@ export type Codes =   'A0' |
   'B6' |
   'B7' |
   'B8' |
-  'B9'
+  'B9' |
+  'C0' |
+  'C1' |
+  'C2' |
+  'C3' |
+  'C4' |
+  'C5' |
+  'C6' |
+  'C7' |
+  'C8' |
+  'C9' |
+  'D0' |
+  'D1' |
+  'D2' |
+  'D3' |
+  'D4' |
+  'D5' |
+  'D6' |
+  'D7' |
+  'D8' |
+  'D9' |
+  'E0' |
+  'E1' |
+  'E2' |
+  'E3' |
+  'E4' |
+  'E5' |
+  'E6' |
+  'E7' |
+  'E8' |
+  'E9' |
+  'H0' |
+  'H1' |
+  'H2' |
+  'H3' |
+  'H4' |
+  'H5' |
+  'H6' |
+  'H7' |
+  'H8' |
+  'H9' |
+  'G0' |
+  'G1' |
+  'G2' |
+  'G3' |
+  'G4' |
+  'G5' |
+  'G6' |
+  'G7' |
+  'G8' |
+  'G9'
 
 export interface RoleCreateInput {
   name: String
@@ -3553,6 +3689,8 @@ export interface ExerciseDataUpdateInput {
   omit?: Int
   error?: Int
   point?: Int
+  score?: Int
+  createdBy?: UserUpdateOneInput
   result?: ResultUpdateManyInput
 }
 
@@ -3689,6 +3827,8 @@ export interface ExerciseDataUpdateDataInput {
   omit?: Int
   error?: Int
   point?: Int
+  score?: Int
+  createdBy?: UserUpdateOneInput
   result?: ResultUpdateManyInput
 }
 
@@ -3914,6 +4054,8 @@ export interface ExerciseDataCreateInput {
   omit?: Int
   error?: Int
   point?: Int
+  score?: Int
+  createdBy: UserCreateOneInput
   result?: ResultCreateManyInput
 }
 
@@ -4083,6 +4225,15 @@ export interface ExerciseDataWhereInput {
   point_lte?: Int
   point_gt?: Int
   point_gte?: Int
+  score?: Int
+  score_not?: Int
+  score_in?: Int[] | Int
+  score_not_in?: Int[] | Int
+  score_lt?: Int
+  score_lte?: Int
+  score_gt?: Int
+  score_gte?: Int
+  createdBy?: UserWhereInput
   result_every?: ResultWhereInput
   result_some?: ResultWhereInput
   result_none?: ResultWhereInput
@@ -4462,6 +4613,7 @@ export interface ExerciseData extends Node {
   id: ID_Output
   initAt: DateTime
   finalAt: DateTime
+  createdBy: User
   result?: Result[]
   level: Levels
   dificulty: Dificulty
@@ -4470,6 +4622,7 @@ export interface ExerciseData extends Node {
   omit?: Int
   error?: Int
   point?: Int
+  score?: Int
 }
 
 export interface AggregateUser {
@@ -4637,6 +4790,7 @@ export interface ExerciseDataPreviousValues {
   omit?: Int
   error?: Int
   point?: Int
+  score?: Int
 }
 
 /*

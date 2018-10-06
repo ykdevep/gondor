@@ -71,8 +71,8 @@ export class InitTestComponent implements OnInit, OnDestroy {
   testQuerySubscription: Subscription;
 
   currentUser: Observable<User>;
+  user: User;
   today: Date;
-  age: number;
   name: string;
   testData: TestData;
 
@@ -80,7 +80,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
   points = 1;
   level = 0;
-  countPoints = 0;
+  score = 0;
 
   multiple: boolean[][] = [];
   steps: boolean[];
@@ -101,7 +101,7 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
     this.currentUser.subscribe(user => {
       if (user) {
-        this.age = parseInt(((new Date().getTime() - new Date(user.birthdate).getTime()) / (60000 * 60 * 24 * 365)).toString(), 10);
+        this.user = user;
         this.name = user.firstname;
 
         this.testData = {
@@ -210,12 +210,11 @@ export class InitTestComponent implements OnInit, OnDestroy {
       this.steps[i] = true;
     }
 
-    if ($datas.point) {
-      this.countPoints += $datas.point;
+    if ($datas.score) {
+      this.score += $datas.score;
     }
 
-    this.level = Math.round(15 * (this.countPoints / this.points));
-
+    this.level = Math.round(15 * (this.score / this.points));
 
   }
 }

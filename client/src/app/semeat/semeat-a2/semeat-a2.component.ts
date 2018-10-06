@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { trigger, style, state, transition, animate } from '@angular/animations';
+import { User } from '@app/core/model/user.model';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-semeat-a2',
@@ -24,7 +26,7 @@ import { trigger, style, state, transition, animate } from '@angular/animations'
               <input matInput type="text" placeholder="Introduce la serie en orden regresivo" formControlName="response">
             </mat-form-field>
             <div class="button">
-              <button mat-raised-button color="accent" type="submit" aria-label="done">
+              <button mat-raised-button color="primary" type="submit" aria-label="done">
                 <span>Evaluar</span>
                 <mat-icon>trending_flat</mat-icon>
               </button>
@@ -78,6 +80,9 @@ import { trigger, style, state, transition, animate } from '@angular/animations'
 export class SemeatA2Component implements OnInit {
   exerciseForm: FormGroup;
   @Output()save = new EventEmitter();
+  @Input() point = 0;
+  @Input() user: User;
+
   initAt: Date;
 
   question: string;
@@ -90,7 +95,7 @@ export class SemeatA2Component implements OnInit {
   series = 0;
   count = 0;
   hit = 0;
-  point = 0;
+  score = 0;
   fault = 0;
   omit = 0;
 
@@ -144,7 +149,10 @@ export class SemeatA2Component implements OnInit {
     ]
   ];
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
+    ) {}
 
   ngOnInit() {
     this.exerciseForm = this.formBuilder.group({
@@ -177,7 +185,7 @@ export class SemeatA2Component implements OnInit {
       if (response === this.data[this.series][this.count].response) {
         this.count += 1;
         this.hit += 1;
-        this.point += 1;
+        this.score += 1;
 
       } else {
         if (!response) {
@@ -196,7 +204,7 @@ export class SemeatA2Component implements OnInit {
 
       if (this.series > 1 || this.count >= 5) {
         this.flagQuestion = false;
-        this.question = 'Se ha terminado';
+        this.question = 'Se ha terminado este ejercicio';
         this.flagFinish = false;
       } else {
         this.question = this.data[this.series][this.count].question;
@@ -220,12 +228,20 @@ export class SemeatA2Component implements OnInit {
       },
       initAt: this.initAt,
       finalAt: new Date(),
+      createdBy: {
+        connect: {
+          id: this.user.id
+        }
+      },
       hit: this.hit,
       error: this.fault + this.omit,
       fault: this.fault,
       omit: this.omit,
-      point: this.point
+      score: this.score,
+      point: this.point,
     };
+
+    this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
 
     this.exerciseForm.disable();
     this.save.emit(this.exercise);
