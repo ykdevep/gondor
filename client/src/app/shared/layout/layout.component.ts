@@ -145,7 +145,7 @@ import { User } from '@app/core/model/user.model';
   `,
   styles: [`
     .router {
-      min-height: 85vh;
+      min-height: 87vh;
       height: auto;
     }
 
