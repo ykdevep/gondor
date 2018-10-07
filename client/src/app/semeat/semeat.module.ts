@@ -9,6 +9,7 @@ import { SemeatA2Component } from './semeat-a2/semeat-a2.component';
 import { SemeatA3Component } from './semeat-a3/semeat-a3.component';
 import { SemeatA4Component } from './semeat-a4/semeat-a4.component';
 import { SemeatA5Component } from './semeat-a5/semeat-a5.component';
+import { SemeatA6Component } from './semeat-a6/semeat-a6.component';
 
 @NgModule({
   imports: [
@@ -17,8 +18,18 @@ import { SemeatA5Component } from './semeat-a5/semeat-a5.component';
     FormsModule,
     ReactiveFormsModule,
   ],
-  exports: [SemeatA0Component, SemeatA1Component, SemeatA2Component, SemeatA3Component, SemeatA4Component, SemeatA5Component],
-  declarations: [SemeatA0Component, SemeatA1Component, SemeatA2Component, SemeatA3Component, SemeatA4Component, SemeatA5Component]
+  exports: [
+    SemeatA0Component, SemeatA1Component,
+    SemeatA2Component, SemeatA3Component,
+    SemeatA4Component, SemeatA5Component,
+    SemeatA6Component
+  ],
+  declarations: [
+    SemeatA0Component, SemeatA1Component,
+    SemeatA2Component, SemeatA3Component,
+    SemeatA4Component, SemeatA5Component,
+    SemeatA6Component
+  ]
 })
 export class SemeatModule {
   static forRoot() {

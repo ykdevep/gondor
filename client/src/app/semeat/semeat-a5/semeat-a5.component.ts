@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormArray, FormControl, Validators } from '@ang
 import { trigger, style, state, animate, transition } from '@angular/animations';
 import { User } from '@app/core/model/user.model';
 import { MatSnackBar } from '@angular/material';
+import { Exercise } from '@app/core/model/exercise.model';
 
 @Component({
   selector: 'app-semeat-a5',
@@ -93,7 +94,7 @@ import { MatSnackBar } from '@angular/material';
 export class SemeatA5Component implements OnInit {
   exerciseForm: FormGroup;
   @Output() save = new EventEmitter();
-  @Input() point = 0;
+  @Input() exercise: Exercise;
   @Input() user: User;
   initAt: Date;
 
@@ -111,7 +112,7 @@ export class SemeatA5Component implements OnInit {
   question: string[];
   state = 'active';
 
-  exercise: any;
+  result: any;
   create: any[] = [];
 
   words: any[] = [
@@ -216,7 +217,6 @@ export class SemeatA5Component implements OnInit {
     if ($event.checked) {
       if (this.words.filter(p => (p.value === this.index && p.name === word.name)).length > 0) {
         this.hit += 1;
-        this.score += 1;
         this.omit -= 1;
       } else {
         this.fault += 1;
@@ -225,7 +225,6 @@ export class SemeatA5Component implements OnInit {
     } else {
       if (this.words.filter(p => (p.value === this.index && p.name === word.name)).length > 0) {
         this.hit -= 1;
-        this.score -= 1;
         this.omit += 1;
       } else {
         this.fault -= 1;
@@ -279,7 +278,15 @@ export class SemeatA5Component implements OnInit {
   }
 
   saveExercise(): void {
-    this.exercise = {
+
+    let point = (this.hit * 2) - (this.fault / 2 + this.omit / 2);
+    const totalPoints = (this.hit + this.omit) * 2;
+
+    if (point < 0) {
+      point = 0;
+    }
+
+    this.result = {
       result: {
         create: this.create
       },
@@ -290,19 +297,24 @@ export class SemeatA5Component implements OnInit {
           id: this.user.id
         }
       },
+      exercise: {
+        connect: {
+          id: this.exercise.id
+        }
+      },
       hit: this.hit,
       error: this.fault + this.omit,
       fault: this.fault,
       omit: this.omit,
-      score: this.score,
-      point: this.point,
+      point: point,
+      score: point * this.exercise.scale / totalPoints,
     };
 
     this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
 
     this.exerciseForm.reset();
     this.exerciseForm.disable();
-    this.save.emit(this.exercise);
+    this.save.emit(this.result);
   }
 
 }

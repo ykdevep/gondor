@@ -22,7 +22,7 @@ const exerciseQuery = gql`
     exercise(id: $id) {
       id
       code
-      point
+      scale
       level
       description
     }
@@ -85,7 +85,7 @@ const exerciseQuery = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="number" placeholder="Puntos" formControlName="point">
+                  <input matInput type="number" placeholder="Scala de puntuación" formControlName="scale">
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
@@ -139,7 +139,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
     this.updateExerciseForm = this.formBuilder.group({
       code: ['', Validators.required],
       level: ['', Validators.required],
-      point: ['', Validators.required],
+      scale: ['', Validators.required],
       description: ['']
     });
 
@@ -164,7 +164,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
           this.updateExerciseForm.patchValue({
             code: this.exerciseData.code,
             description: this.exerciseData.description,
-            point: this.exerciseData.point,
+            scale: this.exerciseData.scale,
             level: this.exerciseData.level,
           });
         }
@@ -187,7 +187,7 @@ export class ExerciseUpdateComponent implements OnInit, OnDestroy {
             data:  {
               'code': this.updateExerciseForm.value.code,
               'description': this.updateExerciseForm.value.description,
-              'point': this.updateExerciseForm.value.point,
+              'scale': this.updateExerciseForm.value.scale,
               'level': this.updateExerciseForm.value.level
             },
             where : {

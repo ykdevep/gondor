@@ -1,7 +1,7 @@
 export interface Exercise {
   id: string;
   code: string;
-  point: number;
+  scale: number;
   score: number;
   level: string;
   description: string;

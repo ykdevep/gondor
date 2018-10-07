@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { trigger, style, state, transition, animate } from '@angular/animations';
 import { User } from '@app/core/model/user.model';
 import { MatSnackBar } from '@angular/material';
+import { Exercise } from '@app/core/model/exercise.model';
 
 @Component({
   selector: 'app-semeat-a2',
@@ -80,7 +81,7 @@ import { MatSnackBar } from '@angular/material';
 export class SemeatA2Component implements OnInit {
   exerciseForm: FormGroup;
   @Output()save = new EventEmitter();
-  @Input() point = 0;
+  @Input() exercise: Exercise;
   @Input() user: User;
 
   initAt: Date;
@@ -99,7 +100,7 @@ export class SemeatA2Component implements OnInit {
   fault = 0;
   omit = 0;
 
-  exercise: any;
+  result: any;
   create: any[] = [];
 
   data: any = [
@@ -185,7 +186,6 @@ export class SemeatA2Component implements OnInit {
       if (response === this.data[this.series][this.count].response) {
         this.count += 1;
         this.hit += 1;
-        this.score += 1;
 
       } else {
         if (!response) {
@@ -222,7 +222,15 @@ export class SemeatA2Component implements OnInit {
   }
 
   saveExercise(): void {
-    this.exercise = {
+
+    let point = (this.hit * 2) - (this.fault / 2 + this.omit / 2);
+    const totalPoints = 10;
+
+    if (point < 0) {
+      point = 0;
+    }
+
+    this.result = {
       result: {
         create: this.create
       },
@@ -233,17 +241,22 @@ export class SemeatA2Component implements OnInit {
           id: this.user.id
         }
       },
+      exercise: {
+        connect: {
+          id: this.exercise.id
+        }
+      },
       hit: this.hit,
       error: this.fault + this.omit,
       fault: this.fault,
       omit: this.omit,
-      score: this.score,
-      point: this.point,
+      point: point,
+      score: point * this.exercise.scale / totalPoints,
     };
 
     this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
 
     this.exerciseForm.disable();
-    this.save.emit(this.exercise);
+    this.save.emit(this.result);
   }
 }

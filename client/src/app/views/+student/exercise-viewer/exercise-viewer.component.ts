@@ -12,8 +12,9 @@ import { AuthService } from '@app/core/services/auth.service';
 const exerciseQuery = gql`
   query exercise($id: String!) {
     exercise(id: $id) {
+      id
       code
-      point
+      scale
       level
       description
     }
@@ -47,7 +48,7 @@ const createExeciseData = gql`
         <h2>Nivel de Atención ({{exercise.level}})</h2>
       </mat-toolbar>
       <div class="container mat-elevation-z8" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
-        <div class="item" fxFlex="90%" fxFlex.xs="98%" fxFlex.md="96%">
+        <div class="item" fxFlex="98%" fxFlex.xs="100%" fxFlex.md="99%">
           <mat-card>
             <mat-card-title>
               <mat-toolbar>
@@ -75,11 +76,8 @@ const createExeciseData = gql`
             <mat-card-content>
 
               <div [ngSwitch]="exercise?.code">
-                <app-semeat-a1 *ngSwitchCase="'A1'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event)"></app-semeat-a1>
-                <app-semeat-a2 *ngSwitchCase="'A2'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event)"></app-semeat-a2>
-                <app-semeat-a3 *ngSwitchCase="'A3'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event)"></app-semeat-a3>
-                <app-semeat-a4 *ngSwitchCase="'A4'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event)"></app-semeat-a4>
-                <app-semeat-a5 *ngSwitchCase="'A5'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event)"></app-semeat-a5>
+
+                <app-semeat-a6 *ngSwitchCase="'A6'" [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-a6>
 
                 <div *ngSwitchDefault>
                   <h4 class="mat-h4">No se encuentra el ejercicio</h4>
@@ -179,5 +177,4 @@ export class ExerciseViewerComponent implements OnInit, OnDestroy {
       this.snackBar.open('Error al guardar ejercicio...', 'X', {duration: 3000});
     }
   }
-
 }

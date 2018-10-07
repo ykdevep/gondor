@@ -24,7 +24,7 @@ const initTestQuery = gql`
         exercises {
           id
           code
-          point
+          scale
           description
         }
       }
@@ -78,7 +78,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
 
   flagFinishTest = false;
 
-  points = 1;
   level = 0;
   score = 0;
 
@@ -135,7 +134,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
                 this.multiple.push([]);
                 for (let g = 0; g < this.test.sections[i].exercises.length; g++) {
                   this.multiple[i][g] = false;
-                  this.points += this.test.sections[i].exercises[g].point;
                 }
               }
             }
@@ -212,6 +210,6 @@ export class InitTestComponent implements OnInit, OnDestroy {
     if ($datas.score) {
       this.score += $datas.score;
     }
-    this.level = Math.round(15 * (this.score / this.points));
+    this.level = Math.round(this.score / this.testData.exerciseDatas.length);
   }
 }

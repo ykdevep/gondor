@@ -1,4 +1,5 @@
 import { User } from '@app/core/model/user.model';
+import { Exercise } from '@app/core/model/exercise.model';
 
 export type DateTime = Date | string;
 
@@ -7,8 +8,9 @@ export interface ExerciseData {
   initAt?: DateTime;
   finalAt?: DateTime;
   createdBy: User;
+  exercise?: Exercise;
   result?: Result[];
-  level?: number;
+  dificulty?: string;
   hit?: number;
   fault?: number;
   omit?: number;

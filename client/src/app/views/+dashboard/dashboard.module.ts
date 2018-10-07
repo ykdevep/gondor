@@ -8,6 +8,7 @@ import { RoleGuard } from '@app/core/guard/role.guard';
 import { CountEntityComponent } from './count-entity/count-entity.component';
 import { ChartTestComponent } from './chart-test/chart-test.component';
 import { ExercisesComponent } from './exercises/exercises.component';
+import { ChartExerciseComponent } from './chart-exercise/chart-exercise.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [IndexComponent, CountEntityComponent, ChartTestComponent, ExercisesComponent]
+  declarations: [IndexComponent, CountEntityComponent, ChartTestComponent, ExercisesComponent, ChartExerciseComponent]
 })
 export class DashboardModule { }

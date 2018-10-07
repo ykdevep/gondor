@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/core/model/user.model';
 import { MatSnackBar } from '@angular/material';
+import { Exercise } from '@app/core/model/exercise.model';
 
 @Component({
   selector: 'app-semeat-a4',
@@ -48,7 +49,7 @@ import { MatSnackBar } from '@angular/material';
 export class SemeatA4Component implements OnInit {
   exerciseForm: FormGroup;
   @Output() save = new EventEmitter();
-  @Input() point = 0;
+  @Input() exercise: Exercise;
   @Input() user: User;
   initAt: Date;
 
@@ -57,7 +58,7 @@ export class SemeatA4Component implements OnInit {
   fault = 0;
   omit = 5;
 
-  exercise: any;
+  result: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,7 +85,6 @@ export class SemeatA4Component implements OnInit {
       for (const number of numbers) {
         if ((20 - (3 * i)).toString() === number) {
           this.hit += 1;
-          this.score += 1;
           if (this.omit > 0) {
             this.omit -= 1;
           }
@@ -101,7 +101,14 @@ export class SemeatA4Component implements OnInit {
         i++;
       }
 
-      this.exercise = {
+      let point = (this.hit * 2) - (this.fault / 2 + this.omit / 2);
+      const totalPoints = (this.hit + this.omit) * 2;
+
+      if (point < 0) {
+        point = 0;
+      }
+
+      this.result = {
         result: {
           create: {
             question: '20-3',
@@ -115,18 +122,23 @@ export class SemeatA4Component implements OnInit {
             id: this.user.id
           }
         },
+        exercise: {
+          connect: {
+            id: this.exercise.id
+          }
+        },
         hit: this.hit,
         error: this.fault + this.omit,
         fault: this.fault,
         omit: this.omit,
-        score: this.hit,
-        point: this.point,
+        point: point,
+        score: point * this.exercise.scale / totalPoints,
       };
 
       this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
 
       this.exerciseForm.disable();
-      this.save.emit(this.exercise);
+      this.save.emit(this.result);
     }
   }
 }

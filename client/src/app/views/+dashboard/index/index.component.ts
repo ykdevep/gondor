@@ -23,6 +23,9 @@ const testDataQuery = gql`
         omit
         error
         point
+        exercise {
+          scale
+        }
         score
       }
     }

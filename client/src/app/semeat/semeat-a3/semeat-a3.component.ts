@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { trigger, style, state, transition, animate } from '@angular/animations';
 import { User } from '@app/core/model/user.model';
 import { MatSnackBar } from '@angular/material';
+import { Exercise } from '@app/core/model/exercise.model';
 
 @Component({
   selector: 'app-semeat-a3',
@@ -91,7 +92,7 @@ import { MatSnackBar } from '@angular/material';
 export class SemeatA3Component implements OnInit {
   exerciseForm: FormGroup;
   @Output() save = new EventEmitter();
-  @Input() point = 0;
+  @Input() exercise: Exercise;
   @Input() user: User;
 
   initAt: Date;
@@ -107,8 +108,8 @@ export class SemeatA3Component implements OnInit {
   fault = 0;
   omit = 4;
 
-  exercise: any;
-  create: any[] = [];
+  result: any;
+  response: string[] = [];
 
   icons: string [] = [
     'account_box',
@@ -175,9 +176,19 @@ export class SemeatA3Component implements OnInit {
   saveForm(): void {
     if (this.exerciseForm.valid) {
 
-      this.exercise = {
+      let point = (this.hit * 2) - (this.fault / 2 + this.omit / 2);
+      const totalPoints = (this.hit + this.omit) * 2;
+
+      if (point < 0) {
+        point = 0;
+      }
+
+      this.result = {
         result: {
-          create: this.create
+          create: {
+            question: this.question.name,
+            response: this.response.toString()
+          }
         },
         initAt: this.initAt,
         finalAt: new Date(),
@@ -186,18 +197,23 @@ export class SemeatA3Component implements OnInit {
             id: this.user.id
           }
         },
+        exercise: {
+          connect: {
+            id: this.exercise.id
+          }
+        },
         hit: this.hit,
         error: this.fault + this.omit,
         fault: this.fault,
         omit: this.omit,
-        score: this.hit,
-        point: this.point,
+        point: point,
+        score: point * this.exercise.scale / totalPoints,
       };
 
       this.flagFinish = true;
       this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
       this.exerciseForm.disable();
-      this.save.emit(this.exercise);
+      this.save.emit(this.result);
     }
   }
 
@@ -208,9 +224,6 @@ export class SemeatA3Component implements OnInit {
     } else {
       this.fault += 1;
     }
-    this.create.push({
-      question: this.question.value,
-      response: value
-    });
+    this.response.push(value);
   }
 }

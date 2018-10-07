@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/core/model/user.model';
 import { MatSnackBar } from '@angular/material';
+import { Exercise } from '@app/core/model/exercise.model';
 
 @Component({
   selector: 'app-semeat-a0',
@@ -69,9 +70,10 @@ export class SemeatA0Component implements OnInit {
              'Otras'];
 
   generalDataForm: FormGroup;
-  exercise: any;
+  result: any;
   @Output() save = new EventEmitter();
   @Input() user: User;
+  @Input() exercise: Exercise;
 
   initAt: Date;
 
@@ -96,7 +98,7 @@ export class SemeatA0Component implements OnInit {
 
     if (this.generalDataForm.valid) {
 
-      this.exercise = {
+      this.result = {
         result: {
           create: [
             {
@@ -128,11 +130,17 @@ export class SemeatA0Component implements OnInit {
             id: this.user.id
           }
         },
+        exercise: {
+          connect: {
+            id: this.exercise.id
+          }
+        },
+        score: this.exercise.scale
     };
       this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
       this.generalDataForm.disable();
     }
-    this.save.emit(this.exercise);
+    this.save.emit(this.result);
   }
 
 }

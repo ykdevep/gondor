@@ -74,7 +74,7 @@ const createExercise = gql`
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
-                  <input matInput type="number" placeholder="Puntos" formControlName="point">
+                  <input matInput type="number" placeholder="Scala de puntuación" formControlName="scale">
                 </mat-form-field>
 
                 <mat-form-field class="full-width">
@@ -123,7 +123,7 @@ export class ExerciseCreateComponent implements OnInit {
 
     this.createExerciseForm = this.formBuilder.group({
       code: ['', Validators.required],
-      point: ['', Validators.required],
+      scale: ['', Validators.required],
       level: ['', Validators.required],
       description: ['']
     });
@@ -142,7 +142,7 @@ export class ExerciseCreateComponent implements OnInit {
           data: {
             'code': this.createExerciseForm.value.code,
             'level': this.createExerciseForm.value.level,
-            'point': this.createExerciseForm.value.point,
+            'scale': this.createExerciseForm.value.scale,
             'description': this.createExerciseForm.value.description,
           }
         }

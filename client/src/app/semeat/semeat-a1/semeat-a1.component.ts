@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from '@app/core/model/user.model';
 import { MatSnackBar } from '@angular/material';
+import { Exercise } from '@app/core/model/exercise.model';
 
 @Component({
   selector: 'app-semeat-a1',
@@ -141,11 +142,11 @@ export class SemeatA1Component implements OnInit {
   ];
 
   exerciseForm: FormGroup;
-  exercise: any;
+  result: any;
 
   @Output() save = new EventEmitter();
   @Input() user: User;
-  @Input() point = 0;
+  @Input() exercise: Exercise;
 
   initAt: Date;
   age = 0;
@@ -171,7 +172,18 @@ export class SemeatA1Component implements OnInit {
 
   saveForm(): void {
     if (this.exerciseForm.valid) {
-      this.exercise = {
+
+      const hit = ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
+                  (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
+                  (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
+                  (Number)(this.age === this.exerciseForm.value.age));
+
+      const error = ((Number)(new Date().getDay() !== this.exerciseForm.value.day) +
+                    (Number)(new Date().getMonth() !== this.exerciseForm.value.month) +
+                    (Number)(new Date().getFullYear() !== this.exerciseForm.value.year) +
+                    (Number)(this.age !== this.exerciseForm.value.age));
+
+      this.result = {
           result: {
             create: [
               {
@@ -208,24 +220,22 @@ export class SemeatA1Component implements OnInit {
               id: this.user.id
             }
           },
-          point: this.point,
-          hit: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
-            (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
-            (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
-            (Number)(this.age === this.exerciseForm.value.age)),
-          score: ((Number)(new Date().getDay() === this.exerciseForm.value.day) +
-            (Number)(new Date().getMonth() === this.exerciseForm.value.month) +
-            (Number)(new Date().getFullYear() === this.exerciseForm.value.year) +
-            (Number)(this.age === this.exerciseForm.value.age)),
-          error: ((Number)(new Date().getDay() !== this.exerciseForm.value.day) +
-            (Number)(new Date().getMonth() !== this.exerciseForm.value.month) +
-            (Number)(new Date().getFullYear() !== this.exerciseForm.value.year) +
-            (Number)(this.age !== this.exerciseForm.value.age)),
+          exercise: {
+            connect: {
+              id: this.exercise.id
+            }
+          },
+          hit: hit,
+          omit: 4 - hit,
+          point: (hit * 2) - error,
+          score: ((hit * 2) - error) * this.exercise.scale / 8,
+          error: error,
         };
+
       this.exerciseForm.disable();
       this.snackBar.open('Ejercicio terminado correctamente', 'X', {duration: 3000});
     }
-    this.save.emit(this.exercise);
+    this.save.emit(this.result);
   }
 
 }

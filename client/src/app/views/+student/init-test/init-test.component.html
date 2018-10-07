@@ -24,14 +24,14 @@
             <li *ngFor="let exercise of section.exercises; let g=index;">
               <div [ngSwitch]="exercise?.code">
 
-                <app-semeat-a0 *ngSwitchCase="'A0'" [user]="user" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
-                <app-semeat-a1 *ngSwitchCase="'A1'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
+                <app-semeat-a0 *ngSwitchCase="'A0'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a0>
+                <app-semeat-a1 *ngSwitchCase="'A1'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a1>
 
-                <app-semeat-a2 *ngSwitchCase="'A2'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a2>
-                <app-semeat-a3 *ngSwitchCase="'A3'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a3>
-                <app-semeat-a4 *ngSwitchCase="'A4'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a4>
+                <app-semeat-a2 *ngSwitchCase="'A2'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a2>
+                <app-semeat-a3 *ngSwitchCase="'A3'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a3>
+                <app-semeat-a4 *ngSwitchCase="'A4'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a4>
 
-                <app-semeat-a5 *ngSwitchCase="'A5'" [user]="user" [point]="exercise?.point" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a5>
+                <app-semeat-a5 *ngSwitchCase="'A5'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a5>
 
               </div>
               <br />
@@ -98,7 +98,7 @@
                   Se le recomienda realizar ejercicios de atención dividida en nivel medio
               </h3>
               <h3 *ngSwitchCase="15">
-                  <span>Puntuación Perfecta</span>
+                  <span>Puntuación Perfecta.</span>
                   Se le recomienda realizar ejercicios de atención dividida en nivel avanzado
               </h3>
           </div>

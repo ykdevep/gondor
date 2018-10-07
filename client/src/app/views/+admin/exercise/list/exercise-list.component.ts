@@ -26,7 +26,7 @@ const exerciseList = gql`
     exercises {
       id
       code
-      point
+      scale
       description
       level
     }
@@ -112,9 +112,9 @@ const deleteManyExercises = gql`
                 </ng-container>
 
                 <!-- Point Column -->
-                <ng-container matColumnDef="point">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Puntos</mat-header-cell>
-                  <mat-cell *matCellDef="let row">{{row.point}}</mat-cell>
+                <ng-container matColumnDef="scale">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Escala de Puntos</mat-header-cell>
+                  <mat-cell *matCellDef="let row">{{row.scale}}</mat-cell>
                 </ng-container>
 
                 <!-- Level Column -->
@@ -206,7 +206,7 @@ export class ExerciseListComponent implements OnInit, AfterViewInit, OnDestroy {
   selection = new SelectionModel<Exercise>(true, []);
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
-  displayedColumns = ['select', 'code', 'level', 'point', 'description', 'details', 'edit', 'delete'];
+  displayedColumns = ['select', 'code', 'level', 'scale', 'description', 'details', 'edit', 'delete'];
 
   loading: boolean;
   private querySubscription: Subscription;
