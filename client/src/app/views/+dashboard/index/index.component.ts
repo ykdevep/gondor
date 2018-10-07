@@ -5,6 +5,7 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { MatSnackBar } from '@angular/material';
 import { TestData } from '@app/core/model/testData.model';
+import { ExerciseData } from '@app/core/model/exerciseData.model';
 
 
 const testDataQuery = gql`
@@ -32,6 +33,33 @@ const testDataQuery = gql`
   }
 `;
 
+const exerciseQuery = gql`
+query exerciseDatas($where: ExerciseDataWhereInput!) {
+  exerciseDatas (where: $where)  {
+    id
+    initAt
+    finalAt
+    dificulty
+    exercise {
+      code
+    }
+    result {
+      question
+      response
+    }
+    createdBy {
+      email
+    }
+    point
+    hit
+    score
+    error
+    fault
+    omit
+  }
+}
+`;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './index.component.html',
@@ -44,7 +72,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   isStudent: Observable<boolean>;
 
   testData: TestData[];
+  exerciseData: ExerciseData[];
   testDataQuerySubcription: Subscription;
+  exerciseDataQuerySubcription: Subscription;
   loading = false;
 
   constructor(
@@ -92,6 +122,32 @@ export class IndexComponent implements OnInit, OnDestroy {
               });
             }
           );
+
+          this.exerciseDataQuerySubcription = this.apollo
+          .watchQuery<any>({
+            query: exerciseQuery,
+            variables: {
+              where: {
+                exercise: {level_not: 'NINGUNO'}
+              }
+            }
+          })
+          .valueChanges.subscribe(
+            ({ data, loading }) => {
+              this.loading = loading;
+              if (!loading) {
+                if (data.exerciseDatas.length > 0) {
+                  this.exerciseData = data.exerciseDatas;
+                }
+              }
+            },
+            (error) => {
+              this.loading = false;
+              this.snackBar.open(error.message, 'X', {
+                duration: 3000
+              });
+            }
+          );
         }
     });
   }
@@ -99,6 +155,9 @@ export class IndexComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.testDataQuerySubcription) {
       this.testDataQuerySubcription.unsubscribe();
+    }
+    if (this.exerciseDataQuerySubcription) {
+      this.exerciseDataQuerySubcription.unsubscribe();
     }
   }
 

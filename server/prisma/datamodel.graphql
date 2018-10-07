@@ -54,7 +54,7 @@ type Section {
 type Exercise {
   id: ID! @unique
   code: Codes! @unique
-  point: Int! @default(value: 0)
+  scale: Int! @default(value: 15)
   level: Levels! @default(value: NINGUNO)
   description: String
   sections: [Section!]! @relation(name: "R6")  
@@ -74,15 +74,15 @@ type ExerciseData {
   initAt: DateTime!
   finalAt: DateTime!
   createdBy: User!
+  exercise: Exercise!
   result: [Result!]! @relation(name: "R8") 
-  level: Levels! @default(value: NINGUNO)
   dificulty: Dificulty! @default(value: NINGUNO)
   hit: Int @default(value: 0)
   fault: Int @default(value: 0)
   omit: Int @default(value: 0)
   error: Int @default(value: 0)
-  point: Int @default(value: 0)
-  score: Int @default(value: 0)
+  point: Float @default(value: 0)
+  score: Float @default(value: 0)
 }
 
 type Result {

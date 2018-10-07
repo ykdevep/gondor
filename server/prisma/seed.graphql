@@ -58,7 +58,7 @@ mutation {
               {
                 code: A1
                 description: "Ejercicios de Orientación"
-                point: 4
+                scale: 15
               }
             ]
           }
@@ -71,17 +71,17 @@ mutation {
               {
                 code: A2
                 description: "Dígitos en regresión"
-                point: 5
+                scale: 15
               },
               {
                 code: A3
                 description: "Detención visual"
-                point: 4
+                scale: 15
               },
               {
                 code: A4
                 description: "20-3"
-                point: 5
+                scale: 15
               }
             ]
           }
@@ -94,7 +94,7 @@ mutation {
               {
                 code: A5
                 description: "Memoria verbal espontánea"
-                point: 18
+                scale: 15
               }
             ]
           }
@@ -109,6 +109,7 @@ mutation {
     code: A6
     description: "Detección de números grandes y chicos"
     level: SELECTIVA
+    scale: 15
   }) {
     id
   }
@@ -117,6 +118,7 @@ mutation {
     code: A7
     description: "Rastreo Flechas"
     level: SOSTENIDA
+    scale: 15
   }) {
     id
   }
@@ -125,6 +127,7 @@ mutation {
     code: A8
     description: "Direccionalidad Derecha"
     level: ENFOCADA
+    scale: 15
   }) {
     id
   }
@@ -132,6 +135,7 @@ mutation {
     code: A9
     description: "Direccionalidad Izquierda"
     level: ENFOCADA
+    scale: 15
   }) {
     id
   }
@@ -139,6 +143,7 @@ mutation {
     code: B1
     description: "Direccionalidad Abajo"
     level: ENFOCADA
+    scale: 15
   }) {
     id
   }
@@ -146,6 +151,7 @@ mutation {
     code: B2
     description: "Direccionalidad Arriba"
     level: ENFOCADA
+    scale: 15
   }) {
     id
   }

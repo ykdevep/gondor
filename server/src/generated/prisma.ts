@@ -263,7 +263,7 @@ enum Dificulty {
 type Exercise implements Node {
   id: ID!
   code: Codes!
-  point: Int!
+  scale: Int!
   level: Levels!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
@@ -281,7 +281,7 @@ type ExerciseConnection {
 
 input ExerciseCreateInput {
   code: Codes!
-  point: Int
+  scale: Int
   level: Levels
   description: String
   sections: SectionCreateManyInput
@@ -292,20 +292,25 @@ input ExerciseCreateManyInput {
   connect: [ExerciseWhereUniqueInput!]
 }
 
+input ExerciseCreateOneInput {
+  create: ExerciseCreateInput
+  connect: ExerciseWhereUniqueInput
+}
+
 type ExerciseData implements Node {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
   createdBy(where: UserWhereInput): User!
+  exercise(where: ExerciseWhereInput): Exercise!
   result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
-  level: Levels!
   dificulty: Dificulty!
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
 }
 
 """A connection to a list of items."""
@@ -321,15 +326,15 @@ type ExerciseDataConnection {
 input ExerciseDataCreateInput {
   initAt: DateTime!
   finalAt: DateTime!
-  level: Levels
   dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
   createdBy: UserCreateOneInput!
+  exercise: ExerciseCreateOneInput!
   result: ResultCreateManyInput
 }
 
@@ -354,8 +359,6 @@ enum ExerciseDataOrderByInput {
   initAt_DESC
   finalAt_ASC
   finalAt_DESC
-  level_ASC
-  level_DESC
   dificulty_ASC
   dificulty_DESC
   hit_ASC
@@ -380,14 +383,13 @@ type ExerciseDataPreviousValues {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  level: Levels!
   dificulty: Dificulty!
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
 }
 
 type ExerciseDataSubscriptionPayload {
@@ -432,30 +434,30 @@ input ExerciseDataSubscriptionWhereInput {
 input ExerciseDataUpdateDataInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Levels
   dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
   createdBy: UserUpdateOneInput
+  exercise: ExerciseUpdateOneInput
   result: ResultUpdateManyInput
 }
 
 input ExerciseDataUpdateInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Levels
   dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
   createdBy: UserUpdateOneInput
+  exercise: ExerciseUpdateOneInput
   result: ResultUpdateManyInput
 }
 
@@ -572,16 +574,6 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   finalAt_gte: DateTime
-  level: Levels
-
-  """All values that are not equal to given value."""
-  level_not: Levels
-
-  """All values that are contained in given list."""
-  level_in: [Levels!]
-
-  """All values that are not contained in given list."""
-  level_not_in: [Levels!]
   dificulty: Dificulty
 
   """All values that are not equal to given value."""
@@ -680,51 +672,52 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   error_gte: Int
-  point: Int
+  point: Float
 
   """All values that are not equal to given value."""
-  point_not: Int
+  point_not: Float
 
   """All values that are contained in given list."""
-  point_in: [Int!]
+  point_in: [Float!]
 
   """All values that are not contained in given list."""
-  point_not_in: [Int!]
+  point_not_in: [Float!]
 
   """All values less than the given value."""
-  point_lt: Int
+  point_lt: Float
 
   """All values less than or equal the given value."""
-  point_lte: Int
+  point_lte: Float
 
   """All values greater than the given value."""
-  point_gt: Int
+  point_gt: Float
 
   """All values greater than or equal the given value."""
-  point_gte: Int
-  score: Int
+  point_gte: Float
+  score: Float
 
   """All values that are not equal to given value."""
-  score_not: Int
+  score_not: Float
 
   """All values that are contained in given list."""
-  score_in: [Int!]
+  score_in: [Float!]
 
   """All values that are not contained in given list."""
-  score_not_in: [Int!]
+  score_not_in: [Float!]
 
   """All values less than the given value."""
-  score_lt: Int
+  score_lt: Float
 
   """All values less than or equal the given value."""
-  score_lte: Int
+  score_lte: Float
 
   """All values greater than the given value."""
-  score_gt: Int
+  score_gt: Float
 
   """All values greater than or equal the given value."""
-  score_gte: Int
+  score_gte: Float
   createdBy: UserWhereInput
+  exercise: ExerciseWhereInput
   result_every: ResultWhereInput
   result_some: ResultWhereInput
   result_none: ResultWhereInput
@@ -748,8 +741,8 @@ enum ExerciseOrderByInput {
   id_DESC
   code_ASC
   code_DESC
-  point_ASC
-  point_DESC
+  scale_ASC
+  scale_DESC
   level_ASC
   level_DESC
   description_ASC
@@ -763,7 +756,7 @@ enum ExerciseOrderByInput {
 type ExercisePreviousValues {
   id: ID!
   code: Codes!
-  point: Int!
+  scale: Int!
   level: Levels!
   description: String
 }
@@ -809,7 +802,7 @@ input ExerciseSubscriptionWhereInput {
 
 input ExerciseUpdateDataInput {
   code: Codes
-  point: Int
+  scale: Int
   level: Levels
   description: String
   sections: SectionUpdateManyInput
@@ -817,7 +810,7 @@ input ExerciseUpdateDataInput {
 
 input ExerciseUpdateInput {
   code: Codes
-  point: Int
+  scale: Int
   level: Levels
   description: String
   sections: SectionUpdateManyInput
@@ -832,9 +825,22 @@ input ExerciseUpdateManyInput {
   upsert: [ExerciseUpsertWithWhereUniqueNestedInput!]
 }
 
+input ExerciseUpdateOneInput {
+  create: ExerciseCreateInput
+  connect: ExerciseWhereUniqueInput
+  delete: Boolean
+  update: ExerciseUpdateDataInput
+  upsert: ExerciseUpsertNestedInput
+}
+
 input ExerciseUpdateWithWhereUniqueNestedInput {
   where: ExerciseWhereUniqueInput!
   data: ExerciseUpdateDataInput!
+}
+
+input ExerciseUpsertNestedInput {
+  update: ExerciseUpdateDataInput!
+  create: ExerciseCreateInput!
 }
 
 input ExerciseUpsertWithWhereUniqueNestedInput {
@@ -902,28 +908,28 @@ input ExerciseWhereInput {
 
   """All values that are not contained in given list."""
   code_not_in: [Codes!]
-  point: Int
+  scale: Int
 
   """All values that are not equal to given value."""
-  point_not: Int
+  scale_not: Int
 
   """All values that are contained in given list."""
-  point_in: [Int!]
+  scale_in: [Int!]
 
   """All values that are not contained in given list."""
-  point_not_in: [Int!]
+  scale_not_in: [Int!]
 
   """All values less than the given value."""
-  point_lt: Int
+  scale_lt: Int
 
   """All values less than or equal the given value."""
-  point_lte: Int
+  scale_lte: Int
 
   """All values greater than the given value."""
-  point_gt: Int
+  scale_gt: Int
 
   """All values greater than or equal the given value."""
-  point_gte: Int
+  scale_gte: Int
   level: Levels
 
   """All values that are not equal to given value."""
@@ -3196,38 +3202,12 @@ export const Prisma = makePrismaBindingClass<BindingConstructor<Prisma>>({typeDe
  * Types
 */
 
-export type ResultOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'question_ASC' |
-  'question_DESC' |
-  'response_ASC' |
-  'response_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type TestDataOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'type_ASC' |
-  'type_DESC' |
-  'initAt_ASC' |
-  'initAt_DESC' |
-  'finalAt_ASC' |
-  'finalAt_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
 export type ExerciseDataOrderByInput =   'id_ASC' |
   'id_DESC' |
   'initAt_ASC' |
   'initAt_DESC' |
   'finalAt_ASC' |
   'finalAt_DESC' |
-  'level_ASC' |
-  'level_DESC' |
   'dificulty_ASC' |
   'dificulty_DESC' |
   'hit_ASC' |
@@ -3246,120 +3226,6 @@ export type ExerciseDataOrderByInput =   'id_ASC' |
   'updatedAt_DESC' |
   'createdAt_ASC' |
   'createdAt_DESC'
-
-export type TestOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'type_ASC' |
-  'type_DESC' |
-  'description_ASC' |
-  'description_DESC' |
-  'enable_ASC' |
-  'enable_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type Sexs =   'MALE' |
-  'FEMALE'
-
-export type ExerciseOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'code_ASC' |
-  'code_DESC' |
-  'point_ASC' |
-  'point_DESC' |
-  'level_ASC' |
-  'level_DESC' |
-  'description_ASC' |
-  'description_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type Dificulty =   'NINGUNO' |
-  'INICIAL' |
-  'MEDIA' |
-  'AVANZADA'
-
-export type Levels =   'NINGUNO' |
-  'ENFOCADA' |
-  'SOSTENIDA' |
-  'SELECTIVA' |
-  'ALTERNADA' |
-  'DIVIDIDA'
-
-export type RoleOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'name_ASC' |
-  'name_DESC' |
-  'description_ASC' |
-  'description_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type UserOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'email_ASC' |
-  'email_DESC' |
-  'password_ASC' |
-  'password_DESC' |
-  'firstname_ASC' |
-  'firstname_DESC' |
-  'lastname_ASC' |
-  'lastname_DESC' |
-  'birthdate_ASC' |
-  'birthdate_DESC' |
-  'sex_ASC' |
-  'sex_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type SectionOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'name_ASC' |
-  'name_DESC' |
-  'description_ASC' |
-  'description_DESC' |
-  'enable_ASC' |
-  'enable_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type FileOrderByInput =   'id_ASC' |
-  'id_DESC' |
-  'path_ASC' |
-  'path_DESC' |
-  'filename_ASC' |
-  'filename_DESC' |
-  'mimetype_ASC' |
-  'mimetype_DESC' |
-  'encoding_ASC' |
-  'encoding_DESC' |
-  'size_ASC' |
-  'size_DESC' |
-  'updatedAt_ASC' |
-  'updatedAt_DESC' |
-  'createdAt_ASC' |
-  'createdAt_DESC'
-
-export type MutationType =   'CREATED' |
-  'UPDATED' |
-  'DELETED'
-
-export type Types =   'INICIAL' |
-  'ENFOCADA' |
-  'SOSTENIDA' |
-  'SELECTIVA' |
-  'ALTERNADA' |
-  'DIVIDIDA'
 
 export type Codes =   'A0' |
   'A1' |
@@ -3432,10 +3298,147 @@ export type Codes =   'A0' |
   'G8' |
   'G9'
 
-export interface RoleCreateInput {
-  name: String
-  description?: String
-  users?: UserCreateManyInput
+export type UserOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'email_ASC' |
+  'email_DESC' |
+  'password_ASC' |
+  'password_DESC' |
+  'firstname_ASC' |
+  'firstname_DESC' |
+  'lastname_ASC' |
+  'lastname_DESC' |
+  'birthdate_ASC' |
+  'birthdate_DESC' |
+  'sex_ASC' |
+  'sex_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type ResultOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'question_ASC' |
+  'question_DESC' |
+  'response_ASC' |
+  'response_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type Sexs =   'MALE' |
+  'FEMALE'
+
+export type TestOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'type_ASC' |
+  'type_DESC' |
+  'description_ASC' |
+  'description_DESC' |
+  'enable_ASC' |
+  'enable_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type Levels =   'NINGUNO' |
+  'ENFOCADA' |
+  'SOSTENIDA' |
+  'SELECTIVA' |
+  'ALTERNADA' |
+  'DIVIDIDA'
+
+export type Dificulty =   'NINGUNO' |
+  'INICIAL' |
+  'MEDIA' |
+  'AVANZADA'
+
+export type TestDataOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'type_ASC' |
+  'type_DESC' |
+  'initAt_ASC' |
+  'initAt_DESC' |
+  'finalAt_ASC' |
+  'finalAt_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type RoleOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'description_ASC' |
+  'description_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type ExerciseOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'code_ASC' |
+  'code_DESC' |
+  'scale_ASC' |
+  'scale_DESC' |
+  'level_ASC' |
+  'level_DESC' |
+  'description_ASC' |
+  'description_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type FileOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'path_ASC' |
+  'path_DESC' |
+  'filename_ASC' |
+  'filename_DESC' |
+  'mimetype_ASC' |
+  'mimetype_DESC' |
+  'encoding_ASC' |
+  'encoding_DESC' |
+  'size_ASC' |
+  'size_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export type MutationType =   'CREATED' |
+  'UPDATED' |
+  'DELETED'
+
+export type Types =   'INICIAL' |
+  'ENFOCADA' |
+  'SOSTENIDA' |
+  'SELECTIVA' |
+  'ALTERNADA' |
+  'DIVIDIDA'
+
+export type SectionOrderByInput =   'id_ASC' |
+  'id_DESC' |
+  'name_ASC' |
+  'name_DESC' |
+  'description_ASC' |
+  'description_DESC' |
+  'enable_ASC' |
+  'enable_DESC' |
+  'updatedAt_ASC' |
+  'updatedAt_DESC' |
+  'createdAt_ASC' |
+  'createdAt_DESC'
+
+export interface UserCreateManyInput {
+  create?: UserCreateInput[] | UserCreateInput
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
 }
 
 export interface FileWhereInput {
@@ -3522,15 +3525,17 @@ export interface FileWhereInput {
   size_gte?: Int
 }
 
-export interface SectionCreateManyInput {
-  create?: SectionCreateInput[] | SectionCreateInput
-  connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+export interface TestCreateInput {
+  type: Types
+  description?: String
+  enable?: Boolean
+  sections?: SectionCreateManyInput
 }
 
-export interface ResultWhereInput {
-  AND?: ResultWhereInput[] | ResultWhereInput
-  OR?: ResultWhereInput[] | ResultWhereInput
-  NOT?: ResultWhereInput[] | ResultWhereInput
+export interface ExerciseWhereInput {
+  AND?: ExerciseWhereInput[] | ExerciseWhereInput
+  OR?: ExerciseWhereInput[] | ExerciseWhereInput
+  NOT?: ExerciseWhereInput[] | ExerciseWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -3545,76 +3550,50 @@ export interface ResultWhereInput {
   id_not_starts_with?: ID_Input
   id_ends_with?: ID_Input
   id_not_ends_with?: ID_Input
-  question?: String
-  question_not?: String
-  question_in?: String[] | String
-  question_not_in?: String[] | String
-  question_lt?: String
-  question_lte?: String
-  question_gt?: String
-  question_gte?: String
-  question_contains?: String
-  question_not_contains?: String
-  question_starts_with?: String
-  question_not_starts_with?: String
-  question_ends_with?: String
-  question_not_ends_with?: String
-  response?: String
-  response_not?: String
-  response_in?: String[] | String
-  response_not_in?: String[] | String
-  response_lt?: String
-  response_lte?: String
-  response_gt?: String
-  response_gte?: String
-  response_contains?: String
-  response_not_contains?: String
-  response_starts_with?: String
-  response_not_starts_with?: String
-  response_ends_with?: String
-  response_not_ends_with?: String
-}
-
-export interface ExerciseUpdateManyInput {
-  create?: ExerciseCreateInput[] | ExerciseCreateInput
-  connect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
-  disconnect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
-  delete?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
-  update?: ExerciseUpdateWithWhereUniqueNestedInput[] | ExerciseUpdateWithWhereUniqueNestedInput
-  upsert?: ExerciseUpsertWithWhereUniqueNestedInput[] | ExerciseUpsertWithWhereUniqueNestedInput
-}
-
-export interface UserUpdateManyInput {
-  create?: UserCreateInput[] | UserCreateInput
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
-  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput
-  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput
-  update?: UserUpdateWithWhereUniqueNestedInput[] | UserUpdateWithWhereUniqueNestedInput
-  upsert?: UserUpsertWithWhereUniqueNestedInput[] | UserUpsertWithWhereUniqueNestedInput
-}
-
-export interface SectionUpdateInput {
-  name?: String
+  code?: Codes
+  code_not?: Codes
+  code_in?: Codes[] | Codes
+  code_not_in?: Codes[] | Codes
+  scale?: Int
+  scale_not?: Int
+  scale_in?: Int[] | Int
+  scale_not_in?: Int[] | Int
+  scale_lt?: Int
+  scale_lte?: Int
+  scale_gt?: Int
+  scale_gte?: Int
+  level?: Levels
+  level_not?: Levels
+  level_in?: Levels[] | Levels
+  level_not_in?: Levels[] | Levels
   description?: String
-  enable?: Boolean
-  exercises?: ExerciseUpdateManyInput
-  tests?: TestUpdateManyInput
+  description_not?: String
+  description_in?: String[] | String
+  description_not_in?: String[] | String
+  description_lt?: String
+  description_lte?: String
+  description_gt?: String
+  description_gte?: String
+  description_contains?: String
+  description_not_contains?: String
+  description_starts_with?: String
+  description_not_starts_with?: String
+  description_ends_with?: String
+  description_not_ends_with?: String
+  sections_every?: SectionWhereInput
+  sections_some?: SectionWhereInput
+  sections_none?: SectionWhereInput
 }
 
-export interface TestCreateManyInput {
-  create?: TestCreateInput[] | TestCreateInput
-  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
+export interface ResultCreateManyInput {
+  create?: ResultCreateInput[] | ResultCreateInput
+  connect?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
 }
 
-export interface ResultUpdateInput {
-  question?: String
-  response?: String
-}
-
-export interface RoleWhereInput {
-  AND?: RoleWhereInput[] | RoleWhereInput
-  OR?: RoleWhereInput[] | RoleWhereInput
-  NOT?: RoleWhereInput[] | RoleWhereInput
+export interface SectionWhereInput {
+  AND?: SectionWhereInput[] | SectionWhereInput
+  OR?: SectionWhereInput[] | SectionWhereInput
+  NOT?: SectionWhereInput[] | SectionWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -3657,81 +3636,25 @@ export interface RoleWhereInput {
   description_not_starts_with?: String
   description_ends_with?: String
   description_not_ends_with?: String
-  users_every?: UserWhereInput
-  users_some?: UserWhereInput
-  users_none?: UserWhereInput
+  enable?: Boolean
+  enable_not?: Boolean
+  exercises_every?: ExerciseWhereInput
+  exercises_some?: ExerciseWhereInput
+  exercises_none?: ExerciseWhereInput
+  tests_every?: TestWhereInput
+  tests_some?: TestWhereInput
+  tests_none?: TestWhereInput
 }
 
-export interface RoleUpdateInput {
-  name?: String
-  description?: String
-  users?: UserUpdateManyInput
+export interface ResultCreateInput {
+  question: String
+  response: String
 }
 
-export interface UserSubscriptionWhereInput {
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: UserWhereInput
-}
-
-export interface ExerciseDataUpdateInput {
-  initAt?: DateTime
-  finalAt?: DateTime
-  level?: Levels
-  dificulty?: Dificulty
-  hit?: Int
-  fault?: Int
-  omit?: Int
-  error?: Int
-  point?: Int
-  score?: Int
-  createdBy?: UserUpdateOneInput
-  result?: ResultUpdateManyInput
-}
-
-export interface SectionSubscriptionWhereInput {
-  AND?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
-  OR?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
-  NOT?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: SectionWhereInput
-}
-
-export interface ExerciseDataUpsertWithWhereUniqueNestedInput {
-  where: ExerciseDataWhereUniqueInput
-  update: ExerciseDataUpdateDataInput
-  create: ExerciseDataCreateInput
-}
-
-export interface ResultSubscriptionWhereInput {
-  AND?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
-  OR?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
-  NOT?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: ResultWhereInput
-}
-
-export interface ResultUpsertWithWhereUniqueNestedInput {
-  where: ResultWhereUniqueInput
-  update: ResultUpdateDataInput
-  create: ResultCreateInput
-}
-
-export interface TestDataWhereInput {
-  AND?: TestDataWhereInput[] | TestDataWhereInput
-  OR?: TestDataWhereInput[] | TestDataWhereInput
-  NOT?: TestDataWhereInput[] | TestDataWhereInput
+export interface TestWhereInput {
+  AND?: TestWhereInput[] | TestWhereInput
+  OR?: TestWhereInput[] | TestWhereInput
+  NOT?: TestWhereInput[] | TestWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -3750,281 +3673,6 @@ export interface TestDataWhereInput {
   type_not?: Types
   type_in?: Types[] | Types
   type_not_in?: Types[] | Types
-  initAt?: DateTime
-  initAt_not?: DateTime
-  initAt_in?: DateTime[] | DateTime
-  initAt_not_in?: DateTime[] | DateTime
-  initAt_lt?: DateTime
-  initAt_lte?: DateTime
-  initAt_gt?: DateTime
-  initAt_gte?: DateTime
-  finalAt?: DateTime
-  finalAt_not?: DateTime
-  finalAt_in?: DateTime[] | DateTime
-  finalAt_not_in?: DateTime[] | DateTime
-  finalAt_lt?: DateTime
-  finalAt_lte?: DateTime
-  finalAt_gt?: DateTime
-  finalAt_gte?: DateTime
-  createdBy?: UserWhereInput
-  exerciseDatas_every?: ExerciseDataWhereInput
-  exerciseDatas_some?: ExerciseDataWhereInput
-  exerciseDatas_none?: ExerciseDataWhereInput
-}
-
-export interface ResultUpdateDataInput {
-  question?: String
-  response?: String
-}
-
-export interface ExerciseDataSubscriptionWhereInput {
-  AND?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
-  OR?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
-  NOT?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: ExerciseDataWhereInput
-}
-
-export interface ResultUpdateWithWhereUniqueNestedInput {
-  where: ResultWhereUniqueInput
-  data: ResultUpdateDataInput
-}
-
-export interface FileSubscriptionWhereInput {
-  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: FileWhereInput
-}
-
-export interface ResultUpdateManyInput {
-  create?: ResultCreateInput[] | ResultCreateInput
-  connect?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
-  disconnect?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
-  delete?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
-  update?: ResultUpdateWithWhereUniqueNestedInput[] | ResultUpdateWithWhereUniqueNestedInput
-  upsert?: ResultUpsertWithWhereUniqueNestedInput[] | ResultUpsertWithWhereUniqueNestedInput
-}
-
-export interface FileWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface ExerciseDataUpdateDataInput {
-  initAt?: DateTime
-  finalAt?: DateTime
-  level?: Levels
-  dificulty?: Dificulty
-  hit?: Int
-  fault?: Int
-  omit?: Int
-  error?: Int
-  point?: Int
-  score?: Int
-  createdBy?: UserUpdateOneInput
-  result?: ResultUpdateManyInput
-}
-
-export interface ExerciseDataWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface ExerciseDataUpdateWithWhereUniqueNestedInput {
-  where: ExerciseDataWhereUniqueInput
-  data: ExerciseDataUpdateDataInput
-}
-
-export interface ResultWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface ExerciseDataUpdateManyInput {
-  create?: ExerciseDataCreateInput[] | ExerciseDataCreateInput
-  connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
-  disconnect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
-  delete?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
-  update?: ExerciseDataUpdateWithWhereUniqueNestedInput[] | ExerciseDataUpdateWithWhereUniqueNestedInput
-  upsert?: ExerciseDataUpsertWithWhereUniqueNestedInput[] | ExerciseDataUpsertWithWhereUniqueNestedInput
-}
-
-export interface ExerciseWhereUniqueInput {
-  id?: ID_Input
-  code?: Codes
-}
-
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput
-  create: UserCreateInput
-}
-
-export interface TestWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface RoleUpsertWithWhereUniqueNestedInput {
-  where: RoleWhereUniqueInput
-  update: RoleUpdateDataInput
-  create: RoleCreateInput
-}
-
-export interface ExerciseUpdateInput {
-  code?: Codes
-  point?: Int
-  level?: Levels
-  description?: String
-  sections?: SectionUpdateManyInput
-}
-
-export interface FileCreateInput {
-  path: String
-  filename: String
-  mimetype: String
-  encoding: String
-  size: Int
-}
-
-export interface SectionUpsertWithWhereUniqueNestedInput {
-  where: SectionWhereUniqueInput
-  update: SectionUpdateDataInput
-  create: SectionCreateInput
-}
-
-export interface TestDataCreateInput {
-  type: Types
-  initAt: DateTime
-  finalAt: DateTime
-  createdBy: UserCreateOneInput
-  exerciseDatas?: ExerciseDataCreateManyInput
-}
-
-export interface TestUpdateDataInput {
-  type?: Types
-  description?: String
-  enable?: Boolean
-  sections?: SectionUpdateManyInput
-}
-
-export interface UserCreateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
-}
-
-export interface TestUpdateManyInput {
-  create?: TestCreateInput[] | TestCreateInput
-  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
-  disconnect?: TestWhereUniqueInput[] | TestWhereUniqueInput
-  delete?: TestWhereUniqueInput[] | TestWhereUniqueInput
-  update?: TestUpdateWithWhereUniqueNestedInput[] | TestUpdateWithWhereUniqueNestedInput
-  upsert?: TestUpsertWithWhereUniqueNestedInput[] | TestUpsertWithWhereUniqueNestedInput
-}
-
-export interface UserCreateInput {
-  email: String
-  password?: String
-  firstname: String
-  lastname: String
-  birthdate: DateTime
-  sex: Sexs
-  roles?: RoleCreateManyInput
-}
-
-export interface SectionUpdateWithWhereUniqueNestedInput {
-  where: SectionWhereUniqueInput
-  data: SectionUpdateDataInput
-}
-
-export interface RoleCreateManyInput {
-  create?: RoleCreateInput[] | RoleCreateInput
-  connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-}
-
-export interface ExerciseUpdateDataInput {
-  code?: Codes
-  point?: Int
-  level?: Levels
-  description?: String
-  sections?: SectionUpdateManyInput
-}
-
-export interface UserUpsertWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput
-  update: UserUpdateDataInput
-  create: UserCreateInput
-}
-
-export interface TestSubscriptionWhereInput {
-  AND?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
-  OR?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
-  NOT?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: TestWhereInput
-}
-
-export interface UserCreateManyInput {
-  create?: UserCreateInput[] | UserCreateInput
-  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
-}
-
-export interface ExerciseSubscriptionWhereInput {
-  AND?: ExerciseSubscriptionWhereInput[] | ExerciseSubscriptionWhereInput
-  OR?: ExerciseSubscriptionWhereInput[] | ExerciseSubscriptionWhereInput
-  NOT?: ExerciseSubscriptionWhereInput[] | ExerciseSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: ExerciseWhereInput
-}
-
-export interface ExerciseDataCreateManyInput {
-  create?: ExerciseDataCreateInput[] | ExerciseDataCreateInput
-  connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
-}
-
-export interface ExerciseWhereInput {
-  AND?: ExerciseWhereInput[] | ExerciseWhereInput
-  OR?: ExerciseWhereInput[] | ExerciseWhereInput
-  NOT?: ExerciseWhereInput[] | ExerciseWhereInput
-  id?: ID_Input
-  id_not?: ID_Input
-  id_in?: ID_Input[] | ID_Input
-  id_not_in?: ID_Input[] | ID_Input
-  id_lt?: ID_Input
-  id_lte?: ID_Input
-  id_gt?: ID_Input
-  id_gte?: ID_Input
-  id_contains?: ID_Input
-  id_not_contains?: ID_Input
-  id_starts_with?: ID_Input
-  id_not_starts_with?: ID_Input
-  id_ends_with?: ID_Input
-  id_not_ends_with?: ID_Input
-  code?: Codes
-  code_not?: Codes
-  code_in?: Codes[] | Codes
-  code_not_in?: Codes[] | Codes
-  point?: Int
-  point_not?: Int
-  point_in?: Int[] | Int
-  point_not_in?: Int[] | Int
-  point_lt?: Int
-  point_lte?: Int
-  point_gt?: Int
-  point_gte?: Int
-  level?: Levels
-  level_not?: Levels
-  level_in?: Levels[] | Levels
-  level_not_in?: Levels[] | Levels
   description?: String
   description_not?: String
   description_in?: String[] | String
@@ -4039,108 +3687,19 @@ export interface ExerciseWhereInput {
   description_not_starts_with?: String
   description_ends_with?: String
   description_not_ends_with?: String
+  enable?: Boolean
+  enable_not?: Boolean
   sections_every?: SectionWhereInput
   sections_some?: SectionWhereInput
   sections_none?: SectionWhereInput
 }
 
-export interface ExerciseDataCreateInput {
-  initAt: DateTime
-  finalAt: DateTime
-  level?: Levels
-  dificulty?: Dificulty
-  hit?: Int
-  fault?: Int
-  omit?: Int
-  error?: Int
-  point?: Int
-  score?: Int
-  createdBy: UserCreateOneInput
-  result?: ResultCreateManyInput
-}
-
-export interface RoleSubscriptionWhereInput {
-  AND?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
-  OR?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
-  NOT?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
-  mutation_in?: MutationType[] | MutationType
-  updatedFields_contains?: String
-  updatedFields_contains_every?: String[] | String
-  updatedFields_contains_some?: String[] | String
-  node?: RoleWhereInput
-}
-
-export interface ResultCreateManyInput {
-  create?: ResultCreateInput[] | ResultCreateInput
-  connect?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
-}
-
-export interface TestUpdateInput {
-  type?: Types
-  description?: String
-  enable?: Boolean
-  sections?: SectionUpdateManyInput
-}
-
-export interface ResultCreateInput {
-  question: String
-  response: String
-}
-
-export interface RoleWhereUniqueInput {
-  id?: ID_Input
-  name?: String
-}
-
-export interface SectionCreateInput {
-  name: String
-  description?: String
-  enable?: Boolean
-  exercises?: ExerciseCreateManyInput
-  tests?: TestCreateManyInput
-}
-
-export interface UserWhereUniqueInput {
-  id?: ID_Input
-  email?: String
-}
-
-export interface ExerciseCreateManyInput {
-  create?: ExerciseCreateInput[] | ExerciseCreateInput
-  connect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
-}
-
-export interface ExerciseUpsertWithWhereUniqueNestedInput {
-  where: ExerciseWhereUniqueInput
-  update: ExerciseUpdateDataInput
-  create: ExerciseCreateInput
-}
-
-export interface ExerciseCreateInput {
-  code: Codes
-  point?: Int
-  level?: Levels
-  description?: String
-  sections?: SectionCreateManyInput
-}
-
-export interface TestUpdateWithWhereUniqueNestedInput {
-  where: TestWhereUniqueInput
-  data: TestUpdateDataInput
-}
-
-export interface UserUpdateWithWhereUniqueNestedInput {
-  where: UserWhereUniqueInput
-  data: UserUpdateDataInput
-}
-
-export interface SectionUpdateManyInput {
-  create?: SectionCreateInput[] | SectionCreateInput
-  connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
-  disconnect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
-  delete?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
-  update?: SectionUpdateWithWhereUniqueNestedInput[] | SectionUpdateWithWhereUniqueNestedInput
-  upsert?: SectionUpsertWithWhereUniqueNestedInput[] | SectionUpsertWithWhereUniqueNestedInput
+export interface FileUpdateInput {
+  path?: String
+  filename?: String
+  mimetype?: String
+  encoding?: String
+  size?: Int
 }
 
 export interface ExerciseDataWhereInput {
@@ -4177,10 +3736,6 @@ export interface ExerciseDataWhereInput {
   finalAt_lte?: DateTime
   finalAt_gt?: DateTime
   finalAt_gte?: DateTime
-  level?: Levels
-  level_not?: Levels
-  level_in?: Levels[] | Levels
-  level_not_in?: Levels[] | Levels
   dificulty?: Dificulty
   dificulty_not?: Dificulty
   dificulty_in?: Dificulty[] | Dificulty
@@ -4217,26 +3772,60 @@ export interface ExerciseDataWhereInput {
   error_lte?: Int
   error_gt?: Int
   error_gte?: Int
-  point?: Int
-  point_not?: Int
-  point_in?: Int[] | Int
-  point_not_in?: Int[] | Int
-  point_lt?: Int
-  point_lte?: Int
-  point_gt?: Int
-  point_gte?: Int
-  score?: Int
-  score_not?: Int
-  score_in?: Int[] | Int
-  score_not_in?: Int[] | Int
-  score_lt?: Int
-  score_lte?: Int
-  score_gt?: Int
-  score_gte?: Int
+  point?: Float
+  point_not?: Float
+  point_in?: Float[] | Float
+  point_not_in?: Float[] | Float
+  point_lt?: Float
+  point_lte?: Float
+  point_gt?: Float
+  point_gte?: Float
+  score?: Float
+  score_not?: Float
+  score_in?: Float[] | Float
+  score_not_in?: Float[] | Float
+  score_lt?: Float
+  score_lte?: Float
+  score_gt?: Float
+  score_gte?: Float
   createdBy?: UserWhereInput
+  exercise?: ExerciseWhereInput
   result_every?: ResultWhereInput
   result_some?: ResultWhereInput
   result_none?: ResultWhereInput
+}
+
+export interface TestUpdateWithWhereUniqueNestedInput {
+  where: TestWhereUniqueInput
+  data: TestUpdateDataInput
+}
+
+export interface UserUpdateWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput
+  data: UserUpdateDataInput
+}
+
+export interface TestUpdateManyInput {
+  create?: TestCreateInput[] | TestCreateInput
+  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
+  disconnect?: TestWhereUniqueInput[] | TestWhereUniqueInput
+  delete?: TestWhereUniqueInput[] | TestWhereUniqueInput
+  update?: TestUpdateWithWhereUniqueNestedInput[] | TestUpdateWithWhereUniqueNestedInput
+  upsert?: TestUpsertWithWhereUniqueNestedInput[] | TestUpsertWithWhereUniqueNestedInput
+}
+
+export interface TestDataUpdateInput {
+  type?: Types
+  initAt?: DateTime
+  finalAt?: DateTime
+  createdBy?: UserUpdateOneInput
+  exerciseDatas?: ExerciseDataUpdateManyInput
+}
+
+export interface ExerciseUpsertWithWhereUniqueNestedInput {
+  where: ExerciseWhereUniqueInput
+  update: ExerciseUpdateDataInput
+  create: ExerciseCreateInput
 }
 
 export interface UserWhereInput {
@@ -4330,17 +3919,35 @@ export interface UserWhereInput {
   roles_none?: RoleWhereInput
 }
 
-export interface TestCreateInput {
-  type: Types
-  description?: String
-  enable?: Boolean
-  sections?: SectionCreateManyInput
+export interface ExerciseUpdateWithWhereUniqueNestedInput {
+  where: ExerciseWhereUniqueInput
+  data: ExerciseUpdateDataInput
 }
 
-export interface TestWhereInput {
-  AND?: TestWhereInput[] | TestWhereInput
-  OR?: TestWhereInput[] | TestWhereInput
-  NOT?: TestWhereInput[] | TestWhereInput
+export interface ExerciseSubscriptionWhereInput {
+  AND?: ExerciseSubscriptionWhereInput[] | ExerciseSubscriptionWhereInput
+  OR?: ExerciseSubscriptionWhereInput[] | ExerciseSubscriptionWhereInput
+  NOT?: ExerciseSubscriptionWhereInput[] | ExerciseSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: ExerciseWhereInput
+}
+
+export interface ExerciseUpdateManyInput {
+  create?: ExerciseCreateInput[] | ExerciseCreateInput
+  connect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
+  disconnect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
+  delete?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
+  update?: ExerciseUpdateWithWhereUniqueNestedInput[] | ExerciseUpdateWithWhereUniqueNestedInput
+  upsert?: ExerciseUpsertWithWhereUniqueNestedInput[] | ExerciseUpsertWithWhereUniqueNestedInput
+}
+
+export interface TestDataWhereInput {
+  AND?: TestDataWhereInput[] | TestDataWhereInput
+  OR?: TestDataWhereInput[] | TestDataWhereInput
+  NOT?: TestDataWhereInput[] | TestDataWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -4359,63 +3966,26 @@ export interface TestWhereInput {
   type_not?: Types
   type_in?: Types[] | Types
   type_not_in?: Types[] | Types
-  description?: String
-  description_not?: String
-  description_in?: String[] | String
-  description_not_in?: String[] | String
-  description_lt?: String
-  description_lte?: String
-  description_gt?: String
-  description_gte?: String
-  description_contains?: String
-  description_not_contains?: String
-  description_starts_with?: String
-  description_not_starts_with?: String
-  description_ends_with?: String
-  description_not_ends_with?: String
-  enable?: Boolean
-  enable_not?: Boolean
-  sections_every?: SectionWhereInput
-  sections_some?: SectionWhereInput
-  sections_none?: SectionWhereInput
-}
-
-export interface FileUpdateInput {
-  path?: String
-  filename?: String
-  mimetype?: String
-  encoding?: String
-  size?: Int
-}
-
-export interface TestDataWhereUniqueInput {
-  id?: ID_Input
-}
-
-export interface TestDataUpdateInput {
-  type?: Types
   initAt?: DateTime
+  initAt_not?: DateTime
+  initAt_in?: DateTime[] | DateTime
+  initAt_not_in?: DateTime[] | DateTime
+  initAt_lt?: DateTime
+  initAt_lte?: DateTime
+  initAt_gt?: DateTime
+  initAt_gte?: DateTime
   finalAt?: DateTime
-  createdBy?: UserUpdateOneInput
-  exerciseDatas?: ExerciseDataUpdateManyInput
-}
-
-export interface UserUpdateInput {
-  email?: String
-  password?: String
-  firstname?: String
-  lastname?: String
-  birthdate?: DateTime
-  sex?: Sexs
-  roles?: RoleUpdateManyInput
-}
-
-export interface UserUpdateOneInput {
-  create?: UserCreateInput
-  connect?: UserWhereUniqueInput
-  delete?: Boolean
-  update?: UserUpdateDataInput
-  upsert?: UserUpsertNestedInput
+  finalAt_not?: DateTime
+  finalAt_in?: DateTime[] | DateTime
+  finalAt_not_in?: DateTime[] | DateTime
+  finalAt_lt?: DateTime
+  finalAt_lte?: DateTime
+  finalAt_gt?: DateTime
+  finalAt_gte?: DateTime
+  createdBy?: UserWhereInput
+  exerciseDatas_every?: ExerciseDataWhereInput
+  exerciseDatas_some?: ExerciseDataWhereInput
+  exerciseDatas_none?: ExerciseDataWhereInput
 }
 
 export interface SectionUpdateDataInput {
@@ -4426,39 +3996,197 @@ export interface SectionUpdateDataInput {
   tests?: TestUpdateManyInput
 }
 
-export interface RoleUpdateDataInput {
-  name?: String
+export interface ExerciseDataSubscriptionWhereInput {
+  AND?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
+  OR?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
+  NOT?: ExerciseDataSubscriptionWhereInput[] | ExerciseDataSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: ExerciseDataWhereInput
+}
+
+export interface SectionUpdateWithWhereUniqueNestedInput {
+  where: SectionWhereUniqueInput
+  data: SectionUpdateDataInput
+}
+
+export interface FileSubscriptionWhereInput {
+  AND?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  OR?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  NOT?: FileSubscriptionWhereInput[] | FileSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: FileWhereInput
+}
+
+export interface SectionUpdateManyInput {
+  create?: SectionCreateInput[] | SectionCreateInput
+  connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+  disconnect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+  delete?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+  update?: SectionUpdateWithWhereUniqueNestedInput[] | SectionUpdateWithWhereUniqueNestedInput
+  upsert?: SectionUpsertWithWhereUniqueNestedInput[] | SectionUpsertWithWhereUniqueNestedInput
+}
+
+export interface TestDataWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface ExerciseUpdateDataInput {
+  code?: Codes
+  scale?: Int
+  level?: Levels
   description?: String
-  users?: UserUpdateManyInput
+  sections?: SectionUpdateManyInput
 }
 
-export interface RoleUpdateWithWhereUniqueNestedInput {
-  where: RoleWhereUniqueInput
-  data: RoleUpdateDataInput
+export interface RoleWhereUniqueInput {
+  id?: ID_Input
+  name?: String
 }
 
-export interface RoleUpdateManyInput {
+export interface ExerciseUpdateOneInput {
+  create?: ExerciseCreateInput
+  connect?: ExerciseWhereUniqueInput
+  delete?: Boolean
+  update?: ExerciseUpdateDataInput
+  upsert?: ExerciseUpsertNestedInput
+}
+
+export interface SectionWhereUniqueInput {
+  id?: ID_Input
+  name?: String
+}
+
+export interface ExerciseDataUpdateDataInput {
+  initAt?: DateTime
+  finalAt?: DateTime
+  dificulty?: Dificulty
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Float
+  score?: Float
+  createdBy?: UserUpdateOneInput
+  exercise?: ExerciseUpdateOneInput
+  result?: ResultUpdateManyInput
+}
+
+export interface UserWhereUniqueInput {
+  id?: ID_Input
+  email?: String
+}
+
+export interface ExerciseDataUpdateWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput
+  data: ExerciseDataUpdateDataInput
+}
+
+export interface TestUpdateInput {
+  type?: Types
+  description?: String
+  enable?: Boolean
+  sections?: SectionUpdateManyInput
+}
+
+export interface FileCreateInput {
+  path: String
+  filename: String
+  mimetype: String
+  encoding: String
+  size: Int
+}
+
+export interface ExerciseUpdateInput {
+  code?: Codes
+  scale?: Int
+  level?: Levels
+  description?: String
+  sections?: SectionUpdateManyInput
+}
+
+export interface TestDataCreateInput {
+  type: Types
+  initAt: DateTime
+  finalAt: DateTime
+  createdBy: UserCreateOneInput
+  exerciseDatas?: ExerciseDataCreateManyInput
+}
+
+export interface ResultUpdateInput {
+  question?: String
+  response?: String
+}
+
+export interface UserCreateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+}
+
+export interface ExerciseDataUpdateInput {
+  initAt?: DateTime
+  finalAt?: DateTime
+  dificulty?: Dificulty
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Float
+  score?: Float
+  createdBy?: UserUpdateOneInput
+  exercise?: ExerciseUpdateOneInput
+  result?: ResultUpdateManyInput
+}
+
+export interface UserCreateInput {
+  email: String
+  password?: String
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  sex: Sexs
+  roles?: RoleCreateManyInput
+}
+
+export interface ResultUpsertWithWhereUniqueNestedInput {
+  where: ResultWhereUniqueInput
+  update: ResultUpdateDataInput
+  create: ResultCreateInput
+}
+
+export interface RoleCreateManyInput {
   create?: RoleCreateInput[] | RoleCreateInput
   connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-  disconnect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-  delete?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
-  update?: RoleUpdateWithWhereUniqueNestedInput[] | RoleUpdateWithWhereUniqueNestedInput
-  upsert?: RoleUpsertWithWhereUniqueNestedInput[] | RoleUpsertWithWhereUniqueNestedInput
 }
 
-export interface UserUpdateDataInput {
-  email?: String
-  password?: String
-  firstname?: String
-  lastname?: String
-  birthdate?: DateTime
-  sex?: Sexs
-  roles?: RoleUpdateManyInput
+export interface ResultUpdateWithWhereUniqueNestedInput {
+  where: ResultWhereUniqueInput
+  data: ResultUpdateDataInput
 }
 
-export interface ExerciseUpdateWithWhereUniqueNestedInput {
-  where: ExerciseWhereUniqueInput
-  data: ExerciseUpdateDataInput
+export interface RoleCreateInput {
+  name: String
+  description?: String
+  users?: UserCreateManyInput
+}
+
+export interface ExerciseUpsertNestedInput {
+  update: ExerciseUpdateDataInput
+  create: ExerciseCreateInput
+}
+
+export interface ExerciseDataUpdateManyInput {
+  create?: ExerciseDataCreateInput[] | ExerciseDataCreateInput
+  connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+  disconnect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+  delete?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
+  update?: ExerciseDataUpdateWithWhereUniqueNestedInput[] | ExerciseDataUpdateWithWhereUniqueNestedInput
+  upsert?: ExerciseDataUpsertWithWhereUniqueNestedInput[] | ExerciseDataUpsertWithWhereUniqueNestedInput
 }
 
 export interface TestUpsertWithWhereUniqueNestedInput {
@@ -4467,26 +4195,221 @@ export interface TestUpsertWithWhereUniqueNestedInput {
   create: TestCreateInput
 }
 
-export interface SectionWhereUniqueInput {
-  id?: ID_Input
-  name?: String
+export interface ExerciseDataCreateManyInput {
+  create?: ExerciseDataCreateInput[] | ExerciseDataCreateInput
+  connect?: ExerciseDataWhereUniqueInput[] | ExerciseDataWhereUniqueInput
 }
 
-export interface TestDataSubscriptionWhereInput {
-  AND?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
-  OR?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
-  NOT?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+export interface TestSubscriptionWhereInput {
+  AND?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
+  OR?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
+  NOT?: TestSubscriptionWhereInput[] | TestSubscriptionWhereInput
   mutation_in?: MutationType[] | MutationType
   updatedFields_contains?: String
   updatedFields_contains_every?: String[] | String
   updatedFields_contains_some?: String[] | String
-  node?: TestDataWhereInput
+  node?: TestWhereInput
 }
 
-export interface SectionWhereInput {
-  AND?: SectionWhereInput[] | SectionWhereInput
-  OR?: SectionWhereInput[] | SectionWhereInput
-  NOT?: SectionWhereInput[] | SectionWhereInput
+export interface ExerciseDataCreateInput {
+  initAt: DateTime
+  finalAt: DateTime
+  dificulty?: Dificulty
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Float
+  score?: Float
+  createdBy: UserCreateOneInput
+  exercise: ExerciseCreateOneInput
+  result?: ResultCreateManyInput
+}
+
+export interface SectionSubscriptionWhereInput {
+  AND?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
+  OR?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
+  NOT?: SectionSubscriptionWhereInput[] | SectionSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: SectionWhereInput
+}
+
+export interface ExerciseCreateOneInput {
+  create?: ExerciseCreateInput
+  connect?: ExerciseWhereUniqueInput
+}
+
+export interface RoleSubscriptionWhereInput {
+  AND?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
+  OR?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
+  NOT?: RoleSubscriptionWhereInput[] | RoleSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: RoleWhereInput
+}
+
+export interface ExerciseCreateInput {
+  code: Codes
+  scale?: Int
+  level?: Levels
+  description?: String
+  sections?: SectionCreateManyInput
+}
+
+export interface FileWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface SectionCreateManyInput {
+  create?: SectionCreateInput[] | SectionCreateInput
+  connect?: SectionWhereUniqueInput[] | SectionWhereUniqueInput
+}
+
+export interface ResultWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface SectionCreateInput {
+  name: String
+  description?: String
+  enable?: Boolean
+  exercises?: ExerciseCreateManyInput
+  tests?: TestCreateManyInput
+}
+
+export interface TestWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface ExerciseCreateManyInput {
+  create?: ExerciseCreateInput[] | ExerciseCreateInput
+  connect?: ExerciseWhereUniqueInput[] | ExerciseWhereUniqueInput
+}
+
+export interface SectionUpdateInput {
+  name?: String
+  description?: String
+  enable?: Boolean
+  exercises?: ExerciseUpdateManyInput
+  tests?: TestUpdateManyInput
+}
+
+export interface TestCreateManyInput {
+  create?: TestCreateInput[] | TestCreateInput
+  connect?: TestWhereUniqueInput[] | TestWhereUniqueInput
+}
+
+export interface ExerciseDataUpsertWithWhereUniqueNestedInput {
+  where: ExerciseDataWhereUniqueInput
+  update: ExerciseDataUpdateDataInput
+  create: ExerciseDataCreateInput
+}
+
+export interface UserUpsertNestedInput {
+  update: UserUpdateDataInput
+  create: UserCreateInput
+}
+
+export interface ResultUpdateManyInput {
+  create?: ResultCreateInput[] | ResultCreateInput
+  connect?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
+  disconnect?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
+  delete?: ResultWhereUniqueInput[] | ResultWhereUniqueInput
+  update?: ResultUpdateWithWhereUniqueNestedInput[] | ResultUpdateWithWhereUniqueNestedInput
+  upsert?: ResultUpsertWithWhereUniqueNestedInput[] | ResultUpsertWithWhereUniqueNestedInput
+}
+
+export interface RoleUpsertWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput
+  update: RoleUpdateDataInput
+  create: RoleCreateInput
+}
+
+export interface TestUpdateDataInput {
+  type?: Types
+  description?: String
+  enable?: Boolean
+  sections?: SectionUpdateManyInput
+}
+
+export interface ResultWhereInput {
+  AND?: ResultWhereInput[] | ResultWhereInput
+  OR?: ResultWhereInput[] | ResultWhereInput
+  NOT?: ResultWhereInput[] | ResultWhereInput
+  id?: ID_Input
+  id_not?: ID_Input
+  id_in?: ID_Input[] | ID_Input
+  id_not_in?: ID_Input[] | ID_Input
+  id_lt?: ID_Input
+  id_lte?: ID_Input
+  id_gt?: ID_Input
+  id_gte?: ID_Input
+  id_contains?: ID_Input
+  id_not_contains?: ID_Input
+  id_starts_with?: ID_Input
+  id_not_starts_with?: ID_Input
+  id_ends_with?: ID_Input
+  id_not_ends_with?: ID_Input
+  question?: String
+  question_not?: String
+  question_in?: String[] | String
+  question_not_in?: String[] | String
+  question_lt?: String
+  question_lte?: String
+  question_gt?: String
+  question_gte?: String
+  question_contains?: String
+  question_not_contains?: String
+  question_starts_with?: String
+  question_not_starts_with?: String
+  question_ends_with?: String
+  question_not_ends_with?: String
+  response?: String
+  response_not?: String
+  response_in?: String[] | String
+  response_not_in?: String[] | String
+  response_lt?: String
+  response_lte?: String
+  response_gt?: String
+  response_gte?: String
+  response_contains?: String
+  response_not_contains?: String
+  response_starts_with?: String
+  response_not_starts_with?: String
+  response_ends_with?: String
+  response_not_ends_with?: String
+}
+
+export interface ResultSubscriptionWhereInput {
+  AND?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
+  OR?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
+  NOT?: ResultSubscriptionWhereInput[] | ResultSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: ResultWhereInput
+}
+
+export interface UserUpsertWithWhereUniqueNestedInput {
+  where: UserWhereUniqueInput
+  update: UserUpdateDataInput
+  create: UserCreateInput
+}
+
+export interface ExerciseDataWhereUniqueInput {
+  id?: ID_Input
+}
+
+export interface RoleWhereInput {
+  AND?: RoleWhereInput[] | RoleWhereInput
+  OR?: RoleWhereInput[] | RoleWhereInput
+  NOT?: RoleWhereInput[] | RoleWhereInput
   id?: ID_Input
   id_not?: ID_Input
   id_in?: ID_Input[] | ID_Input
@@ -4529,14 +4452,110 @@ export interface SectionWhereInput {
   description_not_starts_with?: String
   description_ends_with?: String
   description_not_ends_with?: String
-  enable?: Boolean
-  enable_not?: Boolean
-  exercises_every?: ExerciseWhereInput
-  exercises_some?: ExerciseWhereInput
-  exercises_none?: ExerciseWhereInput
-  tests_every?: TestWhereInput
-  tests_some?: TestWhereInput
-  tests_none?: TestWhereInput
+  users_every?: UserWhereInput
+  users_some?: UserWhereInput
+  users_none?: UserWhereInput
+}
+
+export interface UserUpdateInput {
+  email?: String
+  password?: String
+  firstname?: String
+  lastname?: String
+  birthdate?: DateTime
+  sex?: Sexs
+  roles?: RoleUpdateManyInput
+}
+
+export interface UserUpdateOneInput {
+  create?: UserCreateInput
+  connect?: UserWhereUniqueInput
+  delete?: Boolean
+  update?: UserUpdateDataInput
+  upsert?: UserUpsertNestedInput
+}
+
+export interface ResultUpdateDataInput {
+  question?: String
+  response?: String
+}
+
+export interface UserUpdateDataInput {
+  email?: String
+  password?: String
+  firstname?: String
+  lastname?: String
+  birthdate?: DateTime
+  sex?: Sexs
+  roles?: RoleUpdateManyInput
+}
+
+export interface UserSubscriptionWhereInput {
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: UserWhereInput
+}
+
+export interface UserUpdateManyInput {
+  create?: UserCreateInput[] | UserCreateInput
+  connect?: UserWhereUniqueInput[] | UserWhereUniqueInput
+  disconnect?: UserWhereUniqueInput[] | UserWhereUniqueInput
+  delete?: UserWhereUniqueInput[] | UserWhereUniqueInput
+  update?: UserUpdateWithWhereUniqueNestedInput[] | UserUpdateWithWhereUniqueNestedInput
+  upsert?: UserUpsertWithWhereUniqueNestedInput[] | UserUpsertWithWhereUniqueNestedInput
+}
+
+export interface RoleUpdateDataInput {
+  name?: String
+  description?: String
+  users?: UserUpdateManyInput
+}
+
+export interface RoleUpdateWithWhereUniqueNestedInput {
+  where: RoleWhereUniqueInput
+  data: RoleUpdateDataInput
+}
+
+export interface RoleUpdateManyInput {
+  create?: RoleCreateInput[] | RoleCreateInput
+  connect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+  disconnect?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+  delete?: RoleWhereUniqueInput[] | RoleWhereUniqueInput
+  update?: RoleUpdateWithWhereUniqueNestedInput[] | RoleUpdateWithWhereUniqueNestedInput
+  upsert?: RoleUpsertWithWhereUniqueNestedInput[] | RoleUpsertWithWhereUniqueNestedInput
+}
+
+export interface TestDataSubscriptionWhereInput {
+  AND?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+  OR?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+  NOT?: TestDataSubscriptionWhereInput[] | TestDataSubscriptionWhereInput
+  mutation_in?: MutationType[] | MutationType
+  updatedFields_contains?: String
+  updatedFields_contains_every?: String[] | String
+  updatedFields_contains_some?: String[] | String
+  node?: TestDataWhereInput
+}
+
+export interface SectionUpsertWithWhereUniqueNestedInput {
+  where: SectionWhereUniqueInput
+  update: SectionUpdateDataInput
+  create: SectionCreateInput
+}
+
+export interface RoleUpdateInput {
+  name?: String
+  description?: String
+  users?: UserUpdateManyInput
+}
+
+export interface ExerciseWhereUniqueInput {
+  id?: ID_Input
+  code?: Codes
 }
 
 /*
@@ -4554,12 +4573,14 @@ export interface TestPreviousValues {
   enable: Boolean
 }
 
-export interface Test extends Node {
-  id: ID_Output
-  type: Types
-  description?: String
-  enable: Boolean
-  sections?: Section[]
+/*
+ * A connection to a list of items.
+
+ */
+export interface FileConnection {
+  pageInfo: PageInfo
+  edges: FileEdge[]
+  aggregate: AggregateFile
 }
 
 export interface User extends Node {
@@ -4586,43 +4607,41 @@ export interface TestData extends Node {
   exerciseDatas?: ExerciseData[]
 }
 
+/*
+ * Information about pagination in a connection.
+
+ */
+export interface PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor?: String
+  endCursor?: String
+}
+
+export interface ExercisePreviousValues {
+  id: ID_Output
+  code: Codes
+  scale: Int
+  level: Levels
+  description?: String
+}
+
+export interface TestSubscriptionPayload {
+  mutation: MutationType
+  node?: Test
+  updatedFields?: String[]
+  previousValues?: TestPreviousValues
+}
+
 export interface AggregateTest {
   count: Int
 }
 
-/*
- * A connection to a list of items.
-
- */
-export interface TestConnection {
-  pageInfo: PageInfo
-  edges: TestEdge[]
-  aggregate: AggregateTest
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface TestEdge {
-  node: Test
-  cursor: String
-}
-
-export interface ExerciseData extends Node {
+export interface Role extends Node {
   id: ID_Output
-  initAt: DateTime
-  finalAt: DateTime
-  createdBy: User
-  result?: Result[]
-  level: Levels
-  dificulty: Dificulty
-  hit?: Int
-  fault?: Int
-  omit?: Int
-  error?: Int
-  point?: Int
-  score?: Int
+  name: String
+  description?: String
+  users?: User[]
 }
 
 export interface AggregateUser {
@@ -4633,8 +4652,8 @@ export interface AggregateUser {
  * An edge in a connection.
 
  */
-export interface UserEdge {
-  node: User
+export interface TestEdge {
+  node: Test
   cursor: String
 }
 
@@ -4648,6 +4667,12 @@ export interface UserConnection {
   aggregate: AggregateUser
 }
 
+export interface Result extends Node {
+  id: ID_Output
+  question: String
+  response: String
+}
+
 /*
  * An edge in a connection.
 
@@ -4657,11 +4682,14 @@ export interface ExerciseEdge {
   cursor: String
 }
 
-export interface Role extends Node {
+export interface UserPreviousValues {
   id: ID_Output
-  name: String
-  description?: String
-  users?: User[]
+  email: String
+  password?: String
+  firstname: String
+  lastname: String
+  birthdate: DateTime
+  sex: Sexs
 }
 
 export interface AggregateSection {
@@ -4703,13 +4731,11 @@ export interface ResultEdge {
   cursor: String
 }
 
-export interface Exercise extends Node {
-  id: ID_Output
-  code: Codes
-  point: Int
-  level: Levels
-  description?: String
-  sections?: Section[]
+export interface UserSubscriptionPayload {
+  mutation: MutationType
+  node?: User
+  updatedFields?: String[]
+  previousValues?: UserPreviousValues
 }
 
 export interface AggregateRole {
@@ -4749,13 +4775,12 @@ export interface ExerciseDataEdge {
   cursor: String
 }
 
-export interface File extends Node {
+export interface Test extends Node {
   id: ID_Output
-  path: String
-  filename: String
-  mimetype: String
-  encoding: String
-  size: Int
+  type: Types
+  description?: String
+  enable: Boolean
+  sections?: Section[]
 }
 
 export interface AggregateTestData {
@@ -4783,14 +4808,13 @@ export interface ExerciseDataPreviousValues {
   id: ID_Output
   initAt: DateTime
   finalAt: DateTime
-  level: Levels
   dificulty: Dificulty
   hit?: Int
   fault?: Int
   omit?: Int
   error?: Int
-  point?: Int
-  score?: Int
+  point?: Float
+  score?: Float
 }
 
 /*
@@ -4802,23 +4826,22 @@ export interface FileEdge {
   cursor: String
 }
 
-export interface Section extends Node {
+export interface File extends Node {
   id: ID_Output
-  name: String
-  description?: String
-  enable: Boolean
-  exercises?: Exercise[]
-  tests?: Test[]
+  path: String
+  filename: String
+  mimetype: String
+  encoding: String
+  size: Int
 }
 
 /*
- * A connection to a list of items.
+ * An edge in a connection.
 
  */
-export interface FileConnection {
-  pageInfo: PageInfo
-  edges: FileEdge[]
-  aggregate: AggregateFile
+export interface UserEdge {
+  node: User
+  cursor: String
 }
 
 export interface RoleSubscriptionPayload {
@@ -4826,95 +4849,6 @@ export interface RoleSubscriptionPayload {
   node?: Role
   updatedFields?: String[]
   previousValues?: RolePreviousValues
-}
-
-export interface AggregateExercise {
-  count: Int
-}
-
-export interface RolePreviousValues {
-  id: ID_Output
-  name: String
-  description?: String
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface SectionEdge {
-  node: Section
-  cursor: String
-}
-
-export interface UserPreviousValues {
-  id: ID_Output
-  email: String
-  password?: String
-  firstname: String
-  lastname: String
-  birthdate: DateTime
-  sex: Sexs
-}
-
-/*
- * A connection to a list of items.
-
- */
-export interface ResultConnection {
-  pageInfo: PageInfo
-  edges: ResultEdge[]
-  aggregate: AggregateResult
-}
-
-export interface ResultSubscriptionPayload {
-  mutation: MutationType
-  node?: Result
-  updatedFields?: String[]
-  previousValues?: ResultPreviousValues
-}
-
-export interface AggregateExerciseData {
-  count: Int
-}
-
-export interface ResultPreviousValues {
-  id: ID_Output
-  question: String
-  response: String
-}
-
-/*
- * An edge in a connection.
-
- */
-export interface TestDataEdge {
-  node: TestData
-  cursor: String
-}
-
-export interface Result extends Node {
-  id: ID_Output
-  question: String
-  response: String
-}
-
-/*
- * Information about pagination in a connection.
-
- */
-export interface PageInfo {
-  hasNextPage: Boolean
-  hasPreviousPage: Boolean
-  startCursor?: String
-  endCursor?: String
-}
-
-export interface SectionSubscriptionPayload {
-  mutation: MutationType
-  node?: Section
-  updatedFields?: String[]
-  previousValues?: SectionPreviousValues
 }
 
 /*
@@ -4927,6 +4861,25 @@ export interface ExerciseConnection {
   aggregate: AggregateExercise
 }
 
+export interface RolePreviousValues {
+  id: ID_Output
+  name: String
+  description?: String
+}
+
+export interface AggregateResult {
+  count: Int
+}
+
+export interface Section extends Node {
+  id: ID_Output
+  name: String
+  description?: String
+  enable: Boolean
+  exercises?: Exercise[]
+  tests?: Test[]
+}
+
 /*
  * An edge in a connection.
 
@@ -4936,33 +4889,11 @@ export interface RoleEdge {
   cursor: String
 }
 
-export interface ExercisePreviousValues {
-  id: ID_Output
-  code: Codes
-  point: Int
-  level: Levels
-  description?: String
-}
-
-export interface ExerciseSubscriptionPayload {
+export interface ResultSubscriptionPayload {
   mutation: MutationType
-  node?: Exercise
+  node?: Result
   updatedFields?: String[]
-  previousValues?: ExercisePreviousValues
-}
-
-export interface UserSubscriptionPayload {
-  mutation: MutationType
-  node?: User
-  updatedFields?: String[]
-  previousValues?: UserPreviousValues
-}
-
-export interface SectionPreviousValues {
-  id: ID_Output
-  name: String
-  description?: String
-  enable: Boolean
+  previousValues?: ResultPreviousValues
 }
 
 /*
@@ -4975,31 +4906,123 @@ export interface ExerciseDataConnection {
   aggregate: AggregateExerciseData
 }
 
-export interface AggregateResult {
-  count: Int
-}
-
-export interface TestSubscriptionPayload {
-  mutation: MutationType
-  node?: Test
-  updatedFields?: String[]
-  previousValues?: TestPreviousValues
+export interface ResultPreviousValues {
+  id: ID_Output
+  question: String
+  response: String
 }
 
 export interface AggregateFile {
   count: Int
 }
 
+export interface Exercise extends Node {
+  id: ID_Output
+  code: Codes
+  scale: Int
+  level: Levels
+  description?: String
+  sections?: Section[]
+}
+
+export interface AggregateExercise {
+  count: Int
+}
+
 /*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number
+ * A connection to a list of items.
+
+ */
+export interface ResultConnection {
+  pageInfo: PageInfo
+  edges: ResultEdge[]
+  aggregate: AggregateResult
+}
+
+export interface ExerciseSubscriptionPayload {
+  mutation: MutationType
+  node?: Exercise
+  updatedFields?: String[]
+  previousValues?: ExercisePreviousValues
+}
+
+export interface ExerciseData extends Node {
+  id: ID_Output
+  initAt: DateTime
+  finalAt: DateTime
+  createdBy: User
+  exercise: Exercise
+  result?: Result[]
+  dificulty: Dificulty
+  hit?: Int
+  fault?: Int
+  omit?: Int
+  error?: Int
+  point?: Float
+  score?: Float
+}
+
+export interface SectionPreviousValues {
+  id: ID_Output
+  name: String
+  description?: String
+  enable: Boolean
+}
+
+export interface SectionSubscriptionPayload {
+  mutation: MutationType
+  node?: Section
+  updatedFields?: String[]
+  previousValues?: SectionPreviousValues
+}
+
+export interface AggregateExerciseData {
+  count: Int
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface SectionEdge {
+  node: Section
+  cursor: String
+}
+
+/*
+ * A connection to a list of items.
+
+ */
+export interface TestConnection {
+  pageInfo: PageInfo
+  edges: TestEdge[]
+  aggregate: AggregateTest
+}
+
+/*
+ * An edge in a connection.
+
+ */
+export interface TestDataEdge {
+  node: TestData
+  cursor: String
+}
 
 /*
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
 */
 export type Long = string
+
+/*
+The `Float` scalar type represents signed double-precision fractional values as specified by [IEEE 754](http://en.wikipedia.org/wiki/IEEE_floating_point). 
+*/
+export type Float = number
+
+/*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean
 
 /*
 The `ID` scalar type represents a unique identifier, often used to refetch an object or as key for a cache. The ID type appears in a JSON response as a String; however, it is not intended to be human-readable. When expected as an input type, any string (such as `"4"`) or integer (such as `4`) input value will be accepted as an ID.
@@ -5013,8 +5036,8 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string
 
 /*
-The `Boolean` scalar type represents `true` or `false`.
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
 */
-export type Boolean = boolean
+export type Int = number
 
 export type DateTime = Date | string

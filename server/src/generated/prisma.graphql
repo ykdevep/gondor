@@ -1,5 +1,5 @@
 # source: http://localhost:4466
-# timestamp: Sat Oct 06 2018 09:54:21 GMT-0400 (EDT)
+# timestamp: Sun Oct 07 2018 16:34:50 GMT-0400 (EDT)
 
 type AggregateExercise {
   count: Int!
@@ -127,7 +127,7 @@ enum Dificulty {
 type Exercise implements Node {
   id: ID!
   code: Codes!
-  point: Int!
+  scale: Int!
   level: Levels!
   description: String
   sections(where: SectionWhereInput, orderBy: SectionOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Section!]
@@ -145,7 +145,7 @@ type ExerciseConnection {
 
 input ExerciseCreateInput {
   code: Codes!
-  point: Int
+  scale: Int
   level: Levels
   description: String
   sections: SectionCreateManyInput
@@ -156,20 +156,25 @@ input ExerciseCreateManyInput {
   connect: [ExerciseWhereUniqueInput!]
 }
 
+input ExerciseCreateOneInput {
+  create: ExerciseCreateInput
+  connect: ExerciseWhereUniqueInput
+}
+
 type ExerciseData implements Node {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
   createdBy(where: UserWhereInput): User!
+  exercise(where: ExerciseWhereInput): Exercise!
   result(where: ResultWhereInput, orderBy: ResultOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Result!]
-  level: Levels!
   dificulty: Dificulty!
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
 }
 
 """A connection to a list of items."""
@@ -185,15 +190,15 @@ type ExerciseDataConnection {
 input ExerciseDataCreateInput {
   initAt: DateTime!
   finalAt: DateTime!
-  level: Levels
   dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
   createdBy: UserCreateOneInput!
+  exercise: ExerciseCreateOneInput!
   result: ResultCreateManyInput
 }
 
@@ -218,8 +223,6 @@ enum ExerciseDataOrderByInput {
   initAt_DESC
   finalAt_ASC
   finalAt_DESC
-  level_ASC
-  level_DESC
   dificulty_ASC
   dificulty_DESC
   hit_ASC
@@ -244,14 +247,13 @@ type ExerciseDataPreviousValues {
   id: ID!
   initAt: DateTime!
   finalAt: DateTime!
-  level: Levels!
   dificulty: Dificulty!
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
 }
 
 type ExerciseDataSubscriptionPayload {
@@ -296,30 +298,30 @@ input ExerciseDataSubscriptionWhereInput {
 input ExerciseDataUpdateDataInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Levels
   dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
   createdBy: UserUpdateOneInput
+  exercise: ExerciseUpdateOneInput
   result: ResultUpdateManyInput
 }
 
 input ExerciseDataUpdateInput {
   initAt: DateTime
   finalAt: DateTime
-  level: Levels
   dificulty: Dificulty
   hit: Int
   fault: Int
   omit: Int
   error: Int
-  point: Int
-  score: Int
+  point: Float
+  score: Float
   createdBy: UserUpdateOneInput
+  exercise: ExerciseUpdateOneInput
   result: ResultUpdateManyInput
 }
 
@@ -436,16 +438,6 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   finalAt_gte: DateTime
-  level: Levels
-
-  """All values that are not equal to given value."""
-  level_not: Levels
-
-  """All values that are contained in given list."""
-  level_in: [Levels!]
-
-  """All values that are not contained in given list."""
-  level_not_in: [Levels!]
   dificulty: Dificulty
 
   """All values that are not equal to given value."""
@@ -544,51 +536,52 @@ input ExerciseDataWhereInput {
 
   """All values greater than or equal the given value."""
   error_gte: Int
-  point: Int
+  point: Float
 
   """All values that are not equal to given value."""
-  point_not: Int
+  point_not: Float
 
   """All values that are contained in given list."""
-  point_in: [Int!]
+  point_in: [Float!]
 
   """All values that are not contained in given list."""
-  point_not_in: [Int!]
+  point_not_in: [Float!]
 
   """All values less than the given value."""
-  point_lt: Int
+  point_lt: Float
 
   """All values less than or equal the given value."""
-  point_lte: Int
+  point_lte: Float
 
   """All values greater than the given value."""
-  point_gt: Int
+  point_gt: Float
 
   """All values greater than or equal the given value."""
-  point_gte: Int
-  score: Int
+  point_gte: Float
+  score: Float
 
   """All values that are not equal to given value."""
-  score_not: Int
+  score_not: Float
 
   """All values that are contained in given list."""
-  score_in: [Int!]
+  score_in: [Float!]
 
   """All values that are not contained in given list."""
-  score_not_in: [Int!]
+  score_not_in: [Float!]
 
   """All values less than the given value."""
-  score_lt: Int
+  score_lt: Float
 
   """All values less than or equal the given value."""
-  score_lte: Int
+  score_lte: Float
 
   """All values greater than the given value."""
-  score_gt: Int
+  score_gt: Float
 
   """All values greater than or equal the given value."""
-  score_gte: Int
+  score_gte: Float
   createdBy: UserWhereInput
+  exercise: ExerciseWhereInput
   result_every: ResultWhereInput
   result_some: ResultWhereInput
   result_none: ResultWhereInput
@@ -612,8 +605,8 @@ enum ExerciseOrderByInput {
   id_DESC
   code_ASC
   code_DESC
-  point_ASC
-  point_DESC
+  scale_ASC
+  scale_DESC
   level_ASC
   level_DESC
   description_ASC
@@ -627,7 +620,7 @@ enum ExerciseOrderByInput {
 type ExercisePreviousValues {
   id: ID!
   code: Codes!
-  point: Int!
+  scale: Int!
   level: Levels!
   description: String
 }
@@ -673,7 +666,7 @@ input ExerciseSubscriptionWhereInput {
 
 input ExerciseUpdateDataInput {
   code: Codes
-  point: Int
+  scale: Int
   level: Levels
   description: String
   sections: SectionUpdateManyInput
@@ -681,7 +674,7 @@ input ExerciseUpdateDataInput {
 
 input ExerciseUpdateInput {
   code: Codes
-  point: Int
+  scale: Int
   level: Levels
   description: String
   sections: SectionUpdateManyInput
@@ -696,9 +689,22 @@ input ExerciseUpdateManyInput {
   upsert: [ExerciseUpsertWithWhereUniqueNestedInput!]
 }
 
+input ExerciseUpdateOneInput {
+  create: ExerciseCreateInput
+  connect: ExerciseWhereUniqueInput
+  delete: Boolean
+  update: ExerciseUpdateDataInput
+  upsert: ExerciseUpsertNestedInput
+}
+
 input ExerciseUpdateWithWhereUniqueNestedInput {
   where: ExerciseWhereUniqueInput!
   data: ExerciseUpdateDataInput!
+}
+
+input ExerciseUpsertNestedInput {
+  update: ExerciseUpdateDataInput!
+  create: ExerciseCreateInput!
 }
 
 input ExerciseUpsertWithWhereUniqueNestedInput {
@@ -766,28 +772,28 @@ input ExerciseWhereInput {
 
   """All values that are not contained in given list."""
   code_not_in: [Codes!]
-  point: Int
+  scale: Int
 
   """All values that are not equal to given value."""
-  point_not: Int
+  scale_not: Int
 
   """All values that are contained in given list."""
-  point_in: [Int!]
+  scale_in: [Int!]
 
   """All values that are not contained in given list."""
-  point_not_in: [Int!]
+  scale_not_in: [Int!]
 
   """All values less than the given value."""
-  point_lt: Int
+  scale_lt: Int
 
   """All values less than or equal the given value."""
-  point_lte: Int
+  scale_lte: Int
 
   """All values greater than the given value."""
-  point_gt: Int
+  scale_gt: Int
 
   """All values greater than or equal the given value."""
-  point_gte: Int
+  scale_gte: Int
   level: Levels
 
   """All values that are not equal to given value."""

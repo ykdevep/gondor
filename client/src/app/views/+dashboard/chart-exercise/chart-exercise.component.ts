@@ -29,7 +29,7 @@ import { ExerciseData } from '@app/core/model/exerciseData.model';
 export class ChartExerciseComponent implements OnInit, AfterViewInit {
 
   @ViewChild('chart') Chart: ElementRef;
-  exercises: ExerciseData;
+  @Input() exercises: ExerciseData[];
 
   error = 0;
   omit = 0;
@@ -45,17 +45,17 @@ export class ChartExerciseComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
 
-    this.error = this.testData.exerciseDatas.map(p => p.error).reduce((prev, value) => prev + value, 0);
+    this.error = this.exercises.map(p => p.error).reduce((prev, value) => prev + value, 0);
 
-    this.omit = this.testData.exerciseDatas.map(p => p.omit).reduce((prev, value) => prev + value, 0);
-    this.hit = this.testData.exerciseDatas.map(p => p.hit).reduce((prev, value) => prev + value, 0);
+    this.omit = this.exercises.map(p => p.omit).reduce((prev, value) => prev + value, 0);
+    this.hit = this.exercises.map(p => p.hit).reduce((prev, value) => prev + value, 0);
 
     this.totalPoints = (this.omit + this.hit) * 2;
-    this.point = this.testData.exerciseDatas.map(p => p.point).reduce((prev, value) => prev + value, 0);
+    this.point = this.exercises.map(p => p.point).reduce((prev, value) => prev + value, 0);
 
-    this.score = this.testData.exerciseDatas.map(p => p.score).reduce((prev, value) => prev + value, 0);
+    this.score = this.exercises.map(p => p.score).reduce((prev, value) => prev + value, 0);
 
-    this.level = Math.round(this.score / this.testData.exerciseDatas.length);
+    this.level = Math.round(this.score / this.exercises.length);
 
   }
 
@@ -77,7 +77,7 @@ export class ChartExerciseComponent implements OnInit, AfterViewInit {
         legend: { display: true },
         title: {
           display: true,
-          text: `Cuestionario ${this.testData.type}`
+          text: 'Métricas ejercicios'
         }
       }
     });
