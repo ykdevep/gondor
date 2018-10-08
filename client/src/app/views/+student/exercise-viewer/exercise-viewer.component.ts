@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import { MatSnackBar } from '@angular/material';
 import { Exercise } from '@app/core/model/exercise.model';
@@ -78,6 +78,16 @@ const createExeciseData = gql`
               <div [ngSwitch]="exercise?.code">
 
                 <app-semeat-a6 *ngSwitchCase="'A6'" [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-a6>
+                <app-semeat-a7 *ngSwitchCase="'A7'" [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-a7>
+
+                <app-semeat-ab *ngSwitchCase="'A8'" [question]="'arrow_forward'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-ab>
+                <app-semeat-ab *ngSwitchCase="'A9'" [question]="'arrow_back'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-ab>
+                <app-semeat-ab *ngSwitchCase="'B1'" [question]="'arrow_downward'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-ab>
+                <app-semeat-ab *ngSwitchCase="'B2'" [question]="'arrow_upward'"
+                      [user]="user" [exercise]="exercise" (save)="saveExercise($event)"></app-semeat-ab>
 
                 <div *ngSwitchDefault>
                   <h4 class="mat-h4">No se encuentra el ejercicio</h4>
@@ -108,7 +118,6 @@ export class ExerciseViewerComponent implements OnInit, OnDestroy {
   exerciseQuerySubscription: Subscription;
 
   constructor(
-    private router: Router,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private apollo: Apollo,
@@ -167,7 +176,6 @@ export class ExerciseViewerComponent implements OnInit, OnDestroy {
 
         if (data) {
           this.snackBar.open(`Ejercicio guardado correctamente`, 'X', {duration: 3000});
-          this.router.navigate(['dashboard']);
         }
       }, (error) => {
         this.loading = false;

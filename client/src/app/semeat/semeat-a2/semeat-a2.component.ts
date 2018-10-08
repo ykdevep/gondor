@@ -98,7 +98,7 @@ export class SemeatA2Component implements OnInit {
   hit = 0;
   score = 0;
   fault = 0;
-  omit = 0;
+  omit = 5;
 
   result: any;
   create: any[] = [];
@@ -186,15 +186,12 @@ export class SemeatA2Component implements OnInit {
       if (response === this.data[this.series][this.count].response) {
         this.count += 1;
         this.hit += 1;
+        this.omit -= 1;
 
       } else {
-        if (!response) {
-          this.omit += 1;
-          response = '';
-        } else {
-          this.fault += 1;
-        }
+        this.fault += 1;
         this.series += 1;
+        response = '';
       }
 
       this.create.push({

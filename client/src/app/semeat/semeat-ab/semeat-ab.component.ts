@@ -7,28 +7,19 @@ import { Exercise } from '@app/core/model/exercise.model';
 import { ActivatedRoute } from '@angular/router';
 
 interface IQuestion {
-  value: number;
-  class: string;
+  value: string;
+  index?: number;
 }
 
 @Component({
-  selector: 'app-semeat-a6',
+  selector: 'app-semeat-ab',
   template: `
     <div class="container" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
-      <div fxFlex="98%" fxFlex.xs="100%" fxFlex.gt-sm="99%">
+      <div fxFlex="50%" fxFlex.xs="100%" fxFlex.gt-sm="99%">
 
-        <div [@state]="state" [ngSwitch]="question.class">
+        <div [@state]="state" [ngSwitch]="question">
           <h3>
-            Presione todos los números iguales a <span [class]="question.class">({{question.value}})</span> y de tamaño
-            <span *ngSwitchCase="'small'">
-              pequeño.
-            </span>
-            <span *ngSwitchCase="'big'">
-              grande.
-            </span>
-            <span *ngSwitchCase="'big_small'">
-              pequeño y grande.
-            </span>
+            Precione los botones cuya flecha apunte hacia  <mat-icon>{{question}}</mat-icon>
           </h3>
 
         </div>
@@ -40,10 +31,10 @@ interface IQuestion {
           <input formControlName="flagFormControl" type="hidden">
 
           <div class="buttons" [@state]="state">
-            <mat-grid-list [cols]="this.grid" rowHeight="3:1">
+            <mat-grid-list [cols]="this.grid" rowHeight="4:1" gutterSize="15px">
               <mat-grid-tile *ngFor="let data of datas">
-                <button hideButton mat-raised-button type="button" [disabled]="flagFinish" (click)="validQuestion(data)">
-                    <span [class]="data.class">{{data.value}}</span>
+                <button mat-raised-button type="button" [disabled]="flagFinish" (click)="validQuestion(data)">
+                    <mat-icon>{{data.value}}</mat-icon>
                 </button>
               </mat-grid-tile>
             </mat-grid-list>
@@ -66,22 +57,7 @@ interface IQuestion {
         width: 100%;
       }
       .half-width {
-        width: 100%;
-      }
-      .hide {
-        display: none!important;
-      }
-      .big {
-        font-size: 35px;
-      }
-      .small {
-        font-size: 15px;
-      }
-      .big_small {
-        font-size: 20px;
-      }
-      .smaller {
-        font-size: 0.1px;
+        width: 50%;
       }
     `
   ],
@@ -108,7 +84,7 @@ interface IQuestion {
     ]
   )]
 })
-export class SemeatA6Component implements OnInit {
+export class SemeatAbComponent implements OnInit {
 
   @Output() save = new EventEmitter();
   @Input() user: User;
@@ -128,51 +104,23 @@ export class SemeatA6Component implements OnInit {
 
   questions: IQuestion[] = [
     {
-      value: 1,
-      class: 'small',
+      value: 'arrow_forward',
     },
     {
-      value: 1,
-      class: 'big',
+      value: 'arrow_back',
     },
     {
-      value: 2,
-      class: 'small',
+      value: 'arrow_upward',
     },
     {
-      value: 2,
-      class: 'big',
-    },
-    {
-      value: 3,
-      class: 'small',
-    },
-    {
-      value: 3,
-      class: 'big',
-    },
-    {
-      value: 4,
-      class: 'smaller',
-    },
-    {
-      value: 1,
-      class: 'big_small',
-    },
-    {
-      value: 2,
-      class: 'big_small',
-    },
-    {
-      value: 3,
-      class: 'big_small',
-    },
+      value: 'arrow_downward',
+    }
   ];
 
-  question: IQuestion;
+  @Input() question: any;
   datas: IQuestion[] = [];
 
-  grid = 10;
+  grid = 3;
   dificulty = 'INICIAL';
   flagFinish = false;
 
@@ -189,32 +137,29 @@ export class SemeatA6Component implements OnInit {
       flagFormControl: ['']
     });
 
-    this.question = this.questions[Math.round(Math.random() * (this.questions.length - 1))];
-
-    while (this.question.value === 4) {
-      this.question = this.questions[Math.round(Math.random() * (this.questions.length - 1))];
-    }
-
     const dificulty =  this.activatedRoute.snapshot.params['dificulty'];
 
     if (dificulty === 'advanced') {
-      this.grid = 20;
+      this.grid = 7;
       this.dificulty = 'AVANZADA';
     } else if (dificulty === 'half') {
-      this.grid = 15;
+      this.grid = 5;
       this.dificulty = 'MEDIA';
     } else {
-      this.grid = 10;
+      this.grid = 3;
       this.dificulty = 'INICIAL';
     }
 
     for (let i = 0; i < Math.pow(this.grid, 2); i++) {
-      const question = this.questions[Math.round(Math.random() * (this.questions.length - 4))];
+      const question = this.questions[Math.round(Math.random() * (this.questions.length - 1))];
 
-      if (question.value === this.question.value && this.question.class.includes(question.class)) {
+      if (question.value === this.question) {
         this.omit += 1;
       }
-      this.datas.push(question);
+      this.datas.push({
+        value: question.value,
+        index: i
+      });
     }
   }
 
@@ -231,7 +176,7 @@ export class SemeatA6Component implements OnInit {
       this.result = {
         result: {
           create: {
-            question: `${this.question.value.toString()}-${this.question.class}`,
+            question: `${this.question}`,
             response: this.response.toString()
           }
         },
@@ -263,13 +208,16 @@ export class SemeatA6Component implements OnInit {
 
   validQuestion(response: IQuestion): void {
 
-    if (response.value === this.question.value && this.question.class.includes(response.class)) {
+    if (this.response.find(r => r.includes(response.index.toString()))) {
+      this.fault += 1;
+    } else if (response.value === this.question) {
       this.omit -= 1;
       this.hit += 1;
     } else {
       this.fault += 1;
     }
 
-    this.response.push(`${response.value.toString()}-${response.class}`);
+    this.response.push(`${response.value}-${response.index}`);
   }
 }
+
