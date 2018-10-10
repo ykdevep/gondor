@@ -54,23 +54,6 @@ const createExeciseData = gql`
               <mat-toolbar>
                 <span>{{exercise.description}}</span>
                 <span class="spacer"></span>
-                <div [ngSwitch]="dificulty" matTooltip="Nivel de dificultad">
-
-                  <div *ngSwitchCase="'basic'">
-                    <mat-icon color="accent">start</mat-icon>
-                  </div>
-
-                  <div *ngSwitchCase="'half'">
-                    <mat-icon color="primary">start</mat-icon>
-                    <mat-icon color="primary">start</mat-icon>
-                  </div>
-
-                  <div *ngSwitchCase="'advanced'">
-                    <mat-icon>start</mat-icon>
-                    <mat-icon>start</mat-icon>
-                    <mat-icon>start</mat-icon>
-                  </div>
-                </div>
               </mat-toolbar>
             </mat-card-title>
             <mat-card-content>

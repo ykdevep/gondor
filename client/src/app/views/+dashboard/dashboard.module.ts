@@ -9,6 +9,7 @@ import { CountEntityComponent } from './count-entity/count-entity.component';
 import { ChartTestComponent } from './chart-test/chart-test.component';
 import { ExercisesComponent } from './exercises/exercises.component';
 import { ChartExerciseComponent } from './chart-exercise/chart-exercise.component';
+import { TestsComponent } from './tests/tests.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,6 @@ const routes: Routes = [
     SharedModule,
     RouterModule.forChild(routes),
   ],
-  declarations: [IndexComponent, CountEntityComponent, ChartTestComponent, ExercisesComponent, ChartExerciseComponent]
+  declarations: [IndexComponent, CountEntityComponent, ChartTestComponent, ExercisesComponent, ChartExerciseComponent, TestsComponent]
 })
 export class DashboardModule { }

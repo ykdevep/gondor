@@ -5,6 +5,7 @@
     <div class="item" fxFlex="50%" fxFlex.xs="90%" *ngIf="testData && !loading" fxFlex.md="90%">
       <app-exercises></app-exercises>
     </div>
+
     <div class="item" fxFlex="50%" fxFlex.xs="90%" *ngIf="exerciseData && !loading" fxFlex.md="90%">
       <app-chart-exercise [exercises]="exerciseData"></app-chart-exercise>
     </div>
@@ -25,6 +26,9 @@
   <br />
 
   <div class="container mat-elevation-z8" *ngIf="(isStudent | async)" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="center center">
+    <div class="item" fxFlex="50%" fxFlex.xs="90%" *ngIf="testData && !loading" fxFlex.md="90%">
+        <app-tests></app-tests>
+      </div>
     <div class="item" fxFlex="50%" fxFlex.xs="90%" *ngIf="testData && !loading" fxFlex.md="90%">
       <app-chart-test [testData]="testData"></app-chart-test>
     </div>
