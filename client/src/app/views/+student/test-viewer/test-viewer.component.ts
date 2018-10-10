@@ -190,6 +190,23 @@ export class TestViewerComponent implements OnInit, OnDestroy {
     }
   }
 
+  nextStepper(i: number, g: number, count: number) {
+    this.multiple[i][g] = true;
+    let flag = false;
+
+    for (let h = 0; h < count; h++) {
+      if (!this.multiple[i][h]) {
+        flag = false;
+        break;
+      }
+      flag = true;
+    }
+
+    if (flag) {
+      this.steps[i] = true;
+    }
+  }
+
   saveExercise($datas, i, g, count) {
 
     this.testData.exerciseDatas.push($datas);

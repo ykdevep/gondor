@@ -33,6 +33,13 @@
 
                 <app-semeat-a5 *ngSwitchCase="'A5'" [user]="user" [exercise]="exercise" (save)="saveExercise($event, i, g, section.exercises.length)"></app-semeat-a5>
 
+                <div *ngSwitchDefault>
+                  <h4 class="mat-h4">No se encuentra el ejercicio presione el botón.</h4>
+                  <button mat-raised-button type="button" color="accent" (click)="nextStepper(i, g, section.exercises.length)" matStepperNext>
+                    <mat-icon>arrow_downward</mat-icon>
+                  </button>
+                </div>
+
               </div>
               <br />
               <mat-divider></mat-divider>
