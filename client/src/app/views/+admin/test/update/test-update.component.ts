@@ -80,7 +80,7 @@ const testQuery = gql`
                 <button mat-raised-button color="accent" routerLink="/admin/test"
                       routerLinkActive type="button" aria-label="testsList">
                   <mat-icon>list</mat-icon>
-                  <span>Listado de custionarios</span>
+                  <span>Listado de cuestionarios</span>
                 </button>
               </mat-card-actions>
             </mat-card>

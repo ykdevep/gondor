@@ -9,6 +9,7 @@ import { RoleGuard } from '@app/core/guard/role.guard';
 import { InitTestComponent } from './init-test/init-test.component';
 import { SemeatModule } from '@app/semeat/semeat.module';
 import { ExerciseViewerComponent } from './exercise-viewer/exercise-viewer.component';
+import { TestViewerComponent } from './test-viewer/test-viewer.component';
 
 
 const routes: Routes = [
@@ -23,6 +24,12 @@ const routes: Routes = [
     component: ExerciseViewerComponent,
     data: {title: 'Visor de Ejercicios', expectedRole: ['Estudiante']},
     canActivate: [RoleGuard]
+  },
+  {
+    path: 'test_viewer/:id',
+    component: TestViewerComponent,
+    data: {title: 'Visor de Cuestionarios', expectedRole: ['Estudiante']},
+    canActivate: [RoleGuard]
   }
 ];
 
@@ -35,6 +42,6 @@ const routes: Routes = [
     SemeatModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [InitTestComponent, ExerciseViewerComponent]
+  declarations: [InitTestComponent, ExerciseViewerComponent, TestViewerComponent]
 })
 export class StudentModule { }
