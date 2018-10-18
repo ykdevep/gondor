@@ -28,7 +28,12 @@ Nest is a framework for building efficient, scalable Node.js server-side applica
 ## Production
 
 * With docker compose file
-* docker-compose up -d
+* docker-compose -f docker-compose-prod.yml up -d
+
+
+## Build Production
+
+* docker-compose -f docker-compose-prod.yml build
 
 ## Credentials
 

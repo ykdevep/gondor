@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { PLATFORM_ID, Inject, Injectable } from '@angular/core';
+import { isPlatformBrowser} from '@angular/common';
 
 const APP_PREFIX = 'APP-';
 
@@ -7,22 +8,33 @@ const APP_PREFIX = 'APP-';
 })
 export class LocalStorageService {
 
-  constructor() { }
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: string
+  ) {}
 
   setItem(key: string, value: any) {
-    localStorage.setItem(`${APP_PREFIX}${key}`, JSON.stringify(value));
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem(`${APP_PREFIX}${key}`, JSON.stringify(value));
+      console.log('client');
+    } else {
+      console.log('server');
+    }
   }
 
   getItem(key: string) {
-    try {
-      return JSON.parse(localStorage.getItem(`${APP_PREFIX}${key}`));
-    } catch (error) {
-      console.log(error);
+    if (isPlatformBrowser(this.platformId)) {
+      try {
+        return JSON.parse(localStorage.getItem(`${APP_PREFIX}${key}`));
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
   removeItem(key: string) {
-    localStorage.removeItem(`${APP_PREFIX}${key}`);
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.removeItem(`${APP_PREFIX}${key}`);
+    }
   }
 
 }

@@ -83,6 +83,9 @@ export class AuthService {
   }
 
   public isLoggedIn(): boolean {
+    if (!this.tokenGetter) {
+      return false;
+    }
     if (!this.isTokenExpired(this.tokenGetter)) {
       return true;
     }

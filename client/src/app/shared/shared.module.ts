@@ -40,7 +40,6 @@ import {
 
 import { CustomMatPaginatorIntl } from '@app/shared/class/mat-paginator-intl';
 
-import 'hammerjs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { CdkTableModule } from '@angular/cdk/table';

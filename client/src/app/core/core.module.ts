@@ -1,10 +1,20 @@
-import { NgModule, SkipSelf, Optional } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpHeaders } from '@angular/common/http';
+import {
+  NgModule,
+  SkipSelf,
+  Optional,
+  PLATFORM_ID,
+  Inject
+} from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import {
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+  HttpHeaders
+} from '@angular/common/http';
 
 import { ApolloModule, Apollo } from 'apollo-angular';
-import { HttpLinkModule, HttpLink  } from 'apollo-angular-link-http';
-import { ApolloLink, split  } from 'apollo-link';
+import { HttpLinkModule, HttpLink } from 'apollo-angular-link-http';
+import { ApolloLink, split } from 'apollo-link';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
@@ -18,7 +28,6 @@ import { RoleGuard } from '@app/core/guard/role.guard';
 import { ApiInterceptor } from '@app/core/interceptors/api.interceptor';
 import { SubscriptionClient } from 'subscriptions-transport-ws';
 
-
 @NgModule({
   imports: [
     CommonModule,
@@ -26,16 +35,19 @@ import { SubscriptionClient } from 'subscriptions-transport-ws';
     ApolloModule,
     HttpLinkModule
   ],
-  providers: [AuthGuard, RoleGuard, AuthService,
+  providers: [
+    AuthGuard,
+    RoleGuard,
+    AuthService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptor,
       multi: true
-    }],
+    }
+  ],
   declarations: []
 })
 export class CoreModule {
-
   public subscriptionClient: SubscriptionClient = null;
 
   constructor(
@@ -44,86 +56,92 @@ export class CoreModule {
     parentModule: CoreModule,
     public apollo: Apollo,
     public httpLink: HttpLink,
+    @Inject(PLATFORM_ID) private platformId: string,
     private authService: AuthService
   ) {
     if (parentModule) {
       throw new Error('CoreModule is already loaded. Import only in AppModule');
     }
 
-    const http = httpLink.create({
-      uri: env.httpLinkServer,
-    });
-
-    const auth_middleware = new ApolloLink((operation, forward) => {
-      operation.setContext({
-        headers: new HttpHeaders().set(
-          'authorization',
-          `Bearer ${this.authService.getToken()}` || null
-        )
+    if (isPlatformBrowser(this.platformId)) {
+      const http = httpLink.create({
+        uri: env.httpLinkServer
       });
-      return forward(operation);
-    });
 
-    const error_link = onError(({ graphQLErrors, networkError, forward, response, operation }) => {
-      if (graphQLErrors) {
-        console.log(`GraphQL error ${graphQLErrors}`);
-      }
-      if (networkError) {
-        console.log(`[Network error]: ${networkError}`);
-       }
-    });
+      const auth_middleware = new ApolloLink((operation, forward) => {
+        operation.setContext({
+          headers: new HttpHeaders().set(
+            'authorization',
+            `Bearer ${this.authService.getToken()}` || null
+          )
+        });
+        return forward(operation);
+      });
 
-    const http_link = auth_middleware.concat(error_link.concat(http));
+      const error_link = onError(
+        ({ graphQLErrors, networkError, forward, response, operation }) => {
+          if (graphQLErrors) {
+            console.log(`GraphQL error ${graphQLErrors}`);
+          }
+          if (networkError) {
+            console.log(`[Network error]: ${networkError}`);
+          }
+        }
+      );
 
-    // Create a WebSocket link:
-    const subscriptionLink = new WebSocketLink({
-      uri: env.wsLinkServer,
-      options: {
-        reconnect: true,
-        timeout: 20000,
-      }
-    });
+      const http_link = auth_middleware.concat(error_link.concat(http));
 
-    this.subscriptionClient = (<any>subscriptionLink).subscriptionClient;
+      // Create a WebSocket link:
+      const subscriptionLink = new WebSocketLink({
+        uri: env.wsLinkServer,
+        options: {
+          reconnect: true,
+          timeout: 20000
+        }
+      });
 
-    const subscriptionMiddleware = {
-      applyMiddleware: async (options, next) => {
-        const token = await this.authService.getToken();
-        options.authorization = `Bearer ${token}`;
-        next();
-      },
-    };
+      this.subscriptionClient = (<any>subscriptionLink).subscriptionClient;
 
-    this.subscriptionClient.use([subscriptionMiddleware]);
+      const subscriptionMiddleware = {
+        applyMiddleware: async (options, next) => {
+          const token = await this.authService.getToken();
+          options.authorization = `Bearer ${token}`;
+          next();
+        }
+      };
 
-    const link = split(
-      ({ query }) => {
-        const definition = getMainDefinition(query);
-        return (
-          definition.kind === 'OperationDefinition' &&
-          definition.operation === 'subscription'
-        );
-      },
-      subscriptionLink,
-      http_link
-    );
+      this.subscriptionClient.use([subscriptionMiddleware]);
 
-    this.apollo.create({
-      link: link,
-      cache: new InMemoryCache(),
-      defaultOptions: {
-        watchQuery: {
-          fetchPolicy: 'cache-and-network',
-          errorPolicy: 'none',
+      const link = split(
+        ({ query }) => {
+          const definition = getMainDefinition(query);
+          return (
+            definition.kind === 'OperationDefinition' &&
+            definition.operation === 'subscription'
+          );
         },
-        query: {
-          fetchPolicy: 'cache-and-network',
-          errorPolicy: 'none',
-        },
-        mutate: {
-          errorPolicy: 'none',
-        },
-      },
-    });
+        subscriptionLink,
+        http_link
+      );
+
+      this.apollo.create({
+        link: link,
+        ssrMode: true,
+        cache: new InMemoryCache(),
+        defaultOptions: {
+          watchQuery: {
+            fetchPolicy: 'cache-and-network',
+            errorPolicy: 'none'
+          },
+          query: {
+            fetchPolicy: 'cache-and-network',
+            errorPolicy: 'none'
+          },
+          mutate: {
+            errorPolicy: 'none'
+          }
+        }
+      });
+    }
   }
 }

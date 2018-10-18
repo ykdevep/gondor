@@ -1,9 +1,9 @@
 FROM node:latest
 
 RUN mkdir -p /opt/app/client
-WORKDIR /opt/app/app/client
+WORKDIR /opt/app/client
 COPY ./ ./
-RUN npm install && npm build
+RUN npm install && npm run build:ssr
 
-EXPOSE 4200
-CMD ["node", "dist/main.js"]
+EXPOSE 4000
+CMD ["node", "dist/server.js"]

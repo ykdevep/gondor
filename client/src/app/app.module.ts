@@ -25,6 +25,7 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: './views/+dashboard/dashboard.module#DashboardModule',
+    canLoad: [AuthGuard]
   },
   {
     path: 'admin',
@@ -59,7 +60,7 @@ const routes: Routes = [
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule.withServerTransition({appId: 'my-app'}),
     BrowserAnimationsModule,
 
     SharedModule.forRoot(),
